@@ -1,4 +1,5 @@
 ﻿using LexiconLMS.Models;
+using LexiconLMS.ViewModels;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -11,9 +12,24 @@ namespace LexiconLMS.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         
         // GET: Courses
-        public ActionResult Index()
+        public ActionResult Index(string filterString = null)
         {
-            return View(db.Courses.ToList());
+            var filteredCourses = db.Courses
+                .Where(c => filterString == null || c.Name.Contains(filterString) || 
+                            c.Description.Contains(filterString) 
+                            //c.StartDate.ToString("yy-MM-dd").Contains(filterString) ||
+                            //c.EndDate.ToString("yy-MM-dd").Contains(filterString)
+                            )
+                .Select(c => new CourseVeiwModel
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    StartDate = c.StartDate,
+                    EndDate = c.EndDate,
+                    Description = c.Description,
+                    CourseStudents = c.CourseStudents
+                });
+            return View(filteredCourses);
         }
         [Authorize]
         // GET: Courses/Details/5
@@ -127,4 +143,6 @@ namespace LexiconLMS.Controllers
             base.Dispose(disposing);
         }
     }
+
+    
 }
