@@ -1,4 +1,5 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@using System.Web.Mvc.Html
+@using Microsoft.AspNet.Identity
 @model IEnumerable<LexiconLMS.ViewModels.CourseVeiwModel>
 
 @{
@@ -13,21 +14,16 @@
     </p>
 }
 
-<div class="dl-horizontal">
-<form class="form-inline md-form mr-auto mb-4">
-    <input class="form-control" type="text" placeholder="contains" aria-label="Filter" name="FilterString">
-    <button class="btn btn-outline btn-rounded btn-sm my-0" type="submit">Filter</button>
-</form>
-<br />
-</div>
-
-@foreach (var item in Model)
+    @foreach (var item in Model)
     {
 
                 <button class="accordion">@Html.DisplayFor(modelItem => item.Name)</button>
                 <div class="panel">
                     <table class="table">
                         <tr>
+                            @*<th>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </th>*@
                             <th>
                                 @Html.DisplayNameFor(model => model.StartDate)
                             </th>
@@ -59,11 +55,10 @@
                             }
                         </tr>
                     </table>
+                    @Html.Partial("_ModulesList", item.CourseModules)
                 </div>
 
-    }
-
-
+}
 
 
 <script type="text/javascript">
