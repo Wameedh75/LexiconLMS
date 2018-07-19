@@ -304,6 +304,7 @@
     <Content Include="Views\Courses\Index.cshtml" />
     <Content Include="Views\Courses\_ModulesList.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\ShortDate.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ShortDate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
