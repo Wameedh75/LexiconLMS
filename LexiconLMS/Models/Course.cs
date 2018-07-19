@@ -13,10 +13,12 @@ namespace LexiconLMS.Models
 
         [Required]
         [Display(Name = "Start date")]
+        [UIHint("ShortDate")]
         public DateTime StartDate { get; set; }
 
         [Required]
         [Display(Name = "End date")]
+        [UIHint("ShortDate")]
         public DateTime EndDate { get; set; }
 
         [Required]
