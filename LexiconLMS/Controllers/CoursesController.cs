@@ -9,13 +9,13 @@ namespace LexiconLMS.Controllers
     public class CoursesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
+        
         // GET: Courses
         public ActionResult Index()
         {
             return View(db.Courses.ToList());
         }
-
+        [Authorize]
         // GET: Courses/Details/5
         public ActionResult Details(int? id)
         {
@@ -31,6 +31,8 @@ namespace LexiconLMS.Controllers
             return View(course);
         }
 
+
+        [Authorize(Roles = "teacher")]
         // GET: Courses/Create
         public ActionResult Create()
         {
@@ -54,6 +56,8 @@ namespace LexiconLMS.Controllers
             return View(course);
         }
 
+
+        [Authorize(Roles = "teacher")]
         // GET: Courses/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -74,6 +78,7 @@ namespace LexiconLMS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "teacher")]
         public ActionResult Edit([Bind(Include = "Id,Name,StartDate,EndDate,Description")] Course course)
         {
             if (ModelState.IsValid)
@@ -86,6 +91,7 @@ namespace LexiconLMS.Controllers
         }
 
         // GET: Courses/Delete/5
+        [Authorize(Roles = "teacher")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -103,6 +109,7 @@ namespace LexiconLMS.Controllers
         // POST: Courses/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "teacher")]
         public ActionResult DeleteConfirmed(int id)
         {
             Course course = db.Courses.Find(id);
