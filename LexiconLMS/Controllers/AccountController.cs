@@ -51,6 +51,7 @@ namespace LexiconLMS.Controllers
                 _userManager = value;
             }
         }
+        //
 
         //
         // GET: /Account/Login
