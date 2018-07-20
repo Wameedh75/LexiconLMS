@@ -12,6 +12,7 @@ namespace LexiconLMS.Models
         public string Name { get; set; }
 
         [Required]
+      
         public DateTime StartDate { get; set; }
 
         [Required]
