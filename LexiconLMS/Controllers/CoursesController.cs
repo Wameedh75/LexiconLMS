@@ -134,6 +134,32 @@ namespace LexiconLMS.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "teacher")]
+        // GET: Moudels/Create
+
+        public ActionResult CreateModoule()
+        {
+            return View();
+        }
+
+        // POST: Courses/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateModoule([Bind(Include = "Id,Name,StartDate,EndDate,Description")] Module module,int? corseId)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Modules.Add(module);
+                db.Courses.Find(corseId)?.CourseModules.Add(module);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Details");
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

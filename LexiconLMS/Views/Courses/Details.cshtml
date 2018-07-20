@@ -8,6 +8,12 @@
 
 <div>
     <h4>Course</h4>
+    @if (User.IsInRole("teacher"))
+
+    {
+        var course = Model;
+        @Html.ActionLink("Add new moudel", "CreateModoule",new { courseId = Model.Id})
+    }
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -41,7 +47,15 @@
         <dd>
             @Html.DisplayFor(model => model.Description)
         </dd>
-
+        <dt>
+            @Html.DisplayNameFor(model => model.CourseModules)
+        </dt>
+        @foreach (var item in Model.CourseModules)
+        {
+            <dd>
+                @Html.DisplayFor(model => item.Name)
+            </dd>
+        }
     </dl>
 </div>
 <p>

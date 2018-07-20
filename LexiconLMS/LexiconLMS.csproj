@@ -200,6 +200,7 @@
     <Compile Include="Controllers\CoursesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ModulesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -230,6 +231,22 @@
     <Compile Include="Migrations\201807200822512_user course relationship.cs" />
     <Compile Include="Migrations\201807200822512_user course relationship.Designer.cs">
       <DependentUpon>201807200822512_user course relationship.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807201010317_Navproperty.cs" />
+    <Compile Include="Migrations\201807201010317_Navproperty.Designer.cs">
+      <DependentUpon>201807201010317_Navproperty.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807201224170_NavpropertyinMoudel.cs" />
+    <Compile Include="Migrations\201807201224170_NavpropertyinMoudel.Designer.cs">
+      <DependentUpon>201807201224170_NavpropertyinMoudel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807201245464_NavpropertyinMoudel2.cs" />
+    <Compile Include="Migrations\201807201245464_NavpropertyinMoudel2.Designer.cs">
+      <DependentUpon>201807201245464_NavpropertyinMoudel2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807201254326_NavpropertyinMoudel3.cs" />
+    <Compile Include="Migrations\201807201254326_NavpropertyinMoudel3.Designer.cs">
+      <DependentUpon>201807201254326_NavpropertyinMoudel3.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -354,6 +371,12 @@
     <Content Include="Views\Courses\Edit.cshtml" />
     <Content Include="Views\Courses\Index.cshtml" />
     <Content Include="Views\Courses\_ModulesList.cshtml" />
+    <Content Include="Views\Modules\Create.cshtml" />
+    <Content Include="Views\Modules\Delete.cshtml" />
+    <Content Include="Views\Modules\Details.cshtml" />
+    <Content Include="Views\Modules\Edit.cshtml" />
+    <Content Include="Views\Modules\Index.cshtml" />
+    <Content Include="Views\Courses\CreateModoule.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -393,6 +416,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807200822512_user course relationship.resx">
       <DependentUpon>201807200822512_user course relationship.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807201010317_Navproperty.resx">
+      <DependentUpon>201807201010317_Navproperty.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807201224170_NavpropertyinMoudel.resx">
+      <DependentUpon>201807201224170_NavpropertyinMoudel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807201245464_NavpropertyinMoudel2.resx">
+      <DependentUpon>201807201245464_NavpropertyinMoudel2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807201254326_NavpropertyinMoudel3.resx">
+      <DependentUpon>201807201254326_NavpropertyinMoudel3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

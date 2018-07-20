@@ -22,7 +22,7 @@ namespace LexiconLMS.Models
         [UIHint("ShortDate")]
         public DateTime EndDate { get; set; }
 
-        [Required]
+        //[Required]
         public Course Course { get; set; }
     }
 }
