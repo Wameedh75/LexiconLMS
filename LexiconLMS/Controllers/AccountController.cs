@@ -11,6 +11,8 @@ using Microsoft.Owin.Security;
 using LexiconLMS.Models;
 using System.Web.Security;
 using LexiconLMS.ViewModels;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
 
 namespace LexiconLMS.Controllers
 {
@@ -167,7 +169,30 @@ namespace LexiconLMS.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            var userdb = ApplicationDbContext.Create();
+            var roleStore = new RoleStore<IdentityRole>(userdb);
+            var roleMngr = new RoleManager<IdentityRole>(roleStore);
+
+            var rolesList = roleMngr.Roles.Select(r => new { r.Name,r.Id});
+            List<SelectListItem> roleListWithDefault = rolesList.Select(role =>  new SelectListItem { Value = role.Id, Text = role.Name, } ).ToList();
+            var roletip = new SelectListItem()
+            {
+                Value = null,
+                Text = "--- Select Role ---"
+            };
+            roleListWithDefault.Insert(0, roletip);
+
+            var courseList = userdb.Courses.Select(c => new { c.Name, c.Id, c.EndDate }).Where(sa => sa.EndDate > DateTime.Today);
+            List<SelectListItem> courseListWithDefault = courseList.Select(course => new SelectListItem { Text = course.Name, Value = course.Id.ToString() }).ToList();
+            var courseTip = new SelectListItem
+            {
+                Value = null,
+                Text = "--- Select Course---"
+            };
+            courseListWithDefault.Insert(0, courseTip);
+
+            var template = new RegisterViewModel() { Roles = roleListWithDefault ,Courses=courseListWithDefault};
+            return View(template);
         }
 
         //
@@ -177,8 +202,13 @@ namespace LexiconLMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+            if (UserManager.Users.Any(un => un.UserName == model.Email))
+            {
+                ModelState.AddModelError(string.Empty,"User Already Exist");
+            }
             if (ModelState.IsValid)
             {
+                
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)

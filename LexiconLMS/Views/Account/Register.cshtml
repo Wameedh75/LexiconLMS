@@ -30,6 +30,20 @@
         </div>
     </div>
     <div class="form-group">
+        @Html.LabelFor(x => Model.SelectedRole, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-5">
+            @Html.DropDownListFor(x => Model.SelectedRole, new SelectList(Model.Roles, "Value", "Text"), htmlAttributes: new { @class = "form-control", id = "Role" })
+            @Html.ValidationMessageFor(x => x.SelectedRole, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => Model.SelectedCourse, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-5">
+            @Html.DropDownListFor(x => Model.SelectedCourse, new SelectList(Model.Courses, "Value", "Text"), htmlAttributes: new { @class = "form-control", id = "course" })
+            @Html.ValidationMessageFor(x => x.SelectedCourse, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" class="btn btn-default" value="Register" />
         </div>
@@ -38,4 +52,25 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(Document).ready(function () {
+            $("#course").prop("disabled", true);
+            $("#Role")
+                .change(function () {
+                    var str = "";
+                    $("#Role option:selected").each(function () {
+                        str += $(this).text();
+                    });
+                    if (str == "student") {
+                        $("#course").prop("disabled", false);
+                    } else {
+                        $("#course").prop("disabled", true);
+                        $("#course").val('').change();
+                    }
+                })
+                .change();
+        }
+        );
+
+    </script>
 }
