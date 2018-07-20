@@ -11,6 +11,9 @@ namespace LexiconLMS.Models
         public string LastName { get; set; }
         public string FullName => FirstName + " " + LastName;
 
+        public virtual Course Course { get; set; }
+
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager) {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
