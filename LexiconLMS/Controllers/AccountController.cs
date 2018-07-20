@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using LexiconLMS.Models;
 using System.Web.Security;
+using LexiconLMS.ViewModels;
 
 namespace LexiconLMS.Controllers
 {
@@ -65,6 +66,16 @@ namespace LexiconLMS.Controllers
             //var x3 = userdb.Users.Where(r => r.Roles.Select(jr => jr.RoleId).FirstOrDefault()==x2).ToList();
 
             return View(teachers);
+        }
+
+        public ActionResult Students()
+        {
+            var userdb = ApplicationDbContext.Create();
+
+            var roleId = userdb.Roles.FirstOrDefault(r => r.Name == "student").Id;
+            var students = userdb.Users.Where(u => u.Roles.Select(y => y.RoleId).Contains(roleId)).ToList();
+
+            return View(students);
         }
         //
         // GET: /Account/Login
