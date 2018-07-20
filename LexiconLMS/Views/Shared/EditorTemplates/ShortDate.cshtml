@@ -1,0 +1,3 @@
+﻿@model DateTime?
+
+@Html.TextBox("", (Model.HasValue ? $"{Model:yyyy-MM-dd}" : string.Empty), new { @class = "form-control", type = "date" })

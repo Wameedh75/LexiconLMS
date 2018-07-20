@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using LexiconLMS.Models;
+using System.Web.Security;
+using LexiconLMS.ViewModels;
 
 namespace LexiconLMS.Controllers
 {
@@ -17,6 +19,7 @@ namespace LexiconLMS.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+
 
         public AccountController()
         {
@@ -53,6 +56,30 @@ namespace LexiconLMS.Controllers
         }
         //
 
+        [Authorize(Roles="teacher")]
+        public ActionResult Teachers()
+        {
+            var userdb = ApplicationDbContext.Create();
+
+            var roleId = userdb.Roles.FirstOrDefault(r => r.Name == "teacher").Id;
+            var teachers = userdb.Users.Where(u => u.Roles.Select(y => y.RoleId).Contains(roleId)).ToList();
+
+            //var x2 = userdb.Roles.Where(r => r.Name == "teacher").FirstOrDefault().Id;
+            //var x3 = userdb.Users.Where(r => r.Roles.Select(jr => jr.RoleId).FirstOrDefault()==x2).ToList();
+
+            return View(teachers);
+        }
+
+        [Authorize(Roles = "teacher")]
+        public ActionResult Students()
+        {
+            var userdb = ApplicationDbContext.Create();
+
+            var roleId = userdb.Roles.FirstOrDefault(r => r.Name == "student").Id;
+            var students = userdb.Users.Where(u => u.Roles.Select(y => y.RoleId).Contains(roleId)).ToList();
+
+            return View(students);
+        }
         //
         // GET: /Account/Login
         [AllowAnonymous]
