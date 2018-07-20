@@ -55,6 +55,8 @@ namespace LexiconLMS.Controllers
             }
         }
         //
+
+        [Authorize(Roles="teacher")]
         public ActionResult Teachers()
         {
             var userdb = ApplicationDbContext.Create();
@@ -68,6 +70,7 @@ namespace LexiconLMS.Controllers
             return View(teachers);
         }
 
+        [Authorize(Roles = "teacher")]
         public ActionResult Students()
         {
             var userdb = ApplicationDbContext.Create();
