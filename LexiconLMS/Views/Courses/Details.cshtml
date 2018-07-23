@@ -41,7 +41,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.Description) 
         </dt>
 
         <dd>
@@ -56,6 +56,9 @@
                 @Html.DisplayFor(model => item.Name)
             </dd>
         }
+
+
+        @Html.ActionLink("Modles List","Index","Modules", new { courseId = Model.Id },null)
     </dl>
 </div>
 <p>

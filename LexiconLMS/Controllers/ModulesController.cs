@@ -11,9 +11,10 @@ namespace LexiconLMS.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Modules
-        public ActionResult Index()
+        public ActionResult Index(int? courseId)
         {
-            return View(db.Modules.ToList());
+            var couseModels = db.Modules.Where(m => m.CourseId == courseId);
+            return View(couseModels);
         }
 
         // GET: Modules/Details/5

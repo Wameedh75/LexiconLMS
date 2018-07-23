@@ -22,7 +22,9 @@ namespace LexiconLMS.Models
         [UIHint("ShortDate")]
         public DateTime EndDate { get; set; }
 
-        //[Required]
-        public Course Course { get; set; }
+        public int CourseId  { get; set; }
+
+        //navigation prop
+        public virtual Course Course { get; set; }
     }
 }

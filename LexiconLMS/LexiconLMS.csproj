@@ -248,9 +248,13 @@
     <Compile Include="Migrations\201807201254326_NavpropertyinMoudel3.Designer.cs">
       <DependentUpon>201807201254326_NavpropertyinMoudel3.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201807231200225_user course.cs" />
-    <Compile Include="Migrations\201807231200225_user course.Designer.cs">
-      <DependentUpon>201807231200225_user course.cs</DependentUpon>
+    <Compile Include="Migrations\201807230705435_CourseIsRequiredOnModule.cs" />
+    <Compile Include="Migrations\201807230705435_CourseIsRequiredOnModule.Designer.cs">
+      <DependentUpon>201807230705435_CourseIsRequiredOnModule.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807230812102_AddCourseIdToMoudle.cs" />
+    <Compile Include="Migrations\201807230812102_AddCourseIdToMoudle.Designer.cs">
+      <DependentUpon>201807230812102_AddCourseIdToMoudle.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -433,8 +437,11 @@
     <EmbeddedResource Include="Migrations\201807201254326_NavpropertyinMoudel3.resx">
       <DependentUpon>201807201254326_NavpropertyinMoudel3.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807231200225_user course.resx">
-      <DependentUpon>201807231200225_user course.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201807230705435_CourseIsRequiredOnModule.resx">
+      <DependentUpon>201807230705435_CourseIsRequiredOnModule.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807230812102_AddCourseIdToMoudle.resx">
+      <DependentUpon>201807230812102_AddCourseIdToMoudle.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
