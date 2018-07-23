@@ -27,7 +27,7 @@ namespace LexiconLMS.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -39,9 +39,9 @@ namespace LexiconLMS.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -58,7 +58,7 @@ namespace LexiconLMS.Controllers
         }
         //
 
-        [Authorize(Roles="teacher")]
+        [Authorize(Roles = "teacher")]
         public ActionResult Teachers()
         {
             var userdb = ApplicationDbContext.Create();
@@ -150,7 +150,7 @@ namespace LexiconLMS.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -166,15 +166,19 @@ namespace LexiconLMS.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
+        [Authorize(Roles = "teacher")]
         public ActionResult Register()
         {
+            //create instance of the database & role store & role manager 
+            //so we can show the roles in the dropdown list t create the user
             var userdb = ApplicationDbContext.Create();
             var roleStore = new RoleStore<IdentityRole>(userdb);
             var roleMngr = new RoleManager<IdentityRole>(roleStore);
 
-            var rolesList = roleMngr.Roles.Select(r => new { r.Name,r.Id});
-            List<SelectListItem> roleListWithDefault = rolesList.Select(role =>  new SelectListItem { Value = role.Id, Text = role.Name, } ).ToList();
+            //bring the roles from the database and create a list of it 
+            //add default first item to the list "empty role to enhance the user experince"
+            var rolesList = roleMngr.Roles.Select(r => new { r.Name, r.Id });
+            List<SelectListItem> roleListWithDefault = rolesList.Select(role => new SelectListItem { Value = role.Id, Text = role.Name }).ToList();
             var roletip = new SelectListItem()
             {
                 Value = null,
@@ -182,6 +186,7 @@ namespace LexiconLMS.Controllers
             };
             roleListWithDefault.Insert(0, roletip);
 
+            //same as before but courses list
             var courseList = userdb.Courses.Select(c => new { c.Name, c.Id, c.EndDate }).Where(sa => sa.EndDate > DateTime.Today);
             List<SelectListItem> courseListWithDefault = courseList.Select(course => new SelectListItem { Text = course.Name, Value = course.Id.ToString() }).ToList();
             var courseTip = new SelectListItem
@@ -191,42 +196,101 @@ namespace LexiconLMS.Controllers
             };
             courseListWithDefault.Insert(0, courseTip);
 
-            var template = new RegisterViewModel() { Roles = roleListWithDefault ,Courses=courseListWithDefault};
+
+            //create a template of the user registert view model and set its properties{lists} our we created
+            var template = new RegisterViewModel() { Roles = roleListWithDefault, Courses = courseListWithDefault };
             return View(template);
         }
 
         //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "teacher")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            if (UserManager.Users.Any(un => un.UserName == model.Email))
+            var userdb = ApplicationDbContext.Create();
+            var roleStore = new RoleStore<IdentityRole>(userdb);
+            var roleMngr = new RoleManager<IdentityRole>(roleStore);
+
+            var teacherRole = roleMngr.Roles.Select(r => new { r.Id, r.Name }).Where(r => r.Name == "teacher").Select(r => r.Id).FirstOrDefault();
+            var studentRole = roleMngr.Roles.Select(r => new { r.Id, r.Name }).Where(r => r.Name == "student").Select(r => r.Id).FirstOrDefault();
+
+            int courseId = 0;
+            var validCourseId = int.TryParse(model.SelectedCourse,out int parametercourseId);
+            courseId = parametercourseId;
+            //when admin create a student user we check for validation of choosed course .
+            if ((courseId < 1) || model.SelectedRole == studentRole && ((string.IsNullOrWhiteSpace(model.SelectedCourse) || !userdb.Courses.Select(cid => cid.Id).Contains(courseId)))) 
             {
-                ModelState.AddModelError(string.Empty,"User Already Exist");
+                ModelState.AddModelError(string.Empty, "You Choosed Not valid Course");
+            }
+
+            //when admin create a teacher user we check for there is no choosed course.
+            if (model.SelectedRole == teacherRole && !(string.IsNullOrEmpty(model.SelectedCourse))) 
+            {
+                ModelState.AddModelError(string.Empty, "The Teacher can't have a course");
+            }
+
+            if (model.SelectedRole != teacherRole && model.SelectedRole!=studentRole)
+            {
+                ModelState.AddModelError(string.Empty, "You choosed a non valid role");
             }
             if (ModelState.IsValid)
             {
-                
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, PhoneNumber = model.PhoneNumber,CourseId=courseId };
                 var result = await UserManager.CreateAsync(user, model.Password);
+
+                //var userStore = new UserStore<ApplicationUser>(context);
+                //var userManager = new UserManager<ApplicationUser>(userStore);
+                UserManager.AddToRole(user.Id, userdb.Roles.Where(r => r.Id == model.SelectedRole).Select(r => r.Name).FirstOrDefault());
+
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    // await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Courses");
                 }
                 AddErrors(result);
             }
 
             // If we got this far, something failed, redisplay form
+            //thanks dimitris
+
+            //create instance of the database & role store & role manager 
+            //so we can show the roles in the dropdown list t create the user
+
+            //bring the roles from the database and create a list of it 
+            //add default first item to the list "empty role to enhance the user experince"
+            var rolesList = roleMngr.Roles.Select(r => new { r.Name, r.Id });
+            List<SelectListItem> roleListWithDefault = rolesList.Select(role => new SelectListItem { Value = role.Id, Text = role.Name }).ToList();
+            var roletip = new SelectListItem()
+            {
+                Value = null,
+                Text = "--- Select Role ---"
+            };
+            roleListWithDefault.Insert(0, roletip);
+
+            //same as before but courses list
+            var courseList = userdb.Courses.Select(c => new { c.Name, c.Id, c.EndDate }).Where(sa => sa.EndDate > DateTime.Today);
+            List<SelectListItem> courseListWithDefault = courseList.Select(course => new SelectListItem { Text = course.Name, Value = course.Id.ToString() }).ToList();
+            var courseTip = new SelectListItem
+            {
+                Value = null,
+                Text = "--- Select Course---"
+            };
+            courseListWithDefault.Insert(0, courseTip);
+
+            model.Roles = roleListWithDefault;
+            model.Courses = courseListWithDefault;
+
+            //create a template of the user registert view model and set its properties{lists} our we created
             return View(model);
         }
 

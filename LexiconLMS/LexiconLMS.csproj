@@ -248,6 +248,10 @@
     <Compile Include="Migrations\201807201254326_NavpropertyinMoudel3.Designer.cs">
       <DependentUpon>201807201254326_NavpropertyinMoudel3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807231200225_user course.cs" />
+    <Compile Include="Migrations\201807231200225_user course.Designer.cs">
+      <DependentUpon>201807231200225_user course.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
@@ -428,6 +432,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807201254326_NavpropertyinMoudel3.resx">
       <DependentUpon>201807201254326_NavpropertyinMoudel3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807231200225_user course.resx">
+      <DependentUpon>201807231200225_user course.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

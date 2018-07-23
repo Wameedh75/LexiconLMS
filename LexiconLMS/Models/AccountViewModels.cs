@@ -66,9 +66,21 @@ namespace LexiconLMS.Models
     public class RegisterViewModel
     {
         [Required]
+        public string FirstName { get; set; }
+        [Required]
+        public string LastName { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        [Display(Name = "contact number :")]
+        [Required(ErrorMessage = "A phone number is required.")]
+        [DataType(DataType.PhoneNumber, ErrorMessage = "Invalid Phone Number")]
+        [RegularExpression(@"^([0-9]{10})$", ErrorMessage = "Invalid Phone Number.")]
+        public string PhoneNumber { get; set; }
+
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]

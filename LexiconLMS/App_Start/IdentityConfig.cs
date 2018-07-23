@@ -53,11 +53,12 @@ namespace LexiconLMS
             // Configure validation logic for passwords
             manager.PasswordValidator = new PasswordValidator
             {
+                //put less constraints on password creating
                 RequiredLength = 6,
-                RequireNonLetterOrDigit = true,
-                RequireDigit = true,
-                RequireLowercase = true,
-                RequireUppercase = true,
+                RequireNonLetterOrDigit = false,
+                RequireDigit = false,
+                RequireLowercase = false,
+                RequireUppercase = false,
             };
 
             // Configure user lockout defaults
