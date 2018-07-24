@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace LexiconLMS.Models
@@ -21,6 +22,8 @@ namespace LexiconLMS.Models
         [Display(Name = "End date")]
         [UIHint("ShortDate")]
         public DateTime EndDate { get; set; }
+
+        public virtual ICollection<Activity> CourseActivities { get; set; }
 
         public int CourseId  { get; set; }
 

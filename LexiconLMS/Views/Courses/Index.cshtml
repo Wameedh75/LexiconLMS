@@ -45,7 +45,7 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Description)
                             </td>
-                            @if (User.IsInRole("teacher"))
+                            @if (Request.IsAuthenticated)
                             {
                                 <td>
                                     @Html.ActionLink("Edit", "Edit", new {id = item.Id}) |
