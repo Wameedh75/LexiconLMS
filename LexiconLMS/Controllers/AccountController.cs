@@ -17,6 +17,7 @@ using System.Collections.Generic;
 namespace LexiconLMS.Controllers
 {
     [Authorize]
+    [RequireHttps]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
