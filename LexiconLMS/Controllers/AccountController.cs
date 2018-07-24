@@ -241,8 +241,7 @@ namespace LexiconLMS.Controllers
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, PhoneNumber = model.PhoneNumber,CourseId=courseId };
                 var result = await UserManager.CreateAsync(user, model.Password);
 
-                //var userStore = new UserStore<ApplicationUser>(context);
-                //var userManager = new UserManager<ApplicationUser>(userStore);
+                //put the user in the choosed role
                 UserManager.AddToRole(user.Id, userdb.Roles.Where(r => r.Id == model.SelectedRole).Select(r => r.Name).FirstOrDefault());
 
                 if (result.Succeeded)
@@ -261,10 +260,11 @@ namespace LexiconLMS.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            //thanks dimitris
 
+            //if error happened we need to re create the roles and courses list
+            #region
             //create instance of the database & role store & role manager 
-            //so we can show the roles in the dropdown list t create the user
+            //so we can show the roles in the dropdown list to create the user
 
             //bring the roles from the database and create a list of it 
             //add default first item to the list "empty role to enhance the user experince"
@@ -289,7 +289,7 @@ namespace LexiconLMS.Controllers
 
             model.Roles = roleListWithDefault;
             model.Courses = courseListWithDefault;
-
+            #endregion
             //create a template of the user registert view model and set its properties{lists} our we created
             return View(model);
         }
