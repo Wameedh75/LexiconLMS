@@ -205,57 +205,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201807181138336_Initial.cs" />
-    <Compile Include="Migrations\201807181138336_Initial.Designer.cs">
-      <DependentUpon>201807181138336_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807181232010_AddedNamesForUser.cs" />
-    <Compile Include="Migrations\201807181232010_AddedNamesForUser.Designer.cs">
-      <DependentUpon>201807181232010_AddedNamesForUser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807181236380_roles added.cs" />
-    <Compile Include="Migrations\201807181236380_roles added.Designer.cs">
-      <DependentUpon>201807181236380_roles added.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807190908189_CreateCourseModel.cs" />
-    <Compile Include="Migrations\201807190908189_CreateCourseModel.Designer.cs">
-      <DependentUpon>201807190908189_CreateCourseModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807190922595_AddDescriptionToCourseModel.cs" />
-    <Compile Include="Migrations\201807190922595_AddDescriptionToCourseModel.Designer.cs">
-      <DependentUpon>201807190922595_AddDescriptionToCourseModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807191300179_AddedModule.cs" />
-    <Compile Include="Migrations\201807191300179_AddedModule.Designer.cs">
-      <DependentUpon>201807191300179_AddedModule.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807200822512_user course relationship.cs" />
-    <Compile Include="Migrations\201807200822512_user course relationship.Designer.cs">
-      <DependentUpon>201807200822512_user course relationship.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807201010317_Navproperty.cs" />
-    <Compile Include="Migrations\201807201010317_Navproperty.Designer.cs">
-      <DependentUpon>201807201010317_Navproperty.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807201224170_NavpropertyinMoudel.cs" />
-    <Compile Include="Migrations\201807201224170_NavpropertyinMoudel.Designer.cs">
-      <DependentUpon>201807201224170_NavpropertyinMoudel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807201245464_NavpropertyinMoudel2.cs" />
-    <Compile Include="Migrations\201807201245464_NavpropertyinMoudel2.Designer.cs">
-      <DependentUpon>201807201245464_NavpropertyinMoudel2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807201254326_NavpropertyinMoudel3.cs" />
-    <Compile Include="Migrations\201807201254326_NavpropertyinMoudel3.Designer.cs">
-      <DependentUpon>201807201254326_NavpropertyinMoudel3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807230705435_CourseIsRequiredOnModule.cs" />
-    <Compile Include="Migrations\201807230705435_CourseIsRequiredOnModule.Designer.cs">
-      <DependentUpon>201807230705435_CourseIsRequiredOnModule.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807230812102_AddCourseIdToMoudle.cs" />
-    <Compile Include="Migrations\201807230812102_AddCourseIdToMoudle.Designer.cs">
-      <DependentUpon>201807230812102_AddCourseIdToMoudle.cs</DependentUpon>
+    <Compile Include="Migrations\201807231411138_init.cs" />
+    <Compile Include="Migrations\201807231411138_init.Designer.cs">
+      <DependentUpon>201807231411138_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201807230942285_ActivityModel.cs" />
     <Compile Include="Migrations\201807230942285_ActivityModel.Designer.cs">
@@ -424,44 +376,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201807181138336_Initial.resx">
-      <DependentUpon>201807181138336_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807181232010_AddedNamesForUser.resx">
-      <DependentUpon>201807181232010_AddedNamesForUser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807181236380_roles added.resx">
-      <DependentUpon>201807181236380_roles added.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807190908189_CreateCourseModel.resx">
-      <DependentUpon>201807190908189_CreateCourseModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807190922595_AddDescriptionToCourseModel.resx">
-      <DependentUpon>201807190922595_AddDescriptionToCourseModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807191300179_AddedModule.resx">
-      <DependentUpon>201807191300179_AddedModule.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807200822512_user course relationship.resx">
-      <DependentUpon>201807200822512_user course relationship.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807201010317_Navproperty.resx">
-      <DependentUpon>201807201010317_Navproperty.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807201224170_NavpropertyinMoudel.resx">
-      <DependentUpon>201807201224170_NavpropertyinMoudel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807201245464_NavpropertyinMoudel2.resx">
-      <DependentUpon>201807201245464_NavpropertyinMoudel2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807201254326_NavpropertyinMoudel3.resx">
-      <DependentUpon>201807201254326_NavpropertyinMoudel3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807230705435_CourseIsRequiredOnModule.resx">
-      <DependentUpon>201807230705435_CourseIsRequiredOnModule.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807230812102_AddCourseIdToMoudle.resx">
-      <DependentUpon>201807230812102_AddCourseIdToMoudle.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201807231411138_init.resx">
+      <DependentUpon>201807231411138_init.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807230942285_ActivityModel.resx">
       <DependentUpon>201807230942285_ActivityModel.cs</DependentUpon>
