@@ -29,7 +29,6 @@ namespace LexiconLMS.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-
         public AccountController()
         {
         }
@@ -222,30 +221,45 @@ namespace LexiconLMS.Controllers
 
             var teacherRole = roleMngr.Roles.Select(r => new { r.Id, r.Name }).Where(r => r.Name == "teacher").Select(r => r.Id).FirstOrDefault();
             var studentRole = roleMngr.Roles.Select(r => new { r.Id, r.Name }).Where(r => r.Name == "student").Select(r => r.Id).FirstOrDefault();
-
-            int courseId = 0;
-            var validCourseId = int.TryParse(model.SelectedCourse,out int parametercourseId);
-            courseId = parametercourseId;
-            //when admin create a student user we check for validation of choosed course .
-            if ((courseId < 1) && model.SelectedRole == studentRole && ((string.IsNullOrWhiteSpace(model.SelectedCourse) || !userdb.Courses.Select(cid => cid.Id).Contains(courseId)))) 
+            int? nullablecourseId;
+            if (model.SelectedCourse != null)
             {
-                ModelState.AddModelError(string.Empty, "You Choosed Not valid Course");
+                int courseId = 0;
+                var validCourseId = int.TryParse(model.SelectedCourse, out int parametercourseId);
+                if (validCourseId)
+                {
+                    courseId = parametercourseId;
+                }
+
+                //when admin create a student user we check for validation of choosed course .
+                if (model.SelectedRole == studentRole)
+                {
+                    if ((courseId < 1) && model.SelectedRole == studentRole && ((string.IsNullOrWhiteSpace(model.SelectedCourse) || !userdb.Courses.Select(cid => cid.Id).Contains(courseId))))
+                    {
+                        ModelState.AddModelError(string.Empty, "You Choosed Not valid Course");
+                    }
+                }
+                nullablecourseId = courseId;
+            }
+            else
+            {
+                nullablecourseId = null;
             }
 
             //when admin create a teacher user we check for there is no choosed course.
-            if (model.SelectedRole == teacherRole && !(string.IsNullOrEmpty(model.SelectedCourse))) 
+            if (model.SelectedRole == teacherRole && !(string.IsNullOrEmpty(model.SelectedCourse)))
             {
                 ModelState.AddModelError(string.Empty, "The Teacher can't have a course");
             }
 
-            if (model.SelectedRole != teacherRole && model.SelectedRole!=studentRole)
+            if (model.SelectedRole != teacherRole && model.SelectedRole != studentRole)
             {
                 ModelState.AddModelError(string.Empty, "You choosed a non valid role");
             }
             if (ModelState.IsValid)
             {
 
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, PhoneNumber = model.PhoneNumber,CourseId=courseId };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, PhoneNumber = model.PhoneNumber, CourseId = nullablecourseId };
                 var result = await UserManager.CreateAsync(user, model.Password);
 
                 //put the user in the choosed role
