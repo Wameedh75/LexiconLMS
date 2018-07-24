@@ -19,5 +19,7 @@ namespace LexiconLMS.Models
         }
 
         public System.Data.Entity.DbSet<LexiconLMS.Models.Activity> Activities { get; set; }
+
+        //public System.Data.Entity.DbSet<LexiconLMS.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }

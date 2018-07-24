@@ -12,14 +12,14 @@
 
     {
 
-        @Html.ActionLink("Add new moudel", "CreateModoule",new { courseId = Model.Id})
+        @Html.ActionLink("Add new moudel", "CreateModoule", new { courseId = Model.Id })
     }
-    
+
     <span>
         |
     </span>
     <span>
-        @Html.ActionLink("Modles List","Index","Modules", new { courseId = Model.Id },null)
+        @Html.ActionLink("Modles List", "Index", "Modules", new { courseId = Model.Id }, null)
     </span>
     <hr />
     <dl class="dl-horizontal">
@@ -48,7 +48,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Description) 
+            @Html.DisplayNameFor(model => model.Description)
         </dt>
 
         <dd>
@@ -65,10 +65,12 @@
         }
 
 
-     
+
     </dl>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+@Html.Partial("_StudentOfCourse", Model.CourseStudents)

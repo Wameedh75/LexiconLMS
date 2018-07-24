@@ -19,7 +19,7 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>44341</IISExpressSSLPort>
+    <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -47,9 +47,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="SendGrid, Version=9.8.0.0, Culture=neutral, PublicKeyToken=4f047e93159395ca, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sendgrid.9.9.0\lib\net452\SendGrid.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -208,9 +205,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201807240909193_Initial.cs" />
-    <Compile Include="Migrations\201807240909193_Initial.Designer.cs">
-      <DependentUpon>201807240909193_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201807241312026_Init.cs" />
+    <Compile Include="Migrations\201807241312026_Init.Designer.cs">
+      <DependentUpon>201807241312026_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -348,6 +345,11 @@
     <Content Include="Views\Activities\Details.cshtml" />
     <Content Include="Views\Activities\Edit.cshtml" />
     <Content Include="Views\Activities\Index.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ShortDate.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\ShortDate.cshtml" />
+    <Content Include="Views\Courses\_StudentOfCourse.cshtml" />
+    <Content Include="Views\Account\Details.cshtml" />
+    <Content Include="Views\Account\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -367,8 +369,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201807240909193_Initial.resx">
-      <DependentUpon>201807240909193_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201807241312026_Init.resx">
+      <DependentUpon>201807241312026_Init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
@@ -389,7 +391,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>57759</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44341/</IISUrl>
+          <IISUrl>http://localhost:57759/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
