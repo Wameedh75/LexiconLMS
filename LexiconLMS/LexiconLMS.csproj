@@ -208,21 +208,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201807231411138_init.cs" />
-    <Compile Include="Migrations\201807231411138_init.Designer.cs">
-      <DependentUpon>201807231411138_init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807230942285_ActivityModel.cs" />
-    <Compile Include="Migrations\201807230942285_ActivityModel.Designer.cs">
-      <DependentUpon>201807230942285_ActivityModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807230952550_ActivityModel1.cs" />
-    <Compile Include="Migrations\201807230952550_ActivityModel1.Designer.cs">
-      <DependentUpon>201807230952550_ActivityModel1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807231419047_newMigration.cs" />
-    <Compile Include="Migrations\201807231419047_newMigration.Designer.cs">
-      <DependentUpon>201807231419047_newMigration.cs</DependentUpon>
+    <Compile Include="Migrations\201807240909193_Initial.cs" />
+    <Compile Include="Migrations\201807240909193_Initial.Designer.cs">
+      <DependentUpon>201807240909193_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -379,17 +367,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201807231411138_init.resx">
-      <DependentUpon>201807231411138_init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807230942285_ActivityModel.resx">
-      <DependentUpon>201807230942285_ActivityModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807230952550_ActivityModel1.resx">
-      <DependentUpon>201807230952550_ActivityModel1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807231419047_newMigration.resx">
-      <DependentUpon>201807231419047_newMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201807240909193_Initial.resx">
+      <DependentUpon>201807240909193_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
