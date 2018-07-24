@@ -11,6 +11,11 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using LexiconLMS.Models;
+using SendGrid.Helpers.Mail;
+using System.Net;
+using System.Configuration;
+using System.Web;
+using SendGrid;
 
 namespace LexiconLMS
 {
@@ -19,7 +24,22 @@ namespace LexiconLMS
         public Task SendAsync(IdentityMessage message)
         {
             // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            return SendEmailWithSendGridAsync(message);
+        }
+        static private Task SendEmailWithSendGridAsync(IdentityMessage message)
+        {
+            var apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress("admin@lexicon.se", "Mr. Admin");
+
+            var subject = message.Subject;
+            var recipient = message.Destination;
+            var plainTextContent = message.Body;
+            var htmlContent = message.Body;
+
+            var msg = new SendGridMessage() { From = from, Subject = subject, PlainTextContent = plainTextContent,HtmlContent=htmlContent};
+            msg.AddTo(recipient, "Recipient");
+            return client.SendEmailAsync(msg);
         }
     }
 

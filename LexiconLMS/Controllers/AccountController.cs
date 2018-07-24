@@ -12,9 +12,16 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
+using SendGrid.Helpers.Mail;
+using System.Net;
+using System.Configuration;
+using System.Web;
+using SendGrid;
+
 namespace LexiconLMS.Controllers
 {
     [Authorize]
+    [RequireHttps]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -219,7 +226,7 @@ namespace LexiconLMS.Controllers
             var validCourseId = int.TryParse(model.SelectedCourse,out int parametercourseId);
             courseId = parametercourseId;
             //when admin create a student user we check for validation of choosed course .
-            if ((courseId < 1) || model.SelectedRole == studentRole && ((string.IsNullOrWhiteSpace(model.SelectedCourse) || !userdb.Courses.Select(cid => cid.Id).Contains(courseId)))) 
+            if ((courseId < 1) && model.SelectedRole == studentRole && ((string.IsNullOrWhiteSpace(model.SelectedCourse) || !userdb.Courses.Select(cid => cid.Id).Contains(courseId)))) 
             {
                 ModelState.AddModelError(string.Empty, "You Choosed Not valid Course");
             }
@@ -249,10 +256,9 @@ namespace LexiconLMS.Controllers
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
+                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     return RedirectToAction("Index", "Courses");
                 }
                 AddErrors(result);
