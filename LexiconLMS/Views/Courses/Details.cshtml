@@ -11,9 +11,16 @@
     @if (User.IsInRole("teacher"))
 
     {
-        var course = Model;
+
         @Html.ActionLink("Add new moudel", "CreateModoule",new { courseId = Model.Id})
     }
+    
+    <span>
+        |
+    </span>
+    <span>
+        @Html.ActionLink("Modles List","Index","Modules", new { courseId = Model.Id },null)
+    </span>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -58,7 +65,7 @@
         }
 
 
-        @Html.ActionLink("Modles List","Index","Modules", new { courseId = Model.Id },null)
+     
     </dl>
 </div>
 <p>

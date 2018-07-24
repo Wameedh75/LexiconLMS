@@ -43,16 +43,16 @@ namespace LexiconLMS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,StartDate,EndDate")] Module module, Course course)
+        public ActionResult Create([Bind(Include = "Id,Name,Description,StartDate,EndDate,CourseId")] Module module,int? courseId)
         {
-         
-           
+
+            module.CourseId = (int)courseId;
             if (ModelState.IsValid)
             {
                 db.Modules.Add(module);
-                db.Courses.Find(course.Id)?.CourseModules.Add(module);
+                //db.Courses.Find(courseId)?.CourseModules.Add(module);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index",new{module.CourseId});
             }
 
             return View(module);
@@ -78,13 +78,13 @@ namespace LexiconLMS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,StartDate,EndDate")] Module module)
+        public ActionResult Edit([Bind(Include = "Id,Name,Description,StartDate,EndDate,CourseId")] Module module)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(module).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index",new{courseId = module.CourseId});
             }
             return View(module);
         }
@@ -110,9 +110,10 @@ namespace LexiconLMS.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Module module = db.Modules.Find(id);
+            var courseId = module.CourseId;
             db.Modules.Remove(module);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index",new{courseId});
         }
 
         protected override void Dispose(bool disposing)
