@@ -3,21 +3,25 @@ namespace LexiconLMS.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class init : DbMigration
+    public partial class Init : DbMigration
     {
         public override void Up()
         {
             CreateTable(
-                "dbo.Courses",
+                "dbo.Activities",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(nullable: false),
-                        StartDate = c.DateTime(nullable: false),
-                        EndDate = c.DateTime(nullable: false),
+                        Starttime = c.DateTime(nullable: false),
+                        EndTime = c.DateTime(nullable: false),
                         Description = c.String(nullable: false),
+                        Type = c.Int(nullable: false),
+                        ModuleId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Modules", t => t.ModuleId, cascadeDelete: true)
+                .Index(t => t.ModuleId);
             
             CreateTable(
                 "dbo.Modules",
@@ -33,6 +37,18 @@ namespace LexiconLMS.Migrations
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Courses", t => t.CourseId, cascadeDelete: true)
                 .Index(t => t.CourseId);
+            
+            CreateTable(
+                "dbo.Courses",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Name = c.String(nullable: false),
+                        StartDate = c.DateTime(nullable: false),
+                        EndDate = c.DateTime(nullable: false),
+                        Description = c.String(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.AspNetUsers",
@@ -112,6 +128,7 @@ namespace LexiconLMS.Migrations
         public override void Down()
         {
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
+            DropForeignKey("dbo.Activities", "ModuleId", "dbo.Modules");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUsers", "CourseId", "dbo.Courses");
@@ -125,13 +142,15 @@ namespace LexiconLMS.Migrations
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.AspNetUsers", new[] { "CourseId" });
             DropIndex("dbo.Modules", new[] { "CourseId" });
+            DropIndex("dbo.Activities", new[] { "ModuleId" });
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
-            DropTable("dbo.Modules");
             DropTable("dbo.Courses");
+            DropTable("dbo.Modules");
+            DropTable("dbo.Activities");
         }
     }
 }

@@ -1,18 +1,16 @@
-﻿using System;
-using System.Globalization;
+﻿using LexiconLMS.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
-using System.Security.Claims;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using LexiconLMS.Models;
-using System.Web.Security;
-using LexiconLMS.ViewModels;
-using Microsoft.AspNet.Identity.EntityFramework;
-using System.Collections.Generic;
 
 namespace LexiconLMS.Controllers
 {
@@ -21,6 +19,7 @@ namespace LexiconLMS.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext db = new ApplicationDbContext();
 
 
         public AccountController()
@@ -523,6 +522,58 @@ namespace LexiconLMS.Controllers
         public ActionResult ExternalLoginFailure()
         {
             return View();
+        }
+
+
+
+        [Authorize]
+        // GET: Account/Details/5
+        public ActionResult Details(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var user = db.Users.Find(id);
+            
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            return View(user);
+        }
+
+        [Authorize(Roles = "teacher")]
+        // GET: Account/Edit/5
+        public ActionResult Edit(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var user = db.Users.Find(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            return View(user);
+        }
+
+        // POST: Account/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "teacher")]
+        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,Email,PhoneNumber,PasswordHash,CourseId,SecurityStamp,LockoutEnabled,UserName")] ApplicationUser user)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(user).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Details","Courses",new{id = user.CourseId});
+            }
+            return View(user);
         }
 
         protected override void Dispose(bool disposing)

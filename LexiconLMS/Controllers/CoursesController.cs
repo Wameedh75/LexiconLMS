@@ -40,6 +40,9 @@ namespace LexiconLMS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Course course = db.Courses.Find(id);
+            
+            var students = db.Users.Where(u => u.CourseId == id);
+            course.CourseStudents = students.ToList();
             if (course == null)
             {
                 return HttpNotFound();
