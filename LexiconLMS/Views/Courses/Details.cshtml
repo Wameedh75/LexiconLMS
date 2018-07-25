@@ -14,6 +14,13 @@
         var course = Model;
         @Html.ActionLink("Add new module", "CreateModoule",new { courseId = Model.Id})
     }
+
+    <span>
+        |
+    </span>
+    <span>
+        @Html.ActionLink("Modles List", "Index", "Modules", new { courseId = Model.Id }, null)
+    </span>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -62,3 +69,5 @@
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+@Html.Partial("_StudentOfCourse", Model.CourseStudents)

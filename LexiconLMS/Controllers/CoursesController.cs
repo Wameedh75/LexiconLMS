@@ -40,6 +40,9 @@ namespace LexiconLMS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Course course = db.Courses.Find(id);
+            
+            var students = db.Users.Where(u => u.CourseId == id);
+            course.CourseStudents = students.ToList();
             if (course == null)
             {
                 return HttpNotFound();
@@ -147,17 +150,26 @@ namespace LexiconLMS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateModoule([Bind(Include = "Id,Name,StartDate,EndDate,Description")] Module module,int? corseId)
+        public ActionResult CreateModoule([Bind(Include = "Id,Name,StartDate,EndDate,Description,Course")] Module module,int? courseId)
         {
+            //var course = from dbCourse in db.Courses
+            //    where dbCourse.Id == courseId
+            //    select dbCourse;
+
+            //var course = db.Courses.Find(courseId);
+
+
+            if(courseId != null)
+            module.CourseId = (int)courseId;
             if (ModelState.IsValid)
             {
                 db.Modules.Add(module);
-                db.Courses.Find(corseId)?.CourseModules.Add(module);
+                db.Courses.Find(courseId)?.CourseModules.Add(module);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return RedirectToAction("Details");
+            return RedirectToAction("Details",new{id = courseId});
         }
 
         protected override void Dispose(bool disposing)

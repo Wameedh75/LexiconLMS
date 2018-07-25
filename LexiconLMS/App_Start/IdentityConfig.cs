@@ -11,6 +11,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using LexiconLMS.Models;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace LexiconLMS
 {
@@ -19,7 +21,24 @@ namespace LexiconLMS
         public Task SendAsync(IdentityMessage message)
         {
             // Plug in your email service here to send an email.
+            return SendEmailWithSendGridAsync(message);
             return Task.FromResult(0);
+        }
+        static private Task SendEmailWithSendGridAsync(IdentityMessage message)
+        {
+            var apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
+            //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
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress("admin@lexicon.se", "Mr. Admin");
+
+            var subject = message.Subject;
+            var recipient = message.Destination;
+            var plainTextContent = message.Body;
+            var htmlContent = message.Body;
+
+            var msg = new SendGridMessage() { From = from, Subject = subject, PlainTextContent = plainTextContent, HtmlContent = htmlContent };
+            msg.AddTo(recipient, "Recipient");
+            return client.SendEmailAsync(msg);
         }
     }
 
@@ -53,11 +72,12 @@ namespace LexiconLMS
             // Configure validation logic for passwords
             manager.PasswordValidator = new PasswordValidator
             {
+                //put less constraints on password creating
                 RequiredLength = 6,
-                RequireNonLetterOrDigit = true,
-                RequireDigit = true,
-                RequireLowercase = true,
-                RequireUppercase = true,
+                RequireNonLetterOrDigit = false,
+                RequireDigit = false,
+                RequireLowercase = false,
+                RequireUppercase = false,
             };
 
             // Configure user lockout defaults

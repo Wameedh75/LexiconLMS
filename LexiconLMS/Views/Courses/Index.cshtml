@@ -1,5 +1,4 @@
 ﻿@using System.Web.Mvc.Html
-@using Microsoft.AspNet.Identity
 @model IEnumerable<LexiconLMS.ViewModels.CourseVeiwModel>
 
 @{
@@ -10,7 +9,7 @@
 @if (User.IsInRole("teacher"))
 {
     <p>
-        @Html.ActionLink("Create New", "Create")
+        @Html.ActionLink("Create New", "Create") 
     </p>
 }
 
@@ -45,7 +44,7 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Description)
                             </td>
-                            @if (User.IsInRole("teacher"))
+                            @if (Request.IsAuthenticated)
                             {
                                 <td>
                                     @Html.ActionLink("Edit", "Edit", new {id = item.Id}) |

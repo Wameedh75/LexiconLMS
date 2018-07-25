@@ -6,6 +6,20 @@
 
 <h2>Details</h2>
 
+@if (User.IsInRole("teacher"))
+
+{
+    
+    @Html.ActionLink("Add new Activty", "Create","Activities",new { moduleId = Model.Id},null)
+}
+    
+<span>
+    |
+</span>
+<span>
+    @Html.ActionLink("Activity List","Index","Activities", new { moduleId = Model.Id },null)
+</span>
+
 <div>
     <h4>Module</h4>
     <hr />
@@ -46,5 +60,5 @@
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index", new { courseId = Model.Course.Id})
 </p>

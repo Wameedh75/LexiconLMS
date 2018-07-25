@@ -11,6 +11,7 @@ namespace LexiconLMS.Models
         public string LastName { get; set; }
         public string FullName => FirstName + " " + LastName;
 
+        public int? CourseId { get; set; }
         public virtual Course Course { get; set; }
 
 
