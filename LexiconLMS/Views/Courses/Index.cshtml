@@ -44,13 +44,18 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Description)
                             </td>
-                            @if (Request.IsAuthenticated)
+                            @if (User.IsInRole("teacher"))
                             {
                                 <td>
                                     @Html.ActionLink("Edit", "Edit", new {id = item.Id}) |
                                     @Html.ActionLink("Details", "Details", new {id = item.Id}) |
                                     @Html.ActionLink("Delete", "Delete", new {id = item.Id})
                                 </td>
+                            }
+                            @if (Request.IsAuthenticated && !User.IsInRole("teacher"))
+                            {
+                                <td>
+                                    @Html.ActionLink("Details", "Details", new {id = item.Id}) </td>
                             }
                         </tr>
                     </table>

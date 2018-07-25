@@ -1,8 +1,10 @@
 ﻿@model IEnumerable<LexiconLMS.Models.ApplicationUser>
-
-<p>
-    @Html.ActionLink("Add a Student", "Register","Account")
-</p>
+@if (User.IsInRole("teacher"))
+{
+    <p>
+        @Html.ActionLink("Add a Student", "Register", "Account")
+    </p>
+}
 <table class="table">
     <tr>
         <th>

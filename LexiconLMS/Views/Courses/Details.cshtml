@@ -13,13 +13,14 @@
     {
 
         @Html.ActionLink("Add new moudel", "CreateModoule", new { courseId = Model.Id })
+        <span>
+            |
+        </span>
     }
 
+    
     <span>
-        |
-    </span>
-    <span>
-        @Html.ActionLink("Modles List", "Index", "Modules", new { courseId = Model.Id }, null)
+        @Html.ActionLink("Moudles List", "Index", "Modules", new { courseId = Model.Id }, null)
     </span>
     <hr />
     <dl class="dl-horizontal">
@@ -68,8 +69,12 @@
 
     </dl>
 </div>
+
+    @if (User.IsInRole("teacher"))
+    {
+<p>  @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) <span>|</span> </p>
+    }
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
 
