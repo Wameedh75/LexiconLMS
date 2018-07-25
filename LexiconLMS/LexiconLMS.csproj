@@ -20,9 +20,9 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort>44325</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
-    <IISExpressUseClassicPipelineMode />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -224,6 +224,10 @@
     <Compile Include="Migrations\201807231350243_AddedDocumentTypePrivileges.Designer.cs">
       <DependentUpon>201807231350243_AddedDocumentTypePrivileges.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807250920444_WritingPendingCHanges.cs" />
+    <Compile Include="Migrations\201807250920444_WritingPendingCHanges.Designer.cs">
+      <DependentUpon>201807250920444_WritingPendingCHanges.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Activity.cs" />
@@ -398,6 +402,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807231350243_AddedDocumentTypePrivileges.resx">
       <DependentUpon>201807231350243_AddedDocumentTypePrivileges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807250920444_WritingPendingCHanges.resx">
+      <DependentUpon>201807250920444_WritingPendingCHanges.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
