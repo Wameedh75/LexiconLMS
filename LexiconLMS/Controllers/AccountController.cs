@@ -12,12 +12,6 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
-using SendGrid.Helpers.Mail;
-using System.Net;
-using System.Configuration;
-using System.Web;
-using SendGrid;
-
 namespace LexiconLMS.Controllers
 {
     [Authorize]

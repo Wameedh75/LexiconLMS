@@ -11,11 +11,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using LexiconLMS.Models;
-using SendGrid.Helpers.Mail;
-using System.Net;
-using System.Configuration;
-using System.Web;
-using SendGrid;
+//using SendGrid;
+//using SendGrid.Helpers.Mail;
 
 namespace LexiconLMS
 {
@@ -24,23 +21,24 @@ namespace LexiconLMS
         public Task SendAsync(IdentityMessage message)
         {
             // Plug in your email service here to send an email.
-            return SendEmailWithSendGridAsync(message);
+            //return SendEmailWithSendGridAsync(message);
+            return Task.FromResult(0);
         }
-        static private Task SendEmailWithSendGridAsync(IdentityMessage message)
-        {
-            var apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
-            var client = new SendGridClient(apiKey);
-            var from = new EmailAddress("admin@lexicon.se", "Mr. Admin");
+        //static private Task SendEmailWithSendGridAsync(IdentityMessage message)
+        //{
+        //    var apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
+        //    var client = new SendGridClient(apiKey);
+        //    var from = new EmailAddress("admin@lexicon.se", "Mr. Admin");
 
-            var subject = message.Subject;
-            var recipient = message.Destination;
-            var plainTextContent = message.Body;
-            var htmlContent = message.Body;
+        //    var subject = message.Subject;
+        //    var recipient = message.Destination;
+        //    var plainTextContent = message.Body;
+        //    var htmlContent = message.Body;
 
-            var msg = new SendGridMessage() { From = from, Subject = subject, PlainTextContent = plainTextContent,HtmlContent=htmlContent};
-            msg.AddTo(recipient, "Recipient");
-            return client.SendEmailAsync(msg);
-        }
+        //    var msg = new SendGridMessage() { From = from, Subject = subject, PlainTextContent = plainTextContent,HtmlContent=htmlContent};
+        //    msg.AddTo(recipient, "Recipient");
+        //    return client.SendEmailAsync(msg);
+        //}
     }
 
     public class SmsService : IIdentityMessageService
