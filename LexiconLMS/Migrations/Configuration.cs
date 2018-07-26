@@ -89,6 +89,14 @@ namespace LexiconLMS.Migrations
                 modules
             );
 
+            // Seed Activities
+            var activities = new[]
+            {
+                new Activity { Module = modules[0], Name = "Activity 1", Description = "Hej hopp", Starttime = new DateTime(2018, 1, 1, 8, 30, 0), EndTime = new DateTime(2018, 1, 1, 17, 0, 0), Type = ActivityType.ELearningspass },
+                new Activity { Module = modules[1], Name = "Activity 2", Description = "Hej hopp", Starttime = new DateTime(2018, 2, 2, 8, 30, 0), EndTime = new DateTime(2018, 2, 2, 17, 0, 0), Type = ActivityType.Föreläsning },
+                new Activity { Module = modules[2], Name = "Activity 3", Description = "Hej hopp", Starttime = new DateTime(2018, 3, 2, 8, 30, 0), EndTime = new DateTime(2018, 3, 2, 17, 0, 0), Type = ActivityType.Övningstillfälle },
+            };
+
             // Bootstrap some DocumentTypes
             var teacherRole = roleManager.Roles.Where(r => r.Name == "teacher").ToList();
             var studentRole = roleManager.Roles.Where(r => r.Name == "student").ToList();

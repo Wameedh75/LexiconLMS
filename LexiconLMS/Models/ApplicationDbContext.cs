@@ -11,6 +11,7 @@ namespace LexiconLMS.Models
         public DbSet<Module> Modules { get; set; }
         public DbSet<DocumentType> DocumentTypes { get; set; }
         public DbSet<Document> Documents { get; set; }
+        public DbSet<Activity> Activities { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false) {
@@ -39,7 +40,6 @@ namespace LexiconLMS.Models
                     dtr.ToTable("DocumentTypeCanCreate");
                 });
         }
-        public System.Data.Entity.DbSet<LexiconLMS.Models.Activity> Activities { get; set; }
 
         //public System.Data.Entity.DbSet<LexiconLMS.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
