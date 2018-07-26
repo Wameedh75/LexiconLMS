@@ -26,7 +26,7 @@
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
+    <tr style="border-bottom: none">
         <td>
             @Html.DisplayFor(modelItem => item.FirstName)
         </td>
@@ -42,13 +42,14 @@
         <td>
             @Html.DisplayFor(modelItem => item.UserName)
         </td>
+    </tr>
+    <tr>
         @if (User.IsInRole("teacher"))
         {
-            <td>
-                @Html.ActionLink("Edit", "Edit","Account", new {id = item.Id},null) |
-                @Html.ActionLink("Details", "Details","Account", new {id = item.Id},null) |
-                @Html.ActionLink("Delete", "Delete", new {id = item.Id})
-            </td>
+
+         <td style="border: 0"> @Html.ActionLink("Edit", "Edit", "Account", new {id = item.Id}, null)</td>
+         <td style="border: 0">@Html.ActionLink("Details", "Details", "Account", new {id = item.Id}, null)</td>
+         <td style="border: 0">@Html.ActionLink("Delete", "Delete", new {id = item.Id})</td>
         }
     </tr>
 }
