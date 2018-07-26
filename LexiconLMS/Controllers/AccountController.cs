@@ -483,6 +483,7 @@ namespace LexiconLMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff() {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -546,6 +547,41 @@ namespace LexiconLMS.Controllers
             return View(user);
         }
 
+        // GET: Account/Delete/5
+        [Authorize(Roles = "teacher")]
+        public ActionResult Delete(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var user = db.Users.Find(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            return View(user);
+        }
+
+        // POST: Courses/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "teacher")]
+        public ActionResult DeleteConfirmed(string id)
+        {
+            var userToDelete = db.Users.Find(id);
+            var roleId = userToDelete.Roles.FirstOrDefault()?.RoleId;
+            var roleName = db.Roles.Find(roleId);
+            db.Users.Remove(userToDelete);
+            db.SaveChanges();
+            if (roleName.Name != null && roleName.Name.Equals("teacher"))
+            {
+                return RedirectToAction("Teachers","Account");
+            }
+            return RedirectToAction("Students","Account");
+        }
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -585,7 +621,20 @@ namespace LexiconLMS.Controllers
             if (Url.IsLocalUrl(returnUrl)) {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+
+            var userId = SignInManager
+                .AuthenticationManager
+                .AuthenticationResponseGrant.Identity.GetUserId();
+            var courseId = db.Users.Find(userId)?.CourseId;
+           
+
+
+            if (courseId == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+             
+            return RedirectToAction("Details","Courses", new {id= courseId});
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult
