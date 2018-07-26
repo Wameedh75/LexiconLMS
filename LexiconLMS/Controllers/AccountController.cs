@@ -561,6 +561,7 @@ namespace LexiconLMS.Controllers
         // GET: Account/Edit/5
         public ActionResult Edit(string id)
         {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
