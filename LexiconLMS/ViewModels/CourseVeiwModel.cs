@@ -1,6 +1,7 @@
 ﻿using LexiconLMS.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace LexiconLMS.ViewModels
 {
@@ -11,8 +12,10 @@ namespace LexiconLMS.ViewModels
 
         public string Name { get; set; }
 
+        [UIHint("ShortDate")]
         public DateTime StartDate { get; set; }
 
+        [UIHint("ShortDate")]
         public DateTime EndDate { get; set; }
 
         public string Description { get; set; }
