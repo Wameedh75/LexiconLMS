@@ -24,13 +24,12 @@ namespace LexiconLMS.Migrations
 
             //create roles and add it to the role table
             var roleNames = new[] { "teacher", "student" };
-            foreach (var roleName in roleNames)
-            {
-                if (context.Roles.Any(r => r.Name == roleName)) continue;
+            foreach (var roleName in roleNames) {
+                if (context.Roles.Any(r => r.Name == roleName))
+                    continue;
                 var role = new IdentityRole { Name = roleName };
                 var result = roleManager.Create(role);
-                if (!result.Succeeded)
-                {
+                if (!result.Succeeded) {
                     throw new Exception(string.Join("\n", result.Errors));
                 }
             }
@@ -38,20 +37,17 @@ namespace LexiconLMS.Migrations
             var userStore = new UserStore<ApplicationUser>(context);
             var userManager = new UserManager<ApplicationUser>(userStore);
 
-
             //add our users to the users table
             var emails = new[] { "student@lexicon.se", "teacher@lexicon.se" };
-            foreach (var email in emails)
-            {
-                if (context.Users.Any(u => u.UserName == email)) continue;
+            foreach (var email in emails) {
+                if (context.Users.Any(u => u.UserName == email))
+                    continue;
                 var user = new ApplicationUser { UserName = email, Email = email };
                 var result = userManager.Create(user, "foobar");
-                if (!result.Succeeded)
-                {
+                if (!result.Succeeded) {
                     throw new Exception(string.Join("\n", result.Errors));
                 }
             }
-
 
             //adding roles to our users
             var teacherUser = userManager.FindByName("teacher@lexicon.se");
@@ -59,7 +55,22 @@ namespace LexiconLMS.Migrations
 
             var studentUser = userManager.FindByName("student@lexicon.se");
             userManager.AddToRoles(studentUser.Id, "student");
+
+            // Bootstrap some DocumentTypes
+            var teacherRole = roleManager.Roles.Where(r => r.Name == "teacher").ToList();
+            var studentRole = roleManager.Roles.Where(r => r.Name == "student").ToList();
+            var allRoles = roleManager.Roles.ToList();
+            //var teacherRole = new List<string> { "teacher" };
+            //var studentRole = new List<string> { "student" };
+            //var allRoles = new List<string> { "teacher", "student" };
+            context.DocumentTypes.AddOrUpdate(
+                t => t.Name,
+                new DocumentType { Name = "Student assignment", CanCreate = studentRole, CanView = teacherRole },
+                new DocumentType { Name = "Information", CanCreate = teacherRole, CanView = allRoles },
+                new DocumentType { Name = "Module document", CanCreate = teacherRole, CanView = allRoles },
+                new DocumentType { Name = "Lecture document", CanCreate = teacherRole, CanView = allRoles },
+                new DocumentType { Name = "Exercise", CanCreate = teacherRole, CanView = allRoles }
+            );
         }
-    
     }
 }
