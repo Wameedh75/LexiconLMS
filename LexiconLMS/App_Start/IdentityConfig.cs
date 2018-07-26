@@ -27,7 +27,6 @@ namespace LexiconLMS
         static private Task SendEmailWithSendGridAsync(IdentityMessage message)
         {
             var apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
-            //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
             var client = new SendGridClient(apiKey);
             var from = new EmailAddress("admin@lexicon.se", "Mr. Admin");
 

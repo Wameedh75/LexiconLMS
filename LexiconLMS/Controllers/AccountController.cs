@@ -32,10 +32,8 @@ namespace LexiconLMS.Controllers
             SignInManager = signInManager;
         }
 
-        public ApplicationSignInManager SignInManager
-        {
-            get
-            {
+        public ApplicationSignInManager SignInManager {
+            get {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
             private set
@@ -44,14 +42,11 @@ namespace LexiconLMS.Controllers
             }
         }
 
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
+        public ApplicationUserManager UserManager {
+            get {
                 return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             }
-            private set
-            {
+            private set {
                 _userManager = value;
             }
         }
@@ -62,7 +57,7 @@ namespace LexiconLMS.Controllers
         {
             var userdb = ApplicationDbContext.Create();
 
-            var roleId = userdb.Roles.FirstOrDefault(r => r.Name == "teacher").Id;
+            var roleId = userdb.Roles.FirstOrDefault(r => r.Name == "teacher")?.Id;
             var teachers = userdb.Users.Where(u => u.Roles.Select(y => y.RoleId).Contains(roleId)).ToList();
 
             //var x2 = userdb.Roles.Where(r => r.Name == "teacher").FirstOrDefault().Id;
@@ -72,11 +67,10 @@ namespace LexiconLMS.Controllers
         }
 
         [Authorize(Roles = "teacher")]
-        public ActionResult Students()
-        {
+        public ActionResult Students() {
             var userdb = ApplicationDbContext.Create();
 
-            var roleId = userdb.Roles.FirstOrDefault(r => r.Name == "student").Id;
+            var roleId = userdb.Roles.FirstOrDefault(r => r.Name == "student")?.Id;
             var students = userdb.Users.Where(u => u.Roles.Select(y => y.RoleId).Contains(roleId)).ToList();
 
             return View(students);
@@ -84,8 +78,7 @@ namespace LexiconLMS.Controllers
         //
         // GET: /Account/Login
         [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
-        {
+        public ActionResult Login(string returnUrl) {
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -95,18 +88,15 @@ namespace LexiconLMS.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
-        {
-            if (!ModelState.IsValid)
-            {
+        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl) {
+            if (!ModelState.IsValid) {
                 return View(model);
             }
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
-            {
+            switch (result) {
                 case SignInStatus.Success:
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
@@ -123,11 +113,9 @@ namespace LexiconLMS.Controllers
         //
         // GET: /Account/VerifyCode
         [AllowAnonymous]
-        public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
-        {
+        public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe) {
             // Require that the user has already logged in via username/password or external login
-            if (!await SignInManager.HasBeenVerifiedAsync())
-            {
+            if (!await SignInManager.HasBeenVerifiedAsync()) {
                 return View("Error");
             }
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
@@ -138,10 +126,8 @@ namespace LexiconLMS.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> VerifyCode(VerifyCodeViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
+        public async Task<ActionResult> VerifyCode(VerifyCodeViewModel model) {
+            if (!ModelState.IsValid) {
                 return View(model);
             }
 
@@ -188,8 +174,7 @@ namespace LexiconLMS.Controllers
             //same as before but courses list
             var courseList = userdb.Courses.Select(c => new { c.Name, c.Id, c.EndDate }).Where(sa => sa.EndDate > DateTime.Today);
             List<SelectListItem> courseListWithDefault = courseList.Select(course => new SelectListItem { Text = course.Name, Value = course.Id.ToString() }).ToList();
-            var courseTip = new SelectListItem
-            {
+            var courseTip = new SelectListItem {
                 Value = null,
                 Text = "--- Select Course---"
             };
@@ -310,10 +295,8 @@ namespace LexiconLMS.Controllers
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
-        public async Task<ActionResult> ConfirmEmail(string userId, string code)
-        {
-            if (userId == null || code == null)
-            {
+        public async Task<ActionResult> ConfirmEmail(string userId, string code) {
+            if (userId == null || code == null) {
                 return View("Error");
             }
             var result = await UserManager.ConfirmEmailAsync(userId, code);
@@ -323,8 +306,7 @@ namespace LexiconLMS.Controllers
         //
         // GET: /Account/ForgotPassword
         [AllowAnonymous]
-        public ActionResult ForgotPassword()
-        {
+        public ActionResult ForgotPassword() {
             return View();
         }
 
@@ -333,13 +315,10 @@ namespace LexiconLMS.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
+        public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model) {
+            if (ModelState.IsValid) {
                 var user = await UserManager.FindByNameAsync(model.Email);
-                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
-                {
+                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id))) {
                     // Don't reveal that the user does not exist or is not confirmed
                     return View("ForgotPasswordConfirmation");
                 }
@@ -359,16 +338,14 @@ namespace LexiconLMS.Controllers
         //
         // GET: /Account/ForgotPasswordConfirmation
         [AllowAnonymous]
-        public ActionResult ForgotPasswordConfirmation()
-        {
+        public ActionResult ForgotPasswordConfirmation() {
             return View();
         }
 
         //
         // GET: /Account/ResetPassword
         [AllowAnonymous]
-        public ActionResult ResetPassword(string code)
-        {
+        public ActionResult ResetPassword(string code) {
             return code == null ? View("Error") : View();
         }
 
@@ -377,21 +354,17 @@ namespace LexiconLMS.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
+        public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model) {
+            if (!ModelState.IsValid) {
                 return View(model);
             }
             var user = await UserManager.FindByNameAsync(model.Email);
-            if (user == null)
-            {
+            if (user == null) {
                 // Don't reveal that the user does not exist
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
-            if (result.Succeeded)
-            {
+            if (result.Succeeded) {
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
             AddErrors(result);
@@ -401,8 +374,7 @@ namespace LexiconLMS.Controllers
         //
         // GET: /Account/ResetPasswordConfirmation
         [AllowAnonymous]
-        public ActionResult ResetPasswordConfirmation()
-        {
+        public ActionResult ResetPasswordConfirmation() {
             return View();
         }
 
@@ -411,8 +383,7 @@ namespace LexiconLMS.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult ExternalLogin(string provider, string returnUrl)
-        {
+        public ActionResult ExternalLogin(string provider, string returnUrl) {
             // Request a redirect to the external login provider
             return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
         }
@@ -420,11 +391,9 @@ namespace LexiconLMS.Controllers
         //
         // GET: /Account/SendCode
         [AllowAnonymous]
-        public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
-        {
+        public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe) {
             var userId = await SignInManager.GetVerifiedUserIdAsync();
-            if (userId == null)
-            {
+            if (userId == null) {
                 return View("Error");
             }
             var userFactors = await UserManager.GetValidTwoFactorProvidersAsync(userId);
@@ -437,16 +406,13 @@ namespace LexiconLMS.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SendCode(SendCodeViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
+        public async Task<ActionResult> SendCode(SendCodeViewModel model) {
+            if (!ModelState.IsValid) {
                 return View();
             }
 
             // Generate the token and send it
-            if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
-            {
+            if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider)) {
                 return View("Error");
             }
             return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
@@ -455,18 +421,15 @@ namespace LexiconLMS.Controllers
         //
         // GET: /Account/ExternalLoginCallback
         [AllowAnonymous]
-        public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
-        {
+        public async Task<ActionResult> ExternalLoginCallback(string returnUrl) {
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
-            if (loginInfo == null)
-            {
+            if (loginInfo == null) {
                 return RedirectToAction("Login");
             }
 
             // Sign in the user with this external login provider if the user already has a login
             var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
-            switch (result)
-            {
+            switch (result) {
                 case SignInStatus.Success:
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
@@ -487,28 +450,22 @@ namespace LexiconLMS.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
-        {
-            if (User.Identity.IsAuthenticated)
-            {
+        public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl) {
+            if (User.Identity.IsAuthenticated) {
                 return RedirectToAction("Index", "Manage");
             }
 
-            if (ModelState.IsValid)
-            {
+            if (ModelState.IsValid) {
                 // Get the information about the user from the external login provider
                 var info = await AuthenticationManager.GetExternalLoginInfoAsync();
-                if (info == null)
-                {
+                if (info == null) {
                     return View("ExternalLoginFailure");
                 }
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user);
-                if (result.Succeeded)
-                {
+                if (result.Succeeded) {
                     result = await UserManager.AddLoginAsync(user.Id, info.Login);
-                    if (result.Succeeded)
-                    {
+                    if (result.Succeeded) {
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                         return RedirectToLocal(returnUrl);
                     }
@@ -524,8 +481,7 @@ namespace LexiconLMS.Controllers
         // POST: /Account/LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult LogOff()
-        {
+        public ActionResult LogOff() {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }
@@ -533,8 +489,7 @@ namespace LexiconLMS.Controllers
         //
         // GET: /Account/ExternalLoginFailure
         [AllowAnonymous]
-        public ActionResult ExternalLoginFailure()
-        {
+        public ActionResult ExternalLoginFailure() {
             return View();
         }
 
@@ -601,8 +556,7 @@ namespace LexiconLMS.Controllers
                     _userManager = null;
                 }
 
-                if (_signInManager != null)
-                {
+                if (_signInManager != null) {
                     _signInManager.Dispose();
                     _signInManager = null;
                 }
@@ -615,26 +569,20 @@ namespace LexiconLMS.Controllers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
-        private IAuthenticationManager AuthenticationManager
-        {
-            get
-            {
+        private IAuthenticationManager AuthenticationManager {
+            get {
                 return HttpContext.GetOwinContext().Authentication;
             }
         }
 
-        private void AddErrors(IdentityResult result)
-        {
-            foreach (var error in result.Errors)
-            {
+        private void AddErrors(IdentityResult result) {
+            foreach (var error in result.Errors) {
                 ModelState.AddModelError("", error);
             }
         }
 
-        private ActionResult RedirectToLocal(string returnUrl)
-        {
-            if (Url.IsLocalUrl(returnUrl))
-            {
+        private ActionResult RedirectToLocal(string returnUrl) {
+            if (Url.IsLocalUrl(returnUrl)) {
                 return Redirect(returnUrl);
             }
             return RedirectToAction("Index", "Home");
@@ -643,12 +591,10 @@ namespace LexiconLMS.Controllers
         internal class ChallengeResult : HttpUnauthorizedResult
         {
             public ChallengeResult(string provider, string redirectUri)
-                : this(provider, redirectUri, null)
-            {
+                : this(provider, redirectUri, null) {
             }
 
-            public ChallengeResult(string provider, string redirectUri, string userId)
-            {
+            public ChallengeResult(string provider, string redirectUri, string userId) {
                 LoginProvider = provider;
                 RedirectUri = redirectUri;
                 UserId = userId;
@@ -658,11 +604,9 @@ namespace LexiconLMS.Controllers
             public string RedirectUri { get; set; }
             public string UserId { get; set; }
 
-            public override void ExecuteResult(ControllerContext context)
-            {
+            public override void ExecuteResult(ControllerContext context) {
                 var properties = new AuthenticationProperties { RedirectUri = RedirectUri };
-                if (UserId != null)
-                {
+                if (UserId != null) {
                     properties.Dictionary[XsrfKey] = UserId;
                 }
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);

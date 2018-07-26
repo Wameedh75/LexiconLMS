@@ -11,11 +11,12 @@
 {
     
     @Html.ActionLink("Add new Activty", "Create","Activities",new { moduleId = Model.Id},null)
+    <span>
+        |
+    </span>
 }
     
-<span>
-    |
-</span>
+
 <span>
     @Html.ActionLink("Activity List","Index","Activities", new { moduleId = Model.Id },null)
 </span>
@@ -59,6 +60,11 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index", new { courseId = Model.Course.Id})
+    @Html.ActionLink("Back to List", "Index", new { courseId = Model.Course.Id })
+    @if (User.IsInRole("teaher"))
+    {
+        <span>|</span>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+       
+    }
 </p>
