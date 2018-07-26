@@ -56,3 +56,8 @@ textarea {
 .breakWord {
     overflow-wrap: break-word
 }
+
+footer {
+    clear: both;
+}
+

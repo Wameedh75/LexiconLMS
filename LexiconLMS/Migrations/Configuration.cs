@@ -65,7 +65,7 @@ namespace LexiconLMS.Migrations
 
             };
             context.Courses.AddOrUpdate(
-                c => new { c.Name, c.StartDate },
+                c => c.Name,
                 courses
             );
 
