@@ -22,12 +22,10 @@ namespace LexiconLMS.Controllers
         private ApplicationUserManager _userManager;
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        public AccountController()
-        {
+        public AccountController() {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
-        {
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager) {
             UserManager = userManager;
             SignInManager = signInManager;
         }
@@ -36,8 +34,7 @@ namespace LexiconLMS.Controllers
             get {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set
-            {
+            private set {
                 _signInManager = value;
             }
         }
@@ -53,8 +50,7 @@ namespace LexiconLMS.Controllers
         //
 
         [Authorize(Roles = "teacher")]
-        public ActionResult Teachers()
-        {
+        public ActionResult Teachers() {
             var userdb = ApplicationDbContext.Create();
 
             var roleId = userdb.Roles.FirstOrDefault(r => r.Name == "teacher")?.Id;
@@ -136,8 +132,7 @@ namespace LexiconLMS.Controllers
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
             var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
-            switch (result)
-            {
+            switch (result) {
                 case SignInStatus.Success:
                     return RedirectToLocal(model.ReturnUrl);
                 case SignInStatus.LockedOut:
@@ -152,8 +147,7 @@ namespace LexiconLMS.Controllers
         //
         // GET: /Account/Register
         [Authorize(Roles = "teacher")]
-        public ActionResult Register()
-        {
+        public ActionResult Register() {
             //create instance of the database & role store & role manager 
             //so we can show the roles in the dropdown list t create the user
             var userdb = ApplicationDbContext.Create();
@@ -164,8 +158,7 @@ namespace LexiconLMS.Controllers
             //add default first item to the list "empty role to enhance the user experince"
             var rolesList = roleMngr.Roles.Select(r => new { r.Name, r.Id });
             List<SelectListItem> roleListWithDefault = rolesList.Select(role => new SelectListItem { Value = role.Id, Text = role.Name }).ToList();
-            var roletip = new SelectListItem()
-            {
+            var roletip = new SelectListItem() {
                 Value = null,
                 Text = "--- Select Role ---"
             };
@@ -191,8 +184,7 @@ namespace LexiconLMS.Controllers
         [HttpPost]
         [Authorize(Roles = "teacher")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
-        {
+        public async Task<ActionResult> Register(RegisterViewModel model) {
             var userdb = ApplicationDbContext.Create();
             var roleStore = new RoleStore<IdentityRole>(userdb);
             var roleMngr = new RoleManager<IdentityRole>(roleStore);
@@ -200,42 +192,33 @@ namespace LexiconLMS.Controllers
             var teacherRole = roleMngr.Roles.Select(r => new { r.Id, r.Name }).Where(r => r.Name == "teacher").Select(r => r.Id).FirstOrDefault();
             var studentRole = roleMngr.Roles.Select(r => new { r.Id, r.Name }).Where(r => r.Name == "student").Select(r => r.Id).FirstOrDefault();
             int? nullablecourseId;
-            if (model.SelectedCourse != null)
-            {
+            if (model.SelectedCourse != null) {
                 int courseId = 0;
                 var validCourseId = int.TryParse(model.SelectedCourse, out int parametercourseId);
-                if (validCourseId)
-                {
+                if (validCourseId) {
                     courseId = parametercourseId;
                 }
 
                 //when admin create a student user we check for validation of choosed course .
-                if (model.SelectedRole == studentRole)
-                {
-                    if ((courseId < 1) && model.SelectedRole == studentRole && ((string.IsNullOrWhiteSpace(model.SelectedCourse) || !userdb.Courses.Select(cid => cid.Id).Contains(courseId))))
-                    {
+                if (model.SelectedRole == studentRole) {
+                    if ((courseId < 1) && model.SelectedRole == studentRole && ((string.IsNullOrWhiteSpace(model.SelectedCourse) || !userdb.Courses.Select(cid => cid.Id).Contains(courseId)))) {
                         ModelState.AddModelError(string.Empty, "You Choosed Not valid Course");
                     }
                 }
                 nullablecourseId = courseId;
-            }
-            else
-            {
+            } else {
                 nullablecourseId = null;
             }
 
             //when admin create a teacher user we check for there is no choosed course.
-            if (model.SelectedRole == teacherRole && !(string.IsNullOrEmpty(model.SelectedCourse)))
-            {
+            if (model.SelectedRole == teacherRole && !(string.IsNullOrEmpty(model.SelectedCourse))) {
                 ModelState.AddModelError(string.Empty, "The Teacher can't have a course");
             }
 
-            if (model.SelectedRole != teacherRole && model.SelectedRole != studentRole)
-            {
+            if (model.SelectedRole != teacherRole && model.SelectedRole != studentRole) {
                 ModelState.AddModelError(string.Empty, "You choosed a non valid role");
             }
-            if (ModelState.IsValid)
-            {
+            if (ModelState.IsValid) {
 
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, PhoneNumber = model.PhoneNumber, CourseId = nullablecourseId };
                 var result = await UserManager.CreateAsync(user, model.Password);
@@ -243,8 +226,7 @@ namespace LexiconLMS.Controllers
                 //put the user in the choosed role
                 UserManager.AddToRole(user.Id, userdb.Roles.Where(r => r.Id == model.SelectedRole).Select(r => r.Name).FirstOrDefault());
 
-                if (result.Succeeded)
-                {
+                if (result.Succeeded) {
                     // await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
@@ -268,8 +250,7 @@ namespace LexiconLMS.Controllers
             //add default first item to the list "empty role to enhance the user experince"
             var rolesList = roleMngr.Roles.Select(r => new { r.Name, r.Id });
             List<SelectListItem> roleListWithDefault = rolesList.Select(role => new SelectListItem { Value = role.Id, Text = role.Name }).ToList();
-            var roletip = new SelectListItem()
-            {
+            var roletip = new SelectListItem() {
                 Value = null,
                 Text = "--- Select Role ---"
             };
@@ -278,8 +259,7 @@ namespace LexiconLMS.Controllers
             //same as before but courses list
             var courseList = userdb.Courses.Select(c => new { c.Name, c.Id, c.EndDate }).Where(sa => sa.EndDate > DateTime.Today);
             List<SelectListItem> courseListWithDefault = courseList.Select(course => new SelectListItem { Text = course.Name, Value = course.Id.ToString() }).ToList();
-            var courseTip = new SelectListItem
-            {
+            var courseTip = new SelectListItem {
                 Value = null,
                 Text = "--- Select Course---"
             };
@@ -484,7 +464,7 @@ namespace LexiconLMS.Controllers
         public ActionResult LogOff() {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         //
@@ -498,16 +478,13 @@ namespace LexiconLMS.Controllers
 
         [Authorize]
         // GET: Account/Details/5
-        public ActionResult Details(string id)
-        {
-            if (id == null)
-            {
+        public ActionResult Details(string id) {
+            if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var user = db.Users.Find(id);
-            
-            if (user == null)
-            {
+
+            if (user == null) {
                 return HttpNotFound();
             }
             return View(user);
@@ -515,16 +492,13 @@ namespace LexiconLMS.Controllers
 
         [Authorize(Roles = "teacher")]
         // GET: Account/Edit/5
-        public ActionResult Edit(string id)
-        {
+        public ActionResult Edit(string id) {
 
-            if (id == null)
-            {
+            if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var user = db.Users.Find(id);
-            if (user == null)
-            {
+            if (user == null) {
                 return HttpNotFound();
             }
             return View(user);
@@ -536,28 +510,23 @@ namespace LexiconLMS.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "teacher")]
-        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,Email,PhoneNumber,PasswordHash,CourseId,SecurityStamp,LockoutEnabled,UserName")] ApplicationUser user)
-        {
-            if (ModelState.IsValid)
-            {
+        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,Email,PhoneNumber,PasswordHash,CourseId,SecurityStamp,LockoutEnabled,UserName")] ApplicationUser user) {
+            if (ModelState.IsValid) {
                 db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Details","Courses",new{id = user.CourseId});
+                return RedirectToAction("Details", "Courses", new { id = user.CourseId });
             }
             return View(user);
         }
 
         // GET: Account/Delete/5
         [Authorize(Roles = "teacher")]
-        public ActionResult Delete(string id)
-        {
-            if (id == null)
-            {
+        public ActionResult Delete(string id) {
+            if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var user = db.Users.Find(id);
-            if (user == null)
-            {
+            if (user == null) {
                 return HttpNotFound();
             }
             return View(user);
@@ -567,27 +536,22 @@ namespace LexiconLMS.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "teacher")]
-        public ActionResult DeleteConfirmed(string id)
-        {
+        public ActionResult DeleteConfirmed(string id) {
             var userToDelete = db.Users.Find(id);
             var roleId = userToDelete.Roles.FirstOrDefault()?.RoleId;
             var roleName = db.Roles.Find(roleId);
             db.Users.Remove(userToDelete);
             db.SaveChanges();
-            if (roleName.Name != null && roleName.Name.Equals("teacher"))
-            {
-                return RedirectToAction("Teachers","Account");
+            if (roleName.Name != null && roleName.Name.Equals("teacher")) {
+                return RedirectToAction("Teachers", "Account");
             }
-            return RedirectToAction("Students","Account");
+            return RedirectToAction("Students", "Account");
         }
 
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (_userManager != null)
-                {
+        protected override void Dispose(bool disposing) {
+            if (disposing) {
+                if (_userManager != null) {
                     _userManager.Dispose();
                     _userManager = null;
                 }
@@ -626,15 +590,12 @@ namespace LexiconLMS.Controllers
                 .AuthenticationManager
                 .AuthenticationResponseGrant.Identity.GetUserId();
             var courseId = db.Users.Find(userId)?.CourseId;
-           
 
-
-            if (courseId == null)
-            {
-                return RedirectToAction("Index", "Home");
+            if (courseId == null) {
+                return RedirectToAction("Index", "Courses");
             }
-             
-            return RedirectToAction("Details","Courses", new {id= courseId});
+
+            return RedirectToAction("Details", "Courses", new { id = courseId });
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult
