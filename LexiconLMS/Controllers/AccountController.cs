@@ -21,6 +21,8 @@ namespace LexiconLMS.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private ApplicationDbContext db = new ApplicationDbContext();
+        private IEnumerable<SelectListItem> avilableCourses;
+        private IEnumerable<SelectListItem> availAbleRoles;
 
         public AccountController()
         {
@@ -152,7 +154,7 @@ namespace LexiconLMS.Controllers
         //
         // GET: /Account/Register
         [Authorize(Roles = "teacher")]
-        public ActionResult Register()
+        public ActionResult Register([Bind(Include= "rolestring")]string rolestring)
         {
             //create instance of the database & role store & role manager 
             //so we can show the roles in the dropdown list t create the user
@@ -180,9 +182,14 @@ namespace LexiconLMS.Controllers
             };
             courseListWithDefault.Insert(0, courseTip);
 
-
+            //to improve UX we set default value of role when creating user to the role match role name passed as parameter
+            if (rolestring!=null && roleMngr.Roles.Select(r=>r.Name).Contains(rolestring))
+            {
+                rolestring = roleMngr.Roles.FirstOrDefault(r => r.Name == rolestring).Id;
+            }
             //create a template of the user registert view model and set its properties{lists} our we created
-            var template = new RegisterViewModel() { Roles = roleListWithDefault, Courses = courseListWithDefault };
+            var template = new RegisterViewModel() { Roles = roleListWithDefault, Courses = courseListWithDefault,SelectedRole=rolestring};
+
             return View(template);
         }
 
@@ -516,17 +523,27 @@ namespace LexiconLMS.Controllers
         // GET: Account/Edit/5
         public ActionResult Edit(string id)
         {
-
+            //edit user get method , we take user id search for the user "handle id null and user null errors", 
+            var userdb = ApplicationDbContext.Create();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var user = db.Users.Find(id);
+            var user = userdb.Users.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+
+            var roleStore = new RoleStore<IdentityRole>(userdb);
+            var roleMngr = new RoleManager<IdentityRole>(roleStore);
+
+            availAbleRoles = roleMngr.Roles.Select(r => new SelectListItem() { Value=r.Id,Text=r.Name});
+            avilableCourses = userdb.Courses.Where(c=>c.EndDate>DateTime.Today)
+                .Select(c => new SelectListItem() { Value = c.Id.ToString(), Text = c.Name });
+            var edituser = new EditViewModel { Id = user.Id, Email = user.Email, UserName = user.UserName,FirstName=user.FirstName,LastName=user.LastName,
+                PhoneNumber =user.PhoneNumber,Courses=avilableCourses,Roles=availAbleRoles, SelectedCourse=user.CourseId.ToString(),SelectedRole=user.Roles.FirstOrDefault().RoleId };
+            return View(edituser);
         }
 
         // POST: Account/Edit/5
@@ -535,15 +552,48 @@ namespace LexiconLMS.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "teacher")]
-        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,Email,PhoneNumber,PasswordHash,CourseId,SecurityStamp,LockoutEnabled,UserName")] ApplicationUser user)
+        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,Email,UserName,PhoneNumber,SelectedRole,SelectedCourse")] EditViewModel user)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(user).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Details","Courses",new{id = user.CourseId});
+                
+                //var updatedUser = UserManager.FindById(user.Id);
+                //updatedUser.Email = user.Email;
+                //updatedUser.FirstName = user.FirstName;
+                //updatedUser.LastName = user.LastName;
+                //updatedUser.UserName = user.UserName;
+                //updatedUser.PhoneNumber = user.PhoneNumber;
+                ////var updatedUser = new ApplicationUser {Email = user.Email, LastName = user.LastName, FirstName = user.FirstName, UserName = user.UserName };
+                ////db.Entry(user).State = EntityState.Modified;
+                ////db.SaveChanges();
+                //UserManager.Update(updatedUser);
+                //return RedirectToAction("Details", "Account", new { id = user.Id });
             }
+            //if something went wrong we need to recreate lists of roles and courses and pass it to the view
+            #region
+            var userdb = ApplicationDbContext.Create();
+            var roleStore = new RoleStore<IdentityRole>(userdb);
+            var roleMngr = new RoleManager<IdentityRole>(roleStore);
+
+            availAbleRoles = roleMngr.Roles.Select(r => new SelectListItem() { Value = r.Id, Text = r.Name });
+            avilableCourses = userdb.Courses.Where(c => c.EndDate > DateTime.Today)
+                .Select(c => new SelectListItem() { Value = c.Id.ToString(), Text = c.Name });
+            user.Courses = avilableCourses;
+            user.Roles = availAbleRoles;
+            #endregion
             return View(user);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles ="teacher")]
+        public ActionResult Editt(EditViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            return View(model);
         }
 
         protected override void Dispose(bool disposing)
@@ -574,6 +624,7 @@ namespace LexiconLMS.Controllers
                 return HttpContext.GetOwinContext().Authentication;
             }
         }
+
 
         private void AddErrors(IdentityResult result) {
             foreach (var error in result.Errors) {

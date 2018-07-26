@@ -9,7 +9,7 @@
 @if (Request.IsAuthenticated && User.IsInRole("teacher"))
 {
     <p>
-        @Html.ActionLink("Add User", "Register", "Account");
+        @Html.ActionLink("Add User", "Register", "Account",new {rolestring="student"},null);
     </p>
 }
 <table class="table">
@@ -22,7 +22,7 @@
             @Html.DisplayNameFor(model => model.PhoneNumber)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.AccessFailedCount)
+            @Html.DisplayNameFor(model => model.Course)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.FullName)
@@ -40,7 +40,7 @@
                 @Html.DisplayFor(modelItem => item.PhoneNumber)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AccessFailedCount)
+                @Html.DisplayFor(modelItem => item.Course.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FullName)
