@@ -24,7 +24,7 @@ textarea {
 }
 
 
-.accordion {
+.accordion, .accordion1 {
     background-color: #191970;
     margin-top: 10px;    
      color: white;
@@ -45,8 +45,10 @@ textarea {
 .active, .accordion:hover {
     background-color: #3cb371; 
 }
-
-.panel {
+.active, .accordion1:hover {
+    background-color: #3cb371;
+}
+.panel, .panel1 {
     padding: 0 18px;
     display: none;
     background-color: white;
@@ -57,7 +59,12 @@ textarea {
     overflow-wrap: break-word
 }
 
+
+
+
 footer {
     clear: both;
 }
+
+
 

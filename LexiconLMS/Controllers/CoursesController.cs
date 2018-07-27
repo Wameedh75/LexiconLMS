@@ -13,22 +13,29 @@ namespace LexiconLMS.Controllers
 
         // GET: Courses
         public ActionResult Index(string filterString = null) {
-            if (!Request.IsAuthenticated) {
-                return RedirectToAction("Login", "Account");
-            }
+            //if (!Request.IsAuthenticated) {
+            //    return RedirectToAction("Login", "Account");
+            //}
+
             var filteredCourses = db.Courses
                 .Where(c => filterString == null || c.Name.Contains(filterString) ||
+                            c.CourseStudents.FirstOrDefault(u =>u.FirstName.Contains(filterString)).FirstName.Contains(filterString) ||
+                            c.CourseStudents.FirstOrDefault(u =>u.LastName.Contains(filterString)).LastName.Contains(filterString) ||
+                            c.CourseModules.FirstOrDefault(m =>m.Name.Contains(filterString)).Name.Contains(filterString) ||
                             c.Description.Contains(filterString)
-                            //c.StartDate.ToString("yy-MM-dd").Contains(filterString) ||
-                            //c.EndDate.ToString("yy-MM-dd").Contains(filterString)
-                            )
-                .Select(c => new CourseVeiwModel {
+                            /* ||
+                            c.StartDate.ToString("yy-MM-dd").Contains(filterString) ||
+                            c.EndDate.ToString("yy-MM-dd").Contains(filterString)*/
+                )
+                .Select(c => new CourseVeiwModel
+                {
                     Id = c.Id,
                     Name = c.Name,
                     StartDate = c.StartDate,
                     EndDate = c.EndDate,
                     Description = c.Description,
-                    CourseStudents = c.CourseStudents
+                    CourseStudents = c.CourseStudents,
+                    CourseModules = c.CourseModules
                 });
             return View(filteredCourses);
         }
