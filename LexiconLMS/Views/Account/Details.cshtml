@@ -53,13 +53,18 @@
         <dd>
             @Html.DisplayFor(model => model.PhoneNumber)
         </dd>
-        <dt>
-            @Html.DisplayName("Course")
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Course.Name)
-        </dd>
-        
+        @if (Model.CourseId!=null )
+
+        {
+            <dt>
+                @Html.DisplayName("Course")
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Course.Name)
+            </dd>
+        }
+
+
 
 
 
