@@ -1,4 +1,5 @@
 ﻿using LexiconLMS.Models;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -38,13 +39,11 @@ namespace LexiconLMS.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Description,Deadline")] Document document) {
-            if (ModelState.IsValid) {
-                db.Documents.Add(document);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(document);
+            if (!ModelState.IsValid)
+                return View(document);
+            db.Documents.Add(document);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         // GET: Documents/Edit/5
@@ -65,12 +64,11 @@ namespace LexiconLMS.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Description,Deadline")] Document document) {
-            if (ModelState.IsValid) {
-                db.Entry(document).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(document);
+            if (!ModelState.IsValid)
+                return View(document);
+            db.Entry(document).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         // GET: Documents/Delete/5
@@ -92,6 +90,22 @@ namespace LexiconLMS.Controllers
             Document document = db.Documents.Find(id);
             db.Documents.Remove(document);
             db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult Upload() {
+            if (Request.Files.Count > 0) {
+                var file = Request.Files[0];
+                if (file != null && file.ContentLength > 0) {
+                    var fileName = Path.GetFileName(file.FileName);
+                    if (fileName != null) {
+                        var path = Path.Combine(Server.MapPath("~/Documents/"), fileName);
+                        file.SaveAs(path);
+                    }
+                }
+            }
+
             return RedirectToAction("Index");
         }
 

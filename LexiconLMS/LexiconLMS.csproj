@@ -216,6 +216,10 @@
     <Compile Include="Migrations\201807270834331_new.Designer.cs">
       <DependentUpon>201807270834331_new.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807271039274_ump.cs" />
+    <Compile Include="Migrations\201807271039274_ump.Designer.cs">
+      <DependentUpon>201807271039274_ump.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Activity.cs" />
@@ -367,6 +371,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Documents\" />
     <Folder Include="Views\Users\" />
   </ItemGroup>
   <ItemGroup>
@@ -385,6 +390,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201807270834331_new.resx">
       <DependentUpon>201807270834331_new.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807271039274_ump.resx">
+      <DependentUpon>201807271039274_ump.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

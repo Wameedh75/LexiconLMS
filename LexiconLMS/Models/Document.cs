@@ -5,9 +5,7 @@ namespace LexiconLMS.Models
 {
     public class Document
     {
-        public Document(string fileName, string mimeType) {
-            FileName = fileName;
-            MimeType = mimeType;
+        public Document() {
             Timestamp = DateTime.Now;
         }
 
@@ -20,10 +18,10 @@ namespace LexiconLMS.Models
         public ApplicationUser User { get; set; }
 
         [Required]
-        public string FileName { get; }
+        public string FileName { get; set; }
 
         [Required]
-        public string MimeType { get; }
+        public string MimeType { get; set; }
 
         public string Description { get; set; }
         public DateTime Timestamp { get; }
