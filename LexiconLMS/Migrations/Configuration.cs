@@ -1,12 +1,12 @@
+using LexiconLMS.Models;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System;
+using System.Linq;
 
 namespace LexiconLMS.Migrations
 {
-    using LexiconLMS.Models;
-    using Microsoft.AspNet.Identity;
-    using System;
     using System.Data.Entity.Migrations;
-    using System.Linq;
 
     internal sealed class Configuration : DbMigrationsConfiguration<Models.ApplicationDbContext>
     {
@@ -62,7 +62,6 @@ namespace LexiconLMS.Migrations
                 new Course { Name = ".NET", StartDate = new DateTime(2018, 1, 1), EndDate = new DateTime(2018, 8, 30), Description = "MVC, C#, EF, Javascript" },
                 new Course { Name = "Java", StartDate = new DateTime(2018, 08, 01), EndDate = new DateTime(2019, 05, 30), Description = "JDK, JSP, Spring" },
                 new Course { Name = "Monkey care", StartDate = new DateTime(2017, 01, 01), EndDate = new DateTime(2017, 12, 31), Description = "Fur grooming, washing, de-lousing, toothbrushing" }
-
             };
             context.Courses.AddOrUpdate(
                 c => c.Name,

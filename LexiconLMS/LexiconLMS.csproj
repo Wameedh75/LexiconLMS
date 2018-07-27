@@ -21,12 +21,9 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort>44325</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>
-    </IISExpressUseClassicPipelineMode>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -214,13 +211,25 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201807270834331_new.cs" />
-    <Compile Include="Migrations\201807270834331_new.Designer.cs">
-      <DependentUpon>201807270834331_new.cs</DependentUpon>
+    <Compile Include="Migrations\201807271352509_Courses.cs" />
+    <Compile Include="Migrations\201807271352509_Courses.Designer.cs">
+      <DependentUpon>201807271352509_Courses.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201807271039274_ump.cs" />
-    <Compile Include="Migrations\201807271039274_ump.Designer.cs">
-      <DependentUpon>201807271039274_ump.cs</DependentUpon>
+    <Compile Include="Migrations\201807271400213_Modules.cs" />
+    <Compile Include="Migrations\201807271400213_Modules.Designer.cs">
+      <DependentUpon>201807271400213_Modules.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807271401378_Activities.cs" />
+    <Compile Include="Migrations\201807271401378_Activities.Designer.cs">
+      <DependentUpon>201807271401378_Activities.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807271403019_Documents.cs" />
+    <Compile Include="Migrations\201807271403019_Documents.Designer.cs">
+      <DependentUpon>201807271403019_Documents.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807271344438_CreateAspNetModels.cs" />
+    <Compile Include="Migrations\201807271344438_CreateAspNetModels.Designer.cs">
+      <DependentUpon>201807271344438_CreateAspNetModels.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -399,15 +408,6 @@
     <Content Include="Views\Documents\Details.cshtml" />
     <Content Include="Views\Documents\Edit.cshtml" />
     <Content Include="Views\Documents\Index.cshtml" />
-    <Content Include="Scripts\umd\popper.min.js.map" />
-    <Content Include="Scripts\umd\popper.js.map" />
-    <Content Include="Scripts\umd\popper-utils.min.js.map" />
-    <Content Include="Scripts\umd\popper-utils.js.map" />
-    <Content Include="Scripts\README.md" />
-    <Content Include="Scripts\popper.min.js.map" />
-    <Content Include="Scripts\popper.js.map" />
-    <Content Include="Scripts\popper-utils.min.js.map" />
-    <Content Include="Scripts\popper-utils.js.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -420,11 +420,20 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201807270834331_new.resx">
-      <DependentUpon>201807270834331_new.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201807271352509_Courses.resx">
+      <DependentUpon>201807271352509_Courses.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807271039274_ump.resx">
-      <DependentUpon>201807271039274_ump.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201807271400213_Modules.resx">
+      <DependentUpon>201807271400213_Modules.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807271401378_Activities.resx">
+      <DependentUpon>201807271401378_Activities.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807271403019_Documents.resx">
+      <DependentUpon>201807271403019_Documents.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807271344438_CreateAspNetModels.resx">
+      <DependentUpon>201807271344438_CreateAspNetModels.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

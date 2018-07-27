@@ -6,7 +6,7 @@
 
 <h2>Details</h2>
 <div class="row">
-    <div class="col-md-5">
+    <div class="col-md-6">
         <div>
             <h4>Course</h4>
             @if (User.IsInRole("teacher"))
@@ -19,7 +19,6 @@
                 </span>
             }
 
-
             <span>
                 @Html.ActionLink("Moudles List", "Index", "Modules", new { courseId = Model.Id }, null)
             </span>
@@ -28,46 +27,27 @@
                 <dt>
                     @Html.DisplayNameFor(model => model.Name)
                 </dt>
-
                 <dd>
                     @Html.DisplayFor(model => model.Name)
                 </dd>
-
                 <dt>
                     @Html.DisplayNameFor(model => model.StartDate)
                 </dt>
-
                 <dd>
                     @Html.DisplayFor(model => model.StartDate)
                 </dd>
-
                 <dt>
                     @Html.DisplayNameFor(model => model.EndDate)
                 </dt>
-
                 <dd>
                     @Html.DisplayFor(model => model.EndDate)
                 </dd>
-
                 <dt>
                     @Html.DisplayNameFor(model => model.Description)
                 </dt>
-
                 <dd class="breakWord">
                     @Html.DisplayFor(model => model.Description)
                 </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.CourseModules)
-                </dt>
-                @foreach (var item in Model.CourseModules)
-                {
-                    <dd>
-                        @Html.DisplayFor(model => item.Name)
-                    </dd>
-                }
-
-
-
             </dl>
         </div>
 
@@ -80,9 +60,24 @@
             </p>
         }
     </div>
-    <div class="col-md-1"></div>
 
     <div class="col-md-6">
         @Html.Partial("_StudentOfCourse", Model.CourseStudents)
     </div>
 </div>
+
+<div class="row">
+    <div class="col-md-6">
+        <h4>@Html.DisplayNameFor(model => model.CourseModules)</h4>
+        @foreach (var item in Model.CourseModules)
+        {
+            <p>
+                @Html.DisplayFor(model => item.Name)
+            </p>
+        }
+    </div>
+    <div class="col-md-6">
+        @Html.Partial("_DocumentList", Model.Documents)
+    </div>
+</div>
+
