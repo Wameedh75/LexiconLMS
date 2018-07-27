@@ -20,6 +20,7 @@ namespace LexiconLMS.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationRoleManager _roleManager;
         private ApplicationDbContext db = new ApplicationDbContext();
         private IEnumerable<SelectListItem> avilableCourses;
         private IEnumerable<SelectListItem> availAbleRoles;
@@ -28,12 +29,13 @@ namespace LexiconLMS.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager,ApplicationRoleManager roleManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            RoleManager = roleManager;
         }
-
+        
         public ApplicationSignInManager SignInManager {
             get {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
@@ -52,6 +54,17 @@ namespace LexiconLMS.Controllers
                 _userManager = value;
             }
         }
+        public ApplicationRoleManager RoleManager
+        {
+            get
+            {
+                return _roleManager ?? HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
+            }
+            private set
+            {
+                _roleManager = value;
+            }
+        }
         //
 
         [Authorize(Roles = "teacher")]
@@ -64,7 +77,7 @@ namespace LexiconLMS.Controllers
 
             //var x2 = userdb.Roles.Where(r => r.Name == "teacher").FirstOrDefault().Id;
             //var x3 = userdb.Users.Where(r => r.Roles.Select(jr => jr.RoleId).FirstOrDefault()==x2).ToList();
-
+            
             return View(teachers);
         }
 
@@ -537,7 +550,7 @@ namespace LexiconLMS.Controllers
 
             var roleStore = new RoleStore<IdentityRole>(userdb);
             var roleMngr = new RoleManager<IdentityRole>(roleStore);
-
+            
             availAbleRoles = roleMngr.Roles.Select(r => new SelectListItem() { Value=r.Id,Text=r.Name});
             avilableCourses = userdb.Courses.Where(c=>c.EndDate>DateTime.Today)
                 .Select(c => new SelectListItem() { Value = c.Id.ToString(), Text = c.Name });
