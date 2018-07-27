@@ -13,14 +13,14 @@
 
             {
 
-                @Html.ActionLink("Add new moudel", "CreateModoule", new { courseId = Model.Id })
+                @Html.ActionLink("Add new module", "CreateModoule", new { courseId = Model.Id })
                 <span>
                     |
                 </span>
             }
 
             <span>
-                @Html.ActionLink("Moudles List", "Index", "Modules", new { courseId = Model.Id }, null)
+                @Html.ActionLink("Module list", "Index", "Modules", new { courseId = Model.Id }, null)
             </span>
             <hr />
             <dl class="dl-horizontal">
@@ -68,7 +68,7 @@
 
 <div class="row">
     <div class="col-md-6">
-        <h4>@Html.DisplayNameFor(model => model.CourseModules)</h4>
+        <h4>Modules</h4>
         @foreach (var item in Model.CourseModules)
         {
             <p>
