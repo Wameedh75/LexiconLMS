@@ -18,9 +18,11 @@ namespace LexiconLMS.Models
         public ApplicationUser User { get; set; }
 
         [Required]
+        [Display(Name = "File name")]
         public string FileName { get; set; }
 
         [Required]
+        [Display(Name = "MIME type")]
         public string MimeType { get; set; }
 
         public string Description { get; set; }

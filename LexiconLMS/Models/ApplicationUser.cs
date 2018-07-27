@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -7,8 +8,13 @@ namespace LexiconLMS.Models
 {
     public class ApplicationUser : IdentityUser
     {
+        [Display(Name = "First name")]
         public string FirstName { get; set; }
+
+        [Display(Name = "Last name")]
         public string LastName { get; set; }
+
+        [Display(Name = "Full name")]
         public string FullName => FirstName + " " + LastName;
 
         public int? CourseId { get; set; }
