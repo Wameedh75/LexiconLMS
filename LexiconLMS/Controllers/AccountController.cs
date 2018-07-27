@@ -542,7 +542,7 @@ namespace LexiconLMS.Controllers
             avilableCourses = userdb.Courses.Where(c=>c.EndDate>DateTime.Today)
                 .Select(c => new SelectListItem() { Value = c.Id.ToString(), Text = c.Name });
             var edituser = new EditViewModel { Id = user.Id, Email = user.Email, UserName = user.UserName,FirstName=user.FirstName,LastName=user.LastName,
-                PhoneNumber =user.PhoneNumber,Courses=avilableCourses,Roles=availAbleRoles, SelectedCourse=user.CourseId.ToString(),SelectedRole=user.Roles.FirstOrDefault().RoleId };
+                PhoneNumber =user.PhoneNumber,Courses=avilableCourses,Roles=availAbleRoles, SelectedCourse=user.CourseId,SelectedRole=user.Roles.FirstOrDefault().RoleId };
             return View(edituser);
         }
 
@@ -554,27 +554,44 @@ namespace LexiconLMS.Controllers
         [Authorize(Roles = "teacher")]
         public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,Email,UserName,PhoneNumber,SelectedRole,SelectedCourse")] EditViewModel user)
         {
-            if (ModelState.IsValid)
-            {
-                
-                //var updatedUser = UserManager.FindById(user.Id);
-                //updatedUser.Email = user.Email;
-                //updatedUser.FirstName = user.FirstName;
-                //updatedUser.LastName = user.LastName;
-                //updatedUser.UserName = user.UserName;
-                //updatedUser.PhoneNumber = user.PhoneNumber;
-                ////var updatedUser = new ApplicationUser {Email = user.Email, LastName = user.LastName, FirstName = user.FirstName, UserName = user.UserName };
-                ////db.Entry(user).State = EntityState.Modified;
-                ////db.SaveChanges();
-                //UserManager.Update(updatedUser);
-                //return RedirectToAction("Details", "Account", new { id = user.Id });
-            }
-            //if something went wrong we need to recreate lists of roles and courses and pass it to the view
-            #region
             var userdb = ApplicationDbContext.Create();
             var roleStore = new RoleStore<IdentityRole>(userdb);
             var roleMngr = new RoleManager<IdentityRole>(roleStore);
+            var roleName = roleMngr.FindById(user.SelectedRole).Name;
 
+            //checking for non valid entries
+            #region
+            if (roleName == "teacher" && user.SelectedCourse!=null)
+            {
+                ModelState.AddModelError("", "The teacher could't have a course");
+            }
+            if (roleName == "student" && (user.SelectedCourse == null || !userdb.Courses.Select(c => c.Id).Contains(user.SelectedCourse.Value)))
+            {
+                ModelState.AddModelError("", "the student should have a course");
+            }
+            if (!roleMngr.RoleExists(roleName))
+            {
+                ModelState.AddModelError("","Invalid Role");
+            }
+            #endregion
+            //update the user
+            if (ModelState.IsValid)
+            {
+                var updatedUser = UserManager.FindById(user.Id);
+                updatedUser.Email = user.Email;
+                updatedUser.FirstName = user.FirstName;
+                updatedUser.LastName = user.LastName;
+                updatedUser.UserName = user.UserName;
+                updatedUser.PhoneNumber = user.PhoneNumber;
+                updatedUser.CourseId = user.SelectedCourse;
+                UserManager.AddToRole(updatedUser.Id, roleName);
+                UserManager.RemoveFromRoles(updatedUser.Id,roleStore.Roles.Where(r=>r.Name!= roleName).Select(r=>r.Name).ToArray());
+                UserManager.Update(updatedUser);
+                return RedirectToAction("Details", "Account", new { id = user.Id });
+            }
+
+            //if something went wrong we need to recreate lists of roles and courses and pass it to the view
+            #region
             availAbleRoles = roleMngr.Roles.Select(r => new SelectListItem() { Value = r.Id, Text = r.Name });
             avilableCourses = userdb.Courses.Where(c => c.EndDate > DateTime.Today)
                 .Select(c => new SelectListItem() { Value = c.Id.ToString(), Text = c.Name });
