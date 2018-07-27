@@ -101,13 +101,44 @@ namespace LexiconLMS.Migrations
             var teacherRole = roleManager.Roles.Where(r => r.Name == "teacher").ToList();
             var studentRole = roleManager.Roles.Where(r => r.Name == "student").ToList();
             var allRoles = roleManager.Roles.ToList();
-            context.DocumentTypes.AddOrUpdate(
-                t => t.Name,
+            var documentTypes = new[]
+            {
                 new DocumentType { Name = "Student assignment", CanCreate = studentRole, CanView = teacherRole },
                 new DocumentType { Name = "Information", CanCreate = teacherRole, CanView = allRoles },
                 new DocumentType { Name = "Module document", CanCreate = teacherRole, CanView = allRoles },
                 new DocumentType { Name = "Lecture document", CanCreate = teacherRole, CanView = allRoles },
                 new DocumentType { Name = "Exercise", CanCreate = teacherRole, CanView = allRoles }
+            };
+            context.DocumentTypes.AddOrUpdate(
+                t => t.Name,
+                documentTypes
+            );
+
+            // Seed some Documents
+            var documents = new[]
+            {
+                new Document
+                {
+                    Type = documentTypes[1],
+                    Course = courses[0],
+                    Description = "Course schedule",
+                    FileName = "Kursschema .NET ND18.pdf",
+                    MimeType = "application/pdf",
+                    User = teacherUser
+                },
+                new Document
+                {
+                    Type = documentTypes[1],
+                    Course = courses[1],
+                    Description = "E-learning schedule",
+                    FileName = "E-Learning.pdf",
+                    MimeType = "application/pdf",
+                    User = teacherUser
+                },
+            };
+            context.Documents.AddOrUpdate(
+                d => d.FileName,
+                documents
             );
         }
     }
