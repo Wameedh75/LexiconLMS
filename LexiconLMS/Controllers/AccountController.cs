@@ -491,7 +491,7 @@ namespace LexiconLMS.Controllers
         public ActionResult LogOff() {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         //
@@ -512,9 +512,8 @@ namespace LexiconLMS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var user = db.Users.Find(id);
-            
-            if (user == null)
-            {
+
+            if (user == null) {
                 return HttpNotFound();
             }
             return View(user);
@@ -587,15 +586,12 @@ namespace LexiconLMS.Controllers
 
         // GET: Account/Delete/5
         [Authorize(Roles = "teacher")]
-        public ActionResult Delete(string id)
-        {
-            if (id == null)
-            {
+        public ActionResult Delete(string id) {
+            if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var user = db.Users.Find(id);
-            if (user == null)
-            {
+            if (user == null) {
                 return HttpNotFound();
             }
             return View(user);
@@ -605,27 +601,22 @@ namespace LexiconLMS.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "teacher")]
-        public ActionResult DeleteConfirmed(string id)
-        {
+        public ActionResult DeleteConfirmed(string id) {
             var userToDelete = db.Users.Find(id);
             var roleId = userToDelete.Roles.FirstOrDefault()?.RoleId;
             var roleName = db.Roles.Find(roleId);
             db.Users.Remove(userToDelete);
             db.SaveChanges();
-            if (roleName.Name != null && roleName.Name.Equals("teacher"))
-            {
-                return RedirectToAction("Teachers","Account");
+            if (roleName.Name != null && roleName.Name.Equals("teacher")) {
+                return RedirectToAction("Teachers", "Account");
             }
-            return RedirectToAction("Students","Account");
+            return RedirectToAction("Students", "Account");
         }
 
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (_userManager != null)
-                {
+        protected override void Dispose(bool disposing) {
+            if (disposing) {
+                if (_userManager != null) {
                     _userManager.Dispose();
                     _userManager = null;
                 }
@@ -665,15 +656,12 @@ namespace LexiconLMS.Controllers
                 .AuthenticationManager
                 .AuthenticationResponseGrant.Identity.GetUserId();
             var courseId = db.Users.Find(userId)?.CourseId;
-           
 
-
-            if (courseId == null)
-            {
-                return RedirectToAction("Index", "Home");
+            if (courseId == null) {
+                return RedirectToAction("Index", "Courses");
             }
-             
-            return RedirectToAction("Details","Courses", new {id= courseId});
+
+            return RedirectToAction("Details", "Courses", new { id = courseId });
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult
