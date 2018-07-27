@@ -160,7 +160,7 @@ namespace LexiconLMS.Models
         public string SelectedRole { get; set; }
         public IEnumerable<SelectListItem> Roles { get; set; }
 
-        public string SelectedCourse { get; set; }
+        public int? SelectedCourse { get; set; }
         public IEnumerable<SelectListItem> Courses { get; set; }
     }
 }
