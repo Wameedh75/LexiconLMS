@@ -163,5 +163,18 @@ namespace LexiconLMS.Controllers
             }
             base.Dispose(disposing);
         }
+
+        public ActionResult StudendsOfCourse(int? id)
+        {
+            var course = db.Courses.Find(id);
+
+            if (course != null)
+            {
+                var students = course.CourseStudents;
+                return View(students);
+            }
+
+            return RedirectToAction("Details", id);
+        }
     }
 }

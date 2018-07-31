@@ -1,9 +1,9 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
-    background-image: url("https://preview.ibb.co/h4sgW8/167300_OVI57_N_347.jpg");
+    /*background-image: url("https://preview.ibb.co/h4sgW8/167300_OVI57_N_347.jpg");
     background-repeat: no-repeat;
-    background-size: 100% ;
+    background-size: 100% ;*/
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -25,6 +25,8 @@ select,
 textarea {
     max-width: 280px;
 }
+
+
 
 
 .accordion {
@@ -50,7 +52,7 @@ textarea {
     }
 
 .accordion1 {
-    background-color: #2f4f4f;
+    background-color: #fa8072;
     margin-top: 10px;
     color: white;
     cursor: pointer;
