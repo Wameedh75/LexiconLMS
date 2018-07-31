@@ -1,29 +1,33 @@
 ﻿@model LexiconLMS.ViewModels.CourseVeiwModel
 @foreach (var item in Model.CourseModules)
 {
-    <button class="accordion1"  style="display: inline">
-    
-        <div class="col-md-9">@Html.DisplayFor(model => item.Name) Module</div>
-        
-        @if (User.IsInRole("teacher"))
-        {
-               
-            <div class =" col-md-3">
+    <button class="accordion1">
 
-                @Html.ActionLink("Edit", "Edit","Modules", new { id = item.Id }, new { @class = "btn btn-warning" })
-                @Html.ActionLink("Details", "Details","Modules", new { id = item.Id }, new { @class = "btn btn-info" })
-                @Html.ActionLink("Delete", "Delete","Modules" ,new { id = item.Id }, new { @class = "btn btn-danger" })
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9">@Html.DisplayFor(model => item.Name) Module</div>
 
+                @if (User.IsInRole("teacher"))
+                {
+
+                    <div class=" col-md-3">
+
+                        @Html.ActionLink("Edit", "Edit", "Modules", new {id = item.Id}, new {@class = "btn btn-warning"})
+                        @Html.ActionLink("Details", "Details", "Modules", new {id = item.Id}, new {@class = "btn btn-info"})
+                        @Html.ActionLink("Delete", "Delete", "Modules", new {id = item.Id}, new {@class = "btn btn-danger"})
+
+                    </div>
+
+                }
+                else if (Request.IsAuthenticated)
+                {
+                    <div class="col-md-2"></div>
+                    <div class="col-md-1">
+                        @Html.ActionLink("Details", "Details", new {id = item.Id}, new {@class = "btn btn-info"})
+                    </div>
+                }
             </div>
-                    
-        }
-        else if (Request.IsAuthenticated)
-        {
-            <div class="col-md-2"></div>
-            <div class="col-md-1">
-                @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-info" })
-            </div>
-        }
+        </div>
 
     </button>
 
@@ -31,21 +35,21 @@
         <div >
             <table class="table">
 
-                <tr>
-                    <th class="col-md-1">@Html.DisplayNameFor(model => item.StartDate)</th>
-                    <th class="col-md-1">@Html.DisplayNameFor(model => item.EndDate)</th>
-                    <th class="col-md-6">@Html.DisplayNameFor(model => item.Description)</th>
+                <tr class="d-flex">
+                    <th class="col-md-2">@Html.DisplayNameFor(model => item.StartDate)</th>
+                    <th class="col-md-2">@Html.DisplayNameFor(model => item.EndDate)</th>
+                    <th class="col-md-8">@Html.DisplayNameFor(model => item.Description)</th>
                 </tr>
 
 
-                <tr>
-                    <td>
+                <tr class="d-flex">
+                    <td class="col-md-2">
                         @Html.DisplayFor(modelItem => item.StartDate)
                     </td>
-                    <td>
+                    <td class="col-md-2">
                         @Html.DisplayFor(modelItem => item.StartDate)
                     </td>
-                    <td class="breakWord">@Html.DisplayFor(model => item.Description)</td>
+                    <td class="col-md-8 breakWord">@Html.DisplayFor(model => item.Description)</td>
                 </tr>
             </table>
          </div>

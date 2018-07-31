@@ -1,6 +1,6 @@
 ﻿@using System.Web.Mvc.Html
 @model IEnumerable<LexiconLMS.ViewModels.CourseVeiwModel>
-<link href="~/Content/Site.css" rel="stylesheet" />
+
 @{
     ViewBag.Title = "Index";
 }
@@ -25,62 +25,61 @@
 
     <button class="accordion">
 
-        <div  style="display: inline" >
-            <div class="col-md-9">@Html.DisplayFor(modelItem => item.Name)</div>
-            @if (User.IsInRole("teacher"))
-            {
+        <div class="container" >
+            <div class="row">
+                <div class="col-md-9">@Html.DisplayFor(modelItem => item.Name)</div>
+                @if (User.IsInRole("teacher"))
+                {
 
-                <div class=" col-md-3">
+                    <div class=" col-md-3">
 
-                    @Html.ActionLink("Edit", "Edit", new {id = item.Id}, new {@class = "btn btn-warning"})
-                    @Html.ActionLink("Details", "Details", new {id = item.Id}, new {@class = "btn btn-info"})
-                    @Html.ActionLink("Delete", "Delete", new {id = item.Id}, new {@class = "btn btn-danger"})
+                        @Html.ActionLink("Edit", "Edit", new {id = item.Id}, new {@class = "btn btn-warning"})
+                        @Html.ActionLink("Details", "Details", new {id = item.Id}, new {@class = "btn btn-info"})
+                        @Html.ActionLink("Delete", "Delete", new {id = item.Id}, new {@class = "btn btn-danger"})
 
-                </div>
+                    </div>
 
-            }
-            else if (Request.IsAuthenticated)
-            {
-                <div class="col-md-2"></div>
-                <div class="col-md-1">
-                    @Html.ActionLink("Details", "Details", new {id = item.Id}, new {@class = "btn btn-info"})
-                </div>
-            }
+                }
+                else if (Request.IsAuthenticated)
+                {
+                    <div class="col-md-2"></div>
+                    <div class="col-md-1">
+                        @Html.ActionLink("Details", "Details", new {id = item.Id}, new {@class = "btn btn-info"})
+                    </div>
+                }
+            </div>
         </div>
 
 
     </button>
     <div class="panel">
-        <div >
+        <div class="container">
             <table class="table">
-                <tr>
-                    <th class="col-md-1">
-                        @Html.DisplayNameFor(model => model.StartDate)
-                    </th>
-                    <th class="col-md-1">
-                        @Html.DisplayNameFor(model => model.EndDate)
-                    </th>
-                    <th class="col-md-6">
-                        @Html.DisplayNameFor(model => model.Description)
-                    </th>
-                    <th></th>
-                </tr>
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.StartDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.EndDate)
-                    </td>
-                    <td class="breakWord">
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                </tr>
-                <tr style="font-size: 18px; border: 0"></tr>
-
-               
-
-            </table>
+                    <tr  class="d-flex">
+                        <th class="col-md-2">
+                            @Html.DisplayNameFor(model => model.StartDate)
+                        </th>
+                        <th class="col-md-2">
+                            @Html.DisplayNameFor(model => model.EndDate)
+                        </th>
+                        <th class="col-md-8">
+                            @Html.DisplayNameFor(model => model.Description)
+                        </th>
+                        <th></th>
+                    </tr>
+                    <tr class="d-flex">
+                        <td class="col-md-2">
+                            @Html.DisplayFor(modelItem => item.StartDate)
+                        </td>
+                        <td class="col-md-2">
+                            @Html.DisplayFor(modelItem => item.EndDate)
+                        </td>
+                        <td class="col-md-8 breakWord">
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                    </tr>
+                    <tr style="font-size: 18px; border: 0"></tr>
+                </table>
         </div>
         <div>
              @Html.Partial("_ModulesList", item)
