@@ -1,34 +1,54 @@
 ﻿@model LexiconLMS.ViewModels.CourseVeiwModel
 @foreach (var item in Model.CourseModules)
 {
-    <button class="accordion1">@Html.DisplayFor(model => item.Name) Module</button>
+    <button class="accordion1"  style="display: inline">
+    
+        <div class="col-md-9">@Html.DisplayFor(model => item.Name) Module</div>
+        
+        @if (User.IsInRole("teacher"))
+        {
+               
+            <div class =" col-md-3">
 
-    <div class="panel1">
-        <table class="table">
+                @Html.ActionLink("Edit", "Edit","Modules", new { id = item.Id }, new { @class = "btn btn-warning" })
+                @Html.ActionLink("Details", "Details","Modules", new { id = item.Id }, new { @class = "btn btn-info" })
+                @Html.ActionLink("Delete", "Delete","Modules" ,new { id = item.Id }, new { @class = "btn btn-danger" })
 
-            <tr>
-                <th class="col-md-1">@Html.DisplayNameFor(model => item.Name)</th>
-                <th class="col-md-2">@Html.DisplayNameFor(model => item.StartDate) - @Html.DisplayNameFor(model => item.EndDate)</th>
-                <th class="col-md-6">@Html.DisplayNameFor(model => item.Description)</th>
-            </tr>
+            </div>
+                    
+        }
+        else if (Request.IsAuthenticated)
+        {
+            <div class="col-md-2"></div>
+            <div class="col-md-1">
+                @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-info" })
+            </div>
+        }
+
+    </button>
+
+    <div class="panel">
+        <div >
+            <table class="table">
+
+                <tr>
+                    <th class="col-md-1">@Html.DisplayNameFor(model => item.StartDate)</th>
+                    <th class="col-md-1">@Html.DisplayNameFor(model => item.EndDate)</th>
+                    <th class="col-md-6">@Html.DisplayNameFor(model => item.Description)</th>
+                </tr>
 
 
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StartDate) - @Html.DisplayFor(modelItem => item.EndDate)
-                </td>
-                <td class="breakWord">@Html.DisplayFor(model => item.Description)</td>
-
-                <td>
-                    @Html.ActionLink("Edit", "Edit", "Modules", new {id = item.Id}, null) |
-                    @Html.ActionLink("Details", "Details", "Modules", new {id = item.Id}, null) |
-                    @Html.ActionLink("Delete", "Delete", "Modules", new {id = item.Id}, null)
-                </td>
-            </tr>
-        </table>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartDate)
+                    </td>
+                    <td class="breakWord">@Html.DisplayFor(model => item.Description)</td>
+                </tr>
+            </table>
+         </div>
     </div>
 }
 
@@ -42,7 +62,7 @@
     var i;
 
     for (i = 0; i < moduleCollapse.length; i++) {
-    moduleCollapse.addEventListener("click", function () {
+    moduleCollapse[i].addEventListener("click", function () {
         this.classList.toggle("active");
         var panel = this.nextElementSibling;
         if (panel.style.display === "block") {
