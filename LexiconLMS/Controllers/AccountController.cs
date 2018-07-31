@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -110,7 +111,26 @@ namespace LexiconLMS.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
+
+            //here we check if the user cinfirmed his email , if not we don't let him login and send him confirmation email again 
+            var user = await UserManager.FindByNameAsync(model.Email);
+            if (! await UserManager.IsEmailConfirmedAsync(user.Id))
+            {
+                string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                #region //create message body
+                StringBuilder message = new StringBuilder();
+                // generating the message
+                message.Append("Mr " + user.FullName + " ! You Need to Confirm your Email before you can login");
+                message.Append(".<br/>");
+                message.AppendLine(" Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a><br/>");
+                #endregion
+                await UserManager.SendEmailAsync(user.Id, "Confirm your account So you can login", message.ToString());
+                ModelState.AddModelError("", "You need to confirm your account before login , w've sent you a new confirmation email , Check your Email Adress To see it");
+                return View(model);
+            }
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            
             switch (result) {
                 case SignInStatus.Success:
                     return RedirectToLocal(returnUrl);
@@ -254,12 +274,19 @@ namespace LexiconLMS.Controllers
             {
                 ModelState.AddModelError(string.Empty, "You choosed a non valid role");
             }
+            //check if the user already registered in our system
+            var usercheck = await UserManager.FindByEmailAsync(model.Email);
+            if (usercheck != null)
+            {
+                ModelState.AddModelError("", "User Already registered");
+            }
             if (ModelState.IsValid)
             {
 
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, PhoneNumber = model.PhoneNumber, CourseId = nullablecourseId };
-                var result = await UserManager.CreateAsync(user, model.Password);
-
+                //Auto generate password and set it to the account
+                string genpas = PasswordGenerator();
+                var result = await UserManager.CreateAsync(user, genpas);
                 //put the user in the choosed role
                 UserManager.AddToRole(user.Id, userdb.Roles.Where(r => r.Id == model.SelectedRole).Select(r => r.Name).FirstOrDefault());
 
@@ -271,7 +298,17 @@ namespace LexiconLMS.Controllers
                     // Send an email with this link
                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    #region //create message body
+                    StringBuilder message = new StringBuilder();
+                    // generating the message
+                    message.Append("Welcome "+user.FullName+"! You registered in our System as (");
+                    message.Append(UserManager.GetRoles(user.Id).FirstOrDefault()+ ") .<br/>");
+                    message.AppendLine("And Your password is (" + genpas + ") .<br/>");
+                    message.AppendLine("We suggest you to change your auto generated pssword for more security .<br/>");
+                    message.AppendLine(" Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a><br/>");
+                    #endregion
+                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", message.ToString());
+                    
                     return RedirectToAction("Index", "Courses");
                 }
                 AddErrors(result);
@@ -345,10 +382,10 @@ namespace LexiconLMS.Controllers
 
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
+                 await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // If we got this far, something failed, redisplay form
@@ -641,6 +678,24 @@ namespace LexiconLMS.Controllers
                 return RedirectToAction("Teachers", "Account");
             }
             return RedirectToAction("Students", "Account");
+        }
+
+        public string PasswordGenerator()
+        {
+            var password = new List<char>(6);
+            char[] charArr = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
+            int passlong = 0;
+            while (passlong<6)
+            {
+                Random random = new Random();
+                var randomIndex = random.Next(62);
+                if (!password.Contains(charArr[randomIndex]))
+                {
+                    password.Add(charArr[randomIndex]);
+                    passlong++;
+                }
+            }
+            return new string(password.ToArray());
         }
 
 

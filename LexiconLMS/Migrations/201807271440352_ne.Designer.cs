@@ -7,13 +7,13 @@ namespace LexiconLMS.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class CreateAspNetModels : IMigrationMetadata
+    public sealed partial class ne : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(CreateAspNetModels));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(ne));
         
         string IMigrationMetadata.Id
         {
-            get { return "201807271344438_CreateAspNetModels"; }
+            get { return "201807271440352_ne"; }
         }
         
         string IMigrationMetadata.Source

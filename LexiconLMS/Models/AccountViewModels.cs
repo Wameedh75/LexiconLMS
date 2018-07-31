@@ -43,7 +43,7 @@ namespace LexiconLMS.Models
     public class ForgotViewModel
     {
         [Required]
-        [Display(Name = "Email")]
+        [Display(Name = "User Name")]
         public string Email { get; set; }
     }
 
@@ -51,7 +51,7 @@ namespace LexiconLMS.Models
     {
         [Required]
         [Display(Name = "User Name")]
-        [EmailAddress]
+        //[EmailAddress]
         public string Email { get; set; }
 
         [Required]
@@ -82,16 +82,16 @@ namespace LexiconLMS.Models
         public string PhoneNumber { get; set; }
 
 
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
-        [DataType(DataType.Password)]
-        [Display(Name = "Password")]
-        public string Password { get; set; }
-
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-        public string ConfirmPassword { get; set; }
+        //[Required]
+        //[StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        //[DataType(DataType.Password)]
+        //[Display(Name = "Password")]
+        //public string Password { get; set; }
+        //
+        //[DataType(DataType.Password)]
+        //[Display(Name = "Confirm password")]
+        //[System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        //public string ConfirmPassword { get; set; }
 
         [Required]
         public string SelectedRole { get; set; }
@@ -105,7 +105,7 @@ namespace LexiconLMS.Models
     public class ResetPasswordViewModel
     {
         [Required]
-        [EmailAddress]
+        //[EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
@@ -126,8 +126,8 @@ namespace LexiconLMS.Models
     public class ForgotPasswordViewModel
     {
         [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
+        //[EmailAddress]
+        [Display(Name = "User Name , If you didn't change it then it's your Email")]
         public string Email { get; set; }
     }
 
