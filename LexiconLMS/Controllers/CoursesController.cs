@@ -147,13 +147,25 @@ namespace LexiconLMS.Controllers
 
             //var course = db.Courses.Find(courseId);
             if (courseId != null)
+            {
                 module.CourseId = (int)courseId;
+            }
+            var moduleCourse = db.Courses.FirstOrDefault(c => c.Id == module.CourseId);
+            if ((module.StartDate > moduleCourse.EndDate) ||
+                (module.StartDate < moduleCourse.StartDate) ||
+                    (module.EndDate > moduleCourse.EndDate) ||
+                    (module.EndDate < moduleCourse.StartDate)
+                )
+            {
+                ModelState.AddModelError("", "Invalid Module Dtae");
+            }
             if (ModelState.IsValid) {
                 db.Modules.Add(module);
                 db.Courses.Find(courseId)?.CourseModules.Add(module);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            return View(module);
             return RedirectToAction("Details", new { id = courseId });
         }
 
