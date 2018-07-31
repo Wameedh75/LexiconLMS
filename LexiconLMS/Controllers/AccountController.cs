@@ -114,7 +114,7 @@ namespace LexiconLMS.Controllers
 
             //here we check if the user cinfirmed his email , if not we don't let him login and send him confirmation email again 
             var user = await UserManager.FindByNameAsync(model.Email);
-            if (! await UserManager.IsEmailConfirmedAsync(user.Id))
+            if (user != null && !await UserManager.IsEmailConfirmedAsync(user.Id))
             {
                 string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                 var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
@@ -126,7 +126,7 @@ namespace LexiconLMS.Controllers
                 message.AppendLine(" Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a><br/>");
                 #endregion
                 await UserManager.SendEmailAsync(user.Id, "Confirm your account So you can login", message.ToString());
-                ModelState.AddModelError("", "You need to confirm your account before login , w've sent you a new confirmation email , Check your Email Adress To see it");
+                ModelState.AddModelError("", "You need to confirm your account before login , w've sent you a new confirmation email , Check your Email To see it");
                 return View(model);
             }
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
@@ -375,14 +375,28 @@ namespace LexiconLMS.Controllers
         public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model) {
             if (ModelState.IsValid) {
                 var user = await UserManager.FindByNameAsync(model.Email);
-                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id))) {
+                if (user == null ) {
                     // Don't reveal that the user does not exist or is not confirmed
                     return View("ForgotPasswordConfirmation");
                 }
-
+                if (!await UserManager.IsEmailConfirmedAsync(user.Id))
+                {
+                    string confirmCode = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var confirmCodeCallbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = confirmCode }, protocol: Request.Url.Scheme);
+                    #region //create message body
+                    StringBuilder message = new StringBuilder();
+                    // generating the message
+                    message.Append("Mr " + user.FullName + " ! You Need to Confirm your Email before you can reset your password");
+                    message.Append(".<br/>");
+                    message.AppendLine(" Please confirm your account by clicking <a href=\"" + confirmCodeCallbackUrl + "\">here</a><br/>");
+                    #endregion
+                    await UserManager.SendEmailAsync(user.Id, "Confirm your account So you can reset your password", message.ToString());
+                    ModelState.AddModelError("", "You need to confirm your account before resetting password , w've sent you a new confirmation email , Check your Email To see it");
+                    return View(model);
+                }
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
-                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                  var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
                  await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
                  return RedirectToAction("ForgotPasswordConfirmation", "Account");
