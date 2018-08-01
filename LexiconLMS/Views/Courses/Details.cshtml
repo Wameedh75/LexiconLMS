@@ -3,35 +3,23 @@
 @{
     ViewBag.Title = "Details";
 }
-
-<div class="w3-sidebar w3-bar-block w3-border-right w3-teal" style="display:none" id="mySidebar">
-    <button onclick="w3_close()" class="w3-bar-item w3-large">Close &times;</button>
-    @if (Request.IsAuthenticated)
-    {
-        if (Model.CourseStudents.Count>0)
-        {
-            @Html.ActionLink("Students of course", "StudendsOfCourse", new { id = Model.Id }, new { @class = "w3-bar-item w3-button" })
-        }
-        @Html.ActionLink("Module list", "Index", "Modules", new { courseId = Model.Id }, new { @class = "w3-bar-item w3-button" })
-    }
-    @if (User.IsInRole("teacher"))
-
-    {
+@if (User.IsInRole("teacher"))
+{
+    <div class="w3-sidebar w3-bar-block w3-border-right w3-teal" style="display: none" id="mySidebar">
+        <button onclick="w3_close()" class="w3-bar-item w3-large">Close &times;</button>
 
 
-        @Html.ActionLink("Add new module", "CreateModoule", new { courseId = Model.Id }, new { @class = "w3-bar-item w3-button" })
-       
-        @Html.ActionLink("Edit Course", "Edit", new { id = Model.Id }, new { @class = "w3-bar-item w3-button" })
-        @Html.ActionLink("Add new course", "Create", null, new { @class = "w3-bar-item w3-button" })
-        @Html.ActionLink("Back to List", "Index", null, new { @class = "w3-bar-item w3-button" })
-
-
-    }
-   
-</div>
+        @Html.ActionLink("Edit Course", "Edit", new {id = Model.Id}, new {@class = "w3-bar-item w3-button"})
+        @Html.ActionLink("Add new course", "Create", null, new {@class = "w3-bar-item w3-button"})
+        @Html.ActionLink("Back to List", "Index", null, new {@class = "w3-bar-item w3-button"})
+    </div>
+}
 <div>
     <div class="w3-teal">
-        <button class="w3-button w3-teal w3-xlarge" onclick="w3_open()">☰</button>
+       @if (User.IsInRole("teacher"))
+       {
+           <button class="w3-button w3-teal w3-xlarge" onclick="w3_open()">☰</button>
+       }
         <div class="w3-container">
             <h1>@Html.DisplayFor(model => model.Name) Details</h1>
         </div>
@@ -82,7 +70,7 @@
                         </h5>
                     </div>
 
-                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                         <div class="card-body" style="color: black; font-size: 14px">
                             @if (Model.CourseModules.Count>0)
                             {

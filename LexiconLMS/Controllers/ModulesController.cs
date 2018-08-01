@@ -44,7 +44,7 @@ namespace LexiconLMS.Controllers
                 db.Modules.Add(module);
                 //db.Courses.Find(courseId)?.CourseModules.Add(module);
                 db.SaveChanges();
-                return RedirectToAction("Index", new { module.CourseId });
+                return RedirectToAction("Details","Courses", new {id = module.CourseId });
             }
 
             return View(module);
@@ -71,7 +71,7 @@ namespace LexiconLMS.Controllers
             if (ModelState.IsValid) {
                 db.Entry(module).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index", new { courseId = module.CourseId });
+                return RedirectToAction("Details","Courses", new { id = module.CourseId });
             }
             return View(module);
         }
@@ -98,7 +98,7 @@ namespace LexiconLMS.Controllers
             db.SaveChanges();
             db.Modules.Remove(module);
             db.SaveChanges();
-            return RedirectToAction("Index", new { courseId });
+            return RedirectToAction("Details","Courses", new { id = courseId });
         }
 
         protected override void Dispose(bool disposing) {
