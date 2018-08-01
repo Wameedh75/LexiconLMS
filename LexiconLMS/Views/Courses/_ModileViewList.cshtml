@@ -3,7 +3,7 @@
 @if (User.IsInRole("teacher"))
 {
     <p>
-        @Html.ActionLink("Create New", "Create","Modules",new { courseId = Model.FirstOrDefault()?.CourseId},null)
+        @Html.ActionLink("Create New", "Create","Modules",new { id = Model.FirstOrDefault()?.CourseId},null)
     </p>
 }
 <table class="table">
