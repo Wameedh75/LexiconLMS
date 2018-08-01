@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LexiconLMS.Models
 {
@@ -12,10 +13,18 @@ namespace LexiconLMS.Models
         public int Id { get; set; }
 
         [Required]
-        public DocumentType Type { get; set; }
+        [Column("TypeId")]
+        public int TypeId { get; set; }
+
+        [ForeignKey("TypeId")]
+        public virtual DocumentType Type { get; set; }
 
         [Required]
-        public ApplicationUser User { get; set; }
+        [Column("UserId")]
+        public string UserId { get; set; }
+
+        [ForeignKey("UserId")]
+        public virtual ApplicationUser User { get; set; }
 
         [Required]
         [Display(Name = "File name")]
@@ -28,7 +37,21 @@ namespace LexiconLMS.Models
         public string Description { get; set; }
         public DateTime Timestamp { get; }
         public DateTime? Deadline { get; set; }
-        public Course Course { get; set; }
-        public Module Module { get; set; }
+
+
+        [Column("CourseId")]
+        public int? CourseId { get; set; }
+        [ForeignKey("CourseId")]
+        public virtual Course Course { get; set; }
+
+        [Column("ModuleId")]
+        public int? ModuleId { get; set; }
+        [ForeignKey("ModuleId")]
+        public virtual Module Module { get; set; }
+
+        [Column("ActivityId")]
+        public int? ActivityId { get; set; }
+        [ForeignKey("ActivityId")]
+        public virtual Activity Activity { get; set; }
     }
 }

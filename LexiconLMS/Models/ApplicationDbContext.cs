@@ -9,9 +9,12 @@ namespace LexiconLMS.Models
     {
         public DbSet<Course> Courses { get; set; }
         public DbSet<Module> Modules { get; set; }
+        public DbSet<Activity> Activities { get; set; }
         public DbSet<DocumentType> DocumentTypes { get; set; }
         public DbSet<Document> Documents { get; set; }
-        public DbSet<Activity> Activities { get; set; }
+        //public DbSet<CourseDocument> CourseDocuments { get; set; }
+        //public DbSet<ActivityDocument> ActivityDocuments { get; set; }
+        //public DbSet<ModuleDocument> ModuleDocuments { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false) {
@@ -39,7 +42,15 @@ namespace LexiconLMS.Models
                     dtr.MapRightKey("IdentityRoleId");
                     dtr.ToTable("DocumentTypeCanCreate");
                 });
+            /*
+            modelBuilder.Entity<Document>()
+                .HasOptional(d => d.Module)
+                .WithMany(m => m.Documents)
+                .HasForeignKey(d => d.ModuleId)
+                .WillCascadeOnDelete(true);
+                */
         }
+
 
         //public System.Data.Entity.DbSet<LexiconLMS.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
