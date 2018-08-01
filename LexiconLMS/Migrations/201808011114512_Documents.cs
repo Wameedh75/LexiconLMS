@@ -11,22 +11,22 @@ namespace LexiconLMS.Migrations
                     Id = c.Int(nullable: false, identity: true),
                     Description = c.String(),
                     Deadline = c.DateTime(),
-                    Course_Id = c.Int(),
-                    Module_Id = c.Int(),
-                    Type_Id = c.Int(nullable: false),
-                    User_Id = c.String(nullable: false, maxLength: 128),
+                    CourseId = c.Int(),
+                    ModuleId = c.Int(),
+                    TypeId = c.Int(nullable: false),
+                    UserId = c.String(nullable: false, maxLength: 128),
                     FileName = c.String(nullable: false),
                     MimeType = c.String(nullable: false),
                 })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Courses", t => t.Course_Id)
-                .ForeignKey("dbo.Modules", t => t.Module_Id)
-                .ForeignKey("dbo.DocumentTypes", t => t.Type_Id, cascadeDelete: true)
-                .ForeignKey("dbo.AspNetUsers", t => t.User_Id, cascadeDelete: true)
-                .Index(t => t.Course_Id)
-                .Index(t => t.Module_Id)
-                .Index(t => t.Type_Id)
-                .Index(t => t.User_Id);
+                .ForeignKey("dbo.Courses", t => t.CourseId)
+                .ForeignKey("dbo.Modules", t => t.ModuleId)
+                .ForeignKey("dbo.DocumentTypes", t => t.TypeId, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .Index(t => t.CourseId)
+                .Index(t => t.ModuleId)
+                .Index(t => t.TypeId)
+                .Index(t => t.UserId);
 
             CreateTable(
                 "dbo.DocumentTypes",
@@ -64,22 +64,22 @@ namespace LexiconLMS.Migrations
         }
 
         public override void Down() {
-            DropForeignKey("dbo.Documents", "User_Id", "dbo.AspNetUsers");
-            DropForeignKey("dbo.Documents", "Type_Id", "dbo.DocumentTypes");
+            DropForeignKey("dbo.Documents", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Documents", "TypeId", "dbo.DocumentTypes");
             DropForeignKey("dbo.DocumentTypeCanView", "IdentityRoleId", "dbo.AspNetRoles");
             DropForeignKey("dbo.DocumentTypeCanView", "DocumentTypeId", "dbo.DocumentTypes");
             DropForeignKey("dbo.DocumentTypeCanCreate", "IdentityRoleId", "dbo.AspNetRoles");
             DropForeignKey("dbo.DocumentTypeCanCreate", "DocumentTypeId", "dbo.DocumentTypes");
-            DropForeignKey("dbo.Documents", "Module_Id", "dbo.Modules");
-            DropForeignKey("dbo.Documents", "Course_Id", "dbo.Courses");
+            DropForeignKey("dbo.Documents", "ModuleId", "dbo.Modules");
+            DropForeignKey("dbo.Documents", "CourseId", "dbo.Courses");
             DropIndex("dbo.DocumentTypeCanView", new[] { "IdentityRoleId" });
             DropIndex("dbo.DocumentTypeCanView", new[] { "DocumentTypeId" });
             DropIndex("dbo.DocumentTypeCanCreate", new[] { "IdentityRoleId" });
             DropIndex("dbo.DocumentTypeCanCreate", new[] { "DocumentTypeId" });
-            DropIndex("dbo.Documents", new[] { "User_Id" });
-            DropIndex("dbo.Documents", new[] { "Type_Id" });
-            DropIndex("dbo.Documents", new[] { "Module_Id" });
-            DropIndex("dbo.Documents", new[] { "Course_Id" });
+            DropIndex("dbo.Documents", new[] { "UserId" });
+            DropIndex("dbo.Documents", new[] { "TypeId" });
+            DropIndex("dbo.Documents", new[] { "ModuleId" });
+            DropIndex("dbo.Documents", new[] { "CourseId" });
             DropTable("dbo.DocumentTypeCanView");
             DropTable("dbo.DocumentTypeCanCreate");
             DropTable("dbo.DocumentTypes");

@@ -77,6 +77,9 @@
         }
     </div>
     <div class="col-md-6">
+        <p>
+            @Html.ActionLink("Add document", "AddDocument", new { id = Model.Id })
+        </p>
         @Html.Partial("_DocumentList", Model.Documents)
     </div>
 </div>

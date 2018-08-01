@@ -1,5 +1,6 @@
 ﻿using LexiconLMS.Models;
 using LexiconLMS.ViewModels;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -19,16 +20,15 @@ namespace LexiconLMS.Controllers
 
             var filteredCourses = db.Courses
                 .Where(c => filterString == null || c.Name.Contains(filterString) ||
-                            c.CourseStudents.FirstOrDefault(u =>u.FirstName.Contains(filterString)).FirstName.Contains(filterString) ||
-                            c.CourseStudents.FirstOrDefault(u =>u.LastName.Contains(filterString)).LastName.Contains(filterString) ||
-                            c.CourseModules.FirstOrDefault(m =>m.Name.Contains(filterString)).Name.Contains(filterString) ||
+                            c.CourseStudents.FirstOrDefault(u => u.FirstName.Contains(filterString)).FirstName.Contains(filterString) ||
+                            c.CourseStudents.FirstOrDefault(u => u.LastName.Contains(filterString)).LastName.Contains(filterString) ||
+                            c.CourseModules.FirstOrDefault(m => m.Name.Contains(filterString)).Name.Contains(filterString) ||
                             c.Description.Contains(filterString)
-                            /* ||
-                            c.StartDate.ToString("yy-MM-dd").Contains(filterString) ||
-                            c.EndDate.ToString("yy-MM-dd").Contains(filterString)*/
+                /* ||
+                c.StartDate.ToString("yy-MM-dd").Contains(filterString) ||
+                c.EndDate.ToString("yy-MM-dd").Contains(filterString)*/
                 )
-                .Select(c => new CourseVeiwModel
-                {
+                .Select(c => new CourseVeiwModel {
                     Id = c.Id,
                     Name = c.Name,
                     StartDate = c.StartDate,
@@ -47,12 +47,11 @@ namespace LexiconLMS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Course course = db.Courses.Find(id);
-
-            var students = db.Users.Where(u => u.CourseId == id);
-            course.CourseStudents = students.ToList();
             if (course == null) {
                 return HttpNotFound();
             }
+            var students = db.Users.Where(u => u.CourseId == id);
+            course.CourseStudents = students.ToList();
             return View(course);
         }
 
@@ -155,6 +154,39 @@ namespace LexiconLMS.Controllers
                 return RedirectToAction("Index");
             }
             return RedirectToAction("Details", new { id = courseId });
+        }
+
+        [Authorize(Roles = "teacher")]
+        public ActionResult AddDocument(int? id) {
+            Course course = db.Courses.Find(id);
+            if (course == null) {
+                return RedirectToAction("Index", "Courses");
+            }
+            ViewBag.Title = "Add Document for course " + course.Name;
+            ViewBag.CourseId = id;
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddDocument([Bind(Include = "Type,File,Description,Deadline")] DocumentViewModel model, int id) {
+            if (ModelState.IsValid) {
+                string path = Path.Combine(Server.MapPath("~/Documents"), Path.GetFileName(model.File.FileName));
+                model.File.SaveAs(path);
+                var document = new Document {
+                    Type = model.Type,
+                    //User_Id = User.Identity.GetUserId(),
+                    //Course_Id = id,
+                    Description = model.Description,
+                    Deadline = model.Deadline,
+                    FileName = model.File.FileName,
+                    MimeType = model.File.ContentType,
+                };
+                db.Documents.Add(document);
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Details", "Courses", new { id });
         }
 
         protected override void Dispose(bool disposing) {
