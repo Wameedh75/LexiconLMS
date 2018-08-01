@@ -1,0 +1,55 @@
+﻿@model IEnumerable<LexiconLMS.Models.Module>
+
+@if (User.IsInRole("teacher"))
+{
+    <p>
+        @Html.ActionLink("Create New", "Create","Modules",new { courseId = Model.FirstOrDefault()?.CourseId},null)
+    </p>
+}
+<table class="table">
+    <tr class="row">
+        <th class="col-md-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th class="col-md-3">
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th class="col-md-2">
+            @Html.DisplayNameFor(model => model.StartDate)
+        </th>
+        <th class="col-md-2">
+            @Html.DisplayNameFor(model => model.EndDate)
+        </th>
+      <th  class="col-md-3"></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr class="row">
+        <td class="col-md-2">
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td class="col-md-3 breakWord">
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td class="col-md-2">
+            @Html.DisplayFor(modelItem => item.StartDate)
+        </td>
+        <td class="col-md-2">
+            @Html.DisplayFor(modelItem => item.EndDate)
+        </td>
+        <td class="col-md-3">
+            @if (Request.IsAuthenticated || User.IsInRole("teacher"))
+            {
+                @Html.ActionLink("Details", "Details", "Modules", new { id = item.Id }, new {@class="btn btn-info"})<span> </span>
+            }
+            @if (User.IsInRole("teacher"))
+            {
+                @Html.ActionLink("Edit", "Edit", "Modules", new { id = item.Id }, new { @class = "btn btn-warning" })<span> </span>
+                @Html.ActionLink("Delete", "Delete", "Modules", new { id = item.Id }, new { @class = "btn btn-danger" })
+            }
+           
+        </td>
+    </tr>
+}
+
+</table>

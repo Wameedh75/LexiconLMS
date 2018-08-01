@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<LexiconLMS.Models.ApplicationUser>
-<h4>Students</h4>
+
 
 @if (User.IsInRole("teacher"))
 {
@@ -21,9 +21,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.PhoneNumber)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.UserName)
-            </th>
+            </th>*@
             <th></th>
         </tr>
 
@@ -42,19 +42,24 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.PhoneNumber)
                 </td>
-                <td>
+                @*<td>
                     @Html.DisplayFor(modelItem => item.UserName)
+                </td>*@
+
+                <td>
+                    @if (Request.IsAuthenticated || User.IsInRole("teacher"))
+                    {
+                        @Html.ActionLink("Details", "Details", "Account", new { id = item.Id }, new {@class="btn btn-info"})<span> </span>
+                    }
+                    @if (User.IsInRole("teacher"))
+                    {
+                        @Html.ActionLink("Edit", "Edit", "Account", new { id = item.Id }, new { @class = "btn btn-warning" })<span> </span>
+                        @Html.ActionLink("Delete", "Delete", "Account", new { id = item.Id }, new { @class = "btn btn-danger" })
+                    }
+           
                 </td>
             </tr>
-            <tr>
-                @if (User.IsInRole("teacher"))
-                {
-
-                    <td style="border: 0"> @Html.ActionLink("Edit", "Edit", "Account", new { id = item.Id }, null)</td>
-                    <td style="border: 0">@Html.ActionLink("Details", "Details", "Account", new { id = item.Id }, null)</td>
-                    <td style="border: 0">@Html.ActionLink("Delete", "Delete", "Account", new { id = item.Id }, null)</td>
-                }
-            </tr>
+            
         }
     </table>
 

@@ -4,89 +4,141 @@
     ViewBag.Title = "Details";
 }
 
+<div class="w3-sidebar w3-bar-block w3-border-right w3-teal" style="display:none" id="mySidebar">
+    <button onclick="w3_close()" class="w3-bar-item w3-large">Close &times;</button>
+    @if (Request.IsAuthenticated)
+    {
+        if (Model.CourseStudents.Count>0)
+        {
+            @Html.ActionLink("Students of course", "StudendsOfCourse", new { id = Model.Id }, new { @class = "w3-bar-item w3-button" })
+        }
+        @Html.ActionLink("Module list", "Index", "Modules", new { courseId = Model.Id }, new { @class = "w3-bar-item w3-button" })
+    }
+    @if (User.IsInRole("teacher"))
 
-    <h2>Details</h2>
-    <div class="row">
-        <div class="col-md-6">
-            <div>
-                <h4>Course</h4>
-                @if (User.IsInRole("teacher"))
+    {
 
-                {
 
-                    @Html.ActionLink("Add new module", "CreateModoule", new {courseId = Model.Id})
-                    <span>
-                        |
-                    </span>
-                }
+        @Html.ActionLink("Add new module", "CreateModoule", new { courseId = Model.Id }, new { @class = "w3-bar-item w3-button" })
+       
+        @Html.ActionLink("Edit Course", "Edit", new { id = Model.Id }, new { @class = "w3-bar-item w3-button" })
+        @Html.ActionLink("Add new course", "Create", null, new { @class = "w3-bar-item w3-button" })
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "w3-bar-item w3-button" })
 
-                <span>
-                    @Html.ActionLink("Module list", "Index", "Modules", new {courseId = Model.Id}, null)
-                </span>
-                <hr/>
-                <dl class="dl-horizontal">
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Name)
-                    </dt>
-                    <dd>
-                        @Html.DisplayFor(model => model.Name)
-                    </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.StartDate)
-                    </dt>
-                    <dd>
-                        @Html.DisplayFor(model => model.StartDate)
-                    </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.EndDate)
-                    </dt>
-                    <dd>
-                        @Html.DisplayFor(model => model.EndDate)
-                    </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Description)
-                    </dt>
-                    <dd class="breakWord">
-                        @Html.DisplayFor(model => model.Description)
-                    </dd>
-                </dl>
+
+    }
+   
+</div>
+<div>
+    <div class="w3-teal">
+        <button class="w3-button w3-teal w3-xlarge" onclick="w3_open()">☰</button>
+        <div class="w3-container">
+            <h1>@Html.DisplayFor(model => model.Name) Details</h1>
+        </div>
+    </div>
+
+    <div class="w3-container ">
+
+            <div class="col-md-10">
+                <div>
+                  <br/>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Name)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.StartDate)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.StartDate)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.EndDate)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.EndDate)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Description)
+                        </dt>
+                        <dd class="breakWord">
+                            @Html.DisplayFor(model => model.Description)
+                        </dd>
+                    </dl>
+                </div>
+
+              </div>
+
+            <div class="accordion" id="accordionExample">
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                        <h5 class="mb-0">
+                            <button class="btn btn-block" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="False" aria-controls="collapseOne">
+                                @Html.DisplayFor(model =>model.Name) Modules
+                            </button>
+                        </h5>
+                    </div>
+
+                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                        <div class="card-body" style="color: black; font-size: 14px">
+                            @if (Model.CourseModules.Count>0)
+                            {
+                                @Html.Partial("_ModileViewList", Model.CourseModules)
+                            }
+                           
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingTwo">
+                        <h5 class="mb-0">
+                            <button class="btn btn-block collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                @Html.DisplayFor(model =>model.Name) Students
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                        <div class="card-body" style="color: black; font-size: 14px">
+                            @if (Model.CourseModules.Count > 0)
+                            {
+                                @Html.Partial("_StudentOfCourse", Model.CourseStudents)
+                            }
+                           
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingThree">
+                        <h5 class="mb-0">
+                            <button class="btn btn-block collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Collapsible Group Item
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                        <div class="card-body" style="color: black; font-size: 14px">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                        </div>
+                    </div>
+                </div>
             </div>
+        <br/>
+        <div class="col-md-12">
 
-            @if (User.IsInRole("teacher"))
-            {
-                <p>
-                    @Html.ActionLink("Edit", "Edit", new {id = Model.Id})
-                    <span>|</span>
-                    @Html.ActionLink("Back to List", "Index")
-                </p>
-            }
-        </div>
-
-        @*<div class="col-md-2">
-            @Html.Partial("_StudentOfCourse", Model.CourseStudents)
-           
-        </div>*@
-        <div>
-            @Html.ActionLink("Students of course","StudendsOfCourse", new {id = Model.Id})
+            @Html.Partial("_DocumentList", Model.Documents)
         </div>
     </div>
+</div>
 
-    <div class="row">
-        <div class="col-md-6">
-            <h4>Modules</h4>
-            <p style="font-weight: bold">
-                @foreach (var item in Model.CourseModules)
-                {
-
-                    @Html.DisplayFor(model => item.Name)<span>, </span>
-
-                }
-            </p>
-        </div>
-    </div>
-    <br/>
-    <div class="row">
-
-        @Html.Partial("_DocumentList", Model.Documents)
-    </div>
+<script>
+    function w3_open() {
+        document.getElementById("mySidebar").style.display = "block";
+    }
+    function w3_close() {
+        document.getElementById("mySidebar").style.display = "none";
+    }
+</script>
 

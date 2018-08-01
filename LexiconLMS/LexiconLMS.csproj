@@ -278,6 +278,7 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Content\w3.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -394,6 +395,7 @@
     <Content Include="Views\Documents\Index.cshtml" />
     <Content Include="Views\Account\_About.cshtml" />
     <Content Include="Views\Courses\StudendsOfCourse.cshtml" />
+    <Content Include="Views\Courses\_ModileViewList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

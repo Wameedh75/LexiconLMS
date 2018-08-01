@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<LexiconLMS.Models.ApplicationUser>
 <h4>Students</h4>
 
-@if (User.IsInRole("teacher"))
+@*@if (User.IsInRole("teacher"))
 {
     <p>
         @Html.ActionLink("Add a Student", "Register", "Account")
     </p><p>
         @Html.ActionLink("All Students", "Students", "Account")
     </p>
-}
+}*@
 @if (Request.IsAuthenticated)
 {
     <p>
