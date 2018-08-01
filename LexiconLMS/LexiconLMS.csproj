@@ -419,6 +419,7 @@
     <Content Include="Views\Account\_About.cshtml" />
     <Content Include="Views\Courses\StudendsOfCourse.cshtml" />
     <Content Include="Views\Courses\_ModileViewList.cshtml" />
+    <Content Include="Views\Modules\_ActivityList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
