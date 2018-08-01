@@ -42,7 +42,7 @@ namespace LexiconLMS.Migrations
             foreach (var email in emails) {
                 if (context.Users.Any(u => u.UserName == email))
                     continue;
-                var user = new ApplicationUser { UserName = email, Email = email };
+                var user = new ApplicationUser { UserName = email, Email = email, EmailConfirmed = true };
                 var result = userManager.Create(user, "foobar");
                 if (!result.Succeeded) {
                     throw new Exception(string.Join("\n", result.Errors));

@@ -25,9 +25,11 @@ namespace LexiconLMS.Models
 
         public virtual ICollection<Activity> CourseActivities { get; set; }
 
-        public int CourseId  { get; set; }
+        public int CourseId { get; set; }
 
         //navigation prop
         public virtual Course Course { get; set; }
+
+        public virtual ICollection<Document> Documents { get; set; }
     }
 }

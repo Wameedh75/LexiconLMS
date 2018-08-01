@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace LexiconLMS.Models
@@ -30,5 +31,7 @@ namespace LexiconLMS.Models
 
         //navigation prop
         public virtual Module Module { get; set; }
+        public virtual ICollection<Document> Documents { get; set; }
+
     }
 }

@@ -38,16 +38,20 @@ namespace LexiconLMS.Models
         public DateTime Timestamp { get; }
         public DateTime? Deadline { get; set; }
 
+
         [Column("CourseId")]
         public int? CourseId { get; set; }
-
         [ForeignKey("CourseId")]
         public virtual Course Course { get; set; }
 
         [Column("ModuleId")]
         public int? ModuleId { get; set; }
-
         [ForeignKey("ModuleId")]
         public virtual Module Module { get; set; }
+
+        [Column("ActivityId")]
+        public int? ActivityId { get; set; }
+        [ForeignKey("ActivityId")]
+        public virtual Activity Activity { get; set; }
     }
 }

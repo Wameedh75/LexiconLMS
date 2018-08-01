@@ -11,8 +11,7 @@ namespace LexiconLMS.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Activities
-        public ActionResult Index(int? moduleId)
-        {
+        public ActionResult Index(int? moduleId) {
             //var activities = from activity in db.Activities
             //    where activity.ModuleId == moduleId
             //    select activity;
@@ -22,23 +21,19 @@ namespace LexiconLMS.Controllers
         }
 
         // GET: Activities/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
+        public ActionResult Details(int? id) {
+            if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Activity activity = db.Activities.Find(id);
-            if (activity == null)
-            {
+            if (activity == null) {
                 return HttpNotFound();
             }
             return View(activity);
         }
 
         // GET: Activities/Create
-        public ActionResult Create(int? moduleId)
-        {
+        public ActionResult Create(int? moduleId) {
             //ViewBag.ModuleId = new SelectList(db.Modules, "Id", "Name");
             //ViewBag.ModuleId = db.Modules.Find(moduleId);
             return View();
@@ -49,14 +44,12 @@ namespace LexiconLMS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Starttime,EndTime,Description,Type,ModuleId")] Activity activity,int? moduleId)
-        {
-            activity.ModuleId = (int) moduleId;
-            if (ModelState.IsValid)
-            {
+        public ActionResult Create([Bind(Include = "Id,Name,Starttime,EndTime,Description,Type,ModuleId")] Activity activity, int? moduleId) {
+            activity.ModuleId = (int)moduleId;
+            if (ModelState.IsValid) {
                 db.Activities.Add(activity);
                 db.SaveChanges();
-                return RedirectToAction("Index",new{moduleId = activity.ModuleId});
+                return RedirectToAction("Index", new { moduleId = activity.ModuleId });
             }
 
             //ViewBag.ModuleId = new SelectList(db.Modules, "Id", "Name", activity.ModuleId);
@@ -65,15 +58,12 @@ namespace LexiconLMS.Controllers
         }
 
         // GET: Activities/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
+        public ActionResult Edit(int? id) {
+            if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Activity activity = db.Activities.Find(id);
-            if (activity == null)
-            {
+            if (activity == null) {
                 return HttpNotFound();
             }
             //ViewBag.ModuleId = new SelectList(db.Modules, "Id", "Name", activity.ModuleId);
@@ -85,29 +75,24 @@ namespace LexiconLMS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Starttime,EndTime,Description,Type,ModuleId")] Activity activity)
-        {
-            
-            if (ModelState.IsValid)
-            {
+        public ActionResult Edit([Bind(Include = "Id,Name,Starttime,EndTime,Description,Type,ModuleId")] Activity activity) {
+
+            if (ModelState.IsValid) {
                 db.Entry(activity).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index",new{moduleId = activity.ModuleId});
+                return RedirectToAction("Index", new { moduleId = activity.ModuleId });
             }
             //ViewBag.ModuleId = new SelectList(db.Modules, "Id", "Name", activity.ModuleId);
             return View(activity);
         }
 
         // GET: Activities/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
+        public ActionResult Delete(int? id) {
+            if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Activity activity = db.Activities.Find(id);
-            if (activity == null)
-            {
+            if (activity == null) {
                 return HttpNotFound();
             }
             return View(activity);
@@ -116,19 +101,20 @@ namespace LexiconLMS.Controllers
         // POST: Activities/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
+        public ActionResult DeleteConfirmed(int id) {
             Activity activity = db.Activities.Find(id);
             var moduleId = activity?.ModuleId;
-            if (activity != null) db.Activities.Remove(activity);
-            db.SaveChanges();
-            return RedirectToAction("Index", new{moduleId});
+            if (activity != null) {
+                db.Documents.RemoveRange(db.Documents.Where(d => d.ActivityId == id));
+                db.SaveChanges();
+                db.Activities.Remove(activity);
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index", new { moduleId });
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
+        protected override void Dispose(bool disposing) {
+            if (disposing) {
                 db.Dispose();
             }
             base.Dispose(disposing);
