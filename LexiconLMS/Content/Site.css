@@ -1,6 +1,9 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    /*background-image: url("https://preview.ibb.co/h4sgW8/167300_OVI57_N_347.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% ;*/
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -24,17 +27,19 @@ textarea {
 }
 
 
-.accordion, .accordion1 {
+
+
+.accordion {
     background-color: #191970;
-    margin-top: 10px;    
-     color: white;
-     cursor: pointer;
-     padding: 18px;
-     width: 100%;
-     border: none;
-     text-align: left;
-     outline: none;
-     font-size: 20px;
+    margin-top: 10px;
+    color: white;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 20px;
     border-radius: 8px;
     -ms-transition: 0.4s;
     -o-transition: 0.4s;
@@ -42,12 +47,36 @@ textarea {
     transition: 0.4s;
 }
 
-.active, .accordion:hover {
-    background-color: #3cb371; 
+    .active, .accordion:hover {
+        background-color: #3cb371;
+    }
+
+.accordion1 {
+    background-color: #fa8072;
+    margin-top: 10px;
+    color: white;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 20px;
+    border-radius: 8px;
+    -ms-transition: 0.4s;
+    -o-transition: 0.4s;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
 }
-.active, .accordion1:hover {
-    background-color: #3cb371;
+
+.accordion1:hover {
+    background-color: #4682b4;
 }
+
+.active .accordion1 {
+    background-color: red
+}
+
 .panel, .panel1 {
     padding: 0 18px;
     display: none;

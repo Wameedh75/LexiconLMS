@@ -1,4 +1,5 @@
 ﻿using LexiconLMS.Models;
+using System;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -43,16 +44,15 @@ namespace LexiconLMS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,StartDate,EndDate,CourseId")] Module module,int? courseId)
+        public ActionResult Create([Bind(Include = "Id,Name,Description,StartDate,EndDate,CourseId")] Module module, int? courseId)
         {
-
             module.CourseId = (int)courseId;
             if (ModelState.IsValid)
             {
                 db.Modules.Add(module);
                 //db.Courses.Find(courseId)?.CourseModules.Add(module);
                 db.SaveChanges();
-                return RedirectToAction("Index",new{module.CourseId});
+                return RedirectToAction("Index", new { module.CourseId });
             }
 
             return View(module);
@@ -84,7 +84,7 @@ namespace LexiconLMS.Controllers
             {
                 db.Entry(module).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index",new{courseId = module.CourseId});
+                return RedirectToAction("Index", new { courseId = module.CourseId });
             }
             return View(module);
         }
@@ -113,7 +113,7 @@ namespace LexiconLMS.Controllers
             var courseId = module.CourseId;
             db.Modules.Remove(module);
             db.SaveChanges();
-            return RedirectToAction("Index",new{courseId});
+            return RedirectToAction("Index", new { courseId });
         }
 
         protected override void Dispose(bool disposing)

@@ -411,6 +411,8 @@
     <Content Include="Views\Documents\Index.cshtml" />
     <Content Include="Views\Shared\_DocumentList.cshtml" />
     <Content Include="Views\Courses\AddDocument.cshtml" />
+    <Content Include="Views\Account\_About.cshtml" />
+    <Content Include="Views\Courses\StudendsOfCourse.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

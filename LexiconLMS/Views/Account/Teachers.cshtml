@@ -10,7 +10,7 @@
 @if (Request.IsAuthenticated && User.IsInRole("teacher"))
 {
     <p>
-        @Html.ActionLink("Add User", "Register", "Account", new { rolestring = "teacher" }, null);
+        @Html.ActionLink("Add Teacher", "Register", "Account", new { rolestring = "teacher" }, null)
     </p>
 }
 
