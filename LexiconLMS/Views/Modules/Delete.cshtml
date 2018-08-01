@@ -4,11 +4,12 @@
     ViewBag.Title = "Delete";
 }
 
-<h2>Delete</h2>
+<div class= "p-3 mb-2 bg-danger text-white">
+    <h2>Delete module</h2>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Module</h4>
+    <h3>Are you sure you want to delete<strong> <span style="color: black">@Model.Name</span></strong> Module ?</h3>
+</div>
+<div class="p-3 mb-2">
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -49,8 +50,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index", new { courseId = Model.Course.Id})
+            <input type="submit" value="Delete" class="btn btn-danger" /> <span> </span>
+            @Html.ActionLink("Back to List", "Index", new { courseId = Model.Course.Id}, new { @class = "btn btn-info" })
         </div>
     }
 </div>
