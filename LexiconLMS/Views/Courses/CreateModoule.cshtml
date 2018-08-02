@@ -4,7 +4,10 @@
     ViewBag.Title = "Create Module";
 }
 
-<h2>Create</h2>
+<div class="p-3 mb-2 bg-success text-white">
+<h1>A new Module</h1>
+<h2>Course: <strong> <span style="color: black">@Model.Course.Name</span></strong></h2>
+</div>
 
 
 @using (Html.BeginForm())
@@ -49,15 +52,14 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-success" />
+                <span> </span>
+                @Html.ActionLink("Back to course", "Details","Courses",new {id = Model.CourseId},new {@class="btn btn-info"})
             </div>
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

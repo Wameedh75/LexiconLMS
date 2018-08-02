@@ -37,7 +37,8 @@ namespace LexiconLMS.Controllers
         public ActionResult Create(int id) {
             //ViewBag.ModuleId = new SelectList(db.Modules, "Id", "Name");
             //ViewBag.ModuleId = db.Modules.Find(moduleId);
-            return View(new Activity{ModuleId = id,Starttime = DateTime.Now,EndTime = DateTime.Now});
+            var module = db.Modules.Find(id);
+            return View(new Activity{ModuleId = id,Starttime = DateTime.Now,EndTime = DateTime.Now,Module = module});
         }
 
         // POST: Activities/Create

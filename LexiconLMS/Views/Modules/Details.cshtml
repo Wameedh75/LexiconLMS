@@ -111,15 +111,6 @@
     </div>
 </div>
 
-<p>
-    @Html.ActionLink("Back to course", "Details", "Courses", new { id = Model.Course.Id }, null)
-    @if (User.IsInRole("teaher"))
-    {
-        <span>|</span>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
-
-    }
-</p>
 
 <script>
     function w3_open() {
