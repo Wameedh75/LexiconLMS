@@ -7,84 +7,156 @@
 
 <h2>Courses</h2>
 <div class="dl-horizontal">
-<form class="form-inline md-form mr-auto mb-4">
-    <input class="form-control" type="text" placeholder="contains" aria-label="Filter" name="filterString">
-    <button class="btn btn-outline btn-rounded btn-primary my-0" type="submit">Filter</button>
-</form>
+    <form class="form-inline md-form mr-auto mb-4">
+        <input class="form-control" type="text" placeholder="contains" aria-label="Filter" name="filterString">
+        <button class="btn btn-outline btn-rounded btn-primary my-0" type="submit">Filter</button>
+    </form>
+   </div>
+
+<div class="custom-control custom-checkbox my-1 mr-sm-2">
+    <input type="checkbox" class="custom-control-input" id="customControlInline" onclick="showFunction()">
+    <label class="custom-control-label" for="customControlInline">Inactive Courses</label>
 </div>
-<br/>
+
+<br />
 @if (User.IsInRole("teacher"))
 {
-    
-        @Html.ActionLink("Create New", "Create",null, new { @class = "btn btn-primary" })
-    
+
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
+
 }
 
 @foreach (var item in Model)
 {
+    if (item.EndDate >= DateTime.Today)
+    {
+        <div>
+            <button class="accordion">
 
-    <button class="accordion">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-9">@Html.DisplayFor(modelItem => item.Name)</div>
+                        @if (User.IsInRole("teacher"))
+                        {
 
-        <div class="container" >
-            <div class="row">
-                <div class="col-md-9">@Html.DisplayFor(modelItem => item.Name)</div>
-                @if (User.IsInRole("teacher"))
-                {
+                            <div class=" col-md-3">
 
-                    <div class=" col-md-3">
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-warning" })
+                                @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-info" })
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
 
-                        @Html.ActionLink("Edit", "Edit", new {id = item.Id}, new {@class = "btn btn-warning"})
-                        @Html.ActionLink("Details", "Details", new {id = item.Id}, new {@class = "btn btn-info"})
-                        @Html.ActionLink("Delete", "Delete", new {id = item.Id}, new {@class = "btn btn-danger"})
+                            </div>
 
+                        }
+                        else if (Request.IsAuthenticated)
+                        {
+                            <div class="col-md-2"></div>
+                            <div class="col-md-1">
+                                @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-info" })
+                            </div>
+                        }
                     </div>
+                </div>
 
-                }
-                else if (Request.IsAuthenticated)
-                {
-                    <div class="col-md-2"></div>
-                    <div class="col-md-1">
-                        @Html.ActionLink("Details", "Details", new {id = item.Id}, new {@class = "btn btn-info"})
-                    </div>
-                }
+
+            </button>
+            <div class="panel">
+                <div class="container">
+                    <table class="table">
+                        <tr class="d-flex">
+                            <th class="col-md-2">
+                                @Html.DisplayNameFor(model => model.StartDate)
+                            </th>
+                            <th class="col-md-2">
+                                @Html.DisplayNameFor(model => model.EndDate)
+                            </th>
+                            <th class="col-md-8">
+                                @Html.DisplayNameFor(model => model.Description)
+                            </th>
+                            <th></th>
+                        </tr>
+                        <tr class="d-flex">
+                            <td class="col-md-2">
+                                @Html.DisplayFor(modelItem => item.StartDate)
+                            </td>
+                            <td class="col-md-2">
+                                @Html.DisplayFor(modelItem => item.EndDate)
+                            </td>
+                            <td class="col-md-8 breakWord hideOverflow">
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                        </tr>
+                        <tr style="font-size: 18px; border: 0"></tr>
+                    </table>
+                </div>
             </div>
         </div>
+    }
+    else
+    {
+        <div id="unactive" style="display: none">
+            <button class="accordion">
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-9">@Html.DisplayFor(modelItem => item.Name)</div>
+                        @if (User.IsInRole("teacher"))
+                        {
+
+                            <div class=" col-md-3">
+
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-warning" })
+                                @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-info" })
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+
+                            </div>
+
+                        }
+                        else if (Request.IsAuthenticated)
+                        {
+                            <div class="col-md-2"></div>
+                            <div class="col-md-1">
+                                @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-info" })
+                            </div>
+                        }
+                    </div>
+                </div>
 
 
-    </button>
-    <div class="panel">
-        <div class="container">
-            <table class="table">
-                    <tr  class="d-flex">
-                        <th class="col-md-2">
-                            @Html.DisplayNameFor(model => model.StartDate)
-                        </th>
-                        <th class="col-md-2">
-                            @Html.DisplayNameFor(model => model.EndDate)
-                        </th>
-                        <th class="col-md-8">
-                            @Html.DisplayNameFor(model => model.Description)
-                        </th>
-                        <th></th>
-                    </tr>
-                    <tr class="d-flex">
-                        <td class="col-md-2">
-                            @Html.DisplayFor(modelItem => item.StartDate)
-                        </td>
-                        <td class="col-md-2">
-                            @Html.DisplayFor(modelItem => item.EndDate)
-                        </td>
-                        <td class="col-md-8 breakWord hideOverflow">
-                            @Html.DisplayFor(modelItem => item.Description)
-                        </td>
-                    </tr>
-                    <tr style="font-size: 18px; border: 0"></tr>
-                </table>
+            </button>
+            <div class="panel">
+                <div class="container">
+                    <table class="table">
+                        <tr class="d-flex">
+                            <th class="col-md-2">
+                                @Html.DisplayNameFor(model => model.StartDate)
+                            </th>
+                            <th class="col-md-2">
+                                @Html.DisplayNameFor(model => model.EndDate)
+                            </th>
+                            <th class="col-md-8">
+                                @Html.DisplayNameFor(model => model.Description)
+                            </th>
+                            <th></th>
+                        </tr>
+                        <tr class="d-flex">
+                            <td class="col-md-2">
+                                @Html.DisplayFor(modelItem => item.StartDate)
+                            </td>
+                            <td class="col-md-2">
+                                @Html.DisplayFor(modelItem => item.EndDate)
+                            </td>
+                            <td class="col-md-8 breakWord hideOverflow">
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                        </tr>
+                        <tr style="font-size: 18px; border: 0"></tr>
+                    </table>
+                </div>
+            </div>
         </div>
-        @*<div>
-             @Html.Partial("_ModulesList", item)
-        </div>*@
-      </div>
+    }
+
 
 }
 
@@ -107,4 +179,20 @@
             }
         });
     }
+
+
+    function showFunction() {
+        // Get the checkbox
+        var checkBox = document.getElementById("customControlInline");
+        // Get the output text
+        var unactive = document.getElementById("unactive");
+
+        // If the checkbox is checked, display the output text
+        if (checkBox.checked === true) {
+            unactive.style.display = "block";
+        } else {
+            unactive.style.display = "none";
+        }
+    }
+
 </script>
