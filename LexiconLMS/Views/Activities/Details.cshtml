@@ -4,10 +4,13 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
-
-<div>
-    <h4>Activity</h4>
+<div class="p-3 mb-2 bg-info text-white">
+    <h1>Activity Details</h1>
+    <h2>Course: <strong> <span style="color: black">@Model.Module.Course.Name</span></strong></h2>
+    <h2>Module: <strong> <span style="color: black">@Model.Module.Name</span></strong></h2>
+    <h2>Activity:<strong> <span style="color: black">@Model.Name</span></strong></h2>
+</div>
+<div class="p-3 mb-2">
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -59,13 +62,14 @@
         </dd>
 
     </dl>
-</div>
-<p>
 
-    @Html.ActionLink("Back to module", "Details","Modules", new { id = Model.Module.Id },new{@class = "btn btn-info"})
+    @Html.ActionLink("Back to module", "Details", "Modules", new { id = Model.Module.Id }, new { @class = "btn btn-info" })
     @if (User.IsInRole("teacher"))
     {
         <span> </span>
-        @Html.ActionLink("Edit", "Edit", new {id = Model.Id},new{@class = " btn btn-warning"})
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = " btn btn-warning" })
     }
+</div>
+<p>
+
 </p>
