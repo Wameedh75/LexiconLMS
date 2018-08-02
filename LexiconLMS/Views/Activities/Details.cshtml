@@ -62,10 +62,10 @@
 </div>
 <p>
 
-    @Html.ActionLink("Back to List", "Index", new { moduleId = Model.Module.Id })
+    @Html.ActionLink("Back to module", "Details","Modules", new { id = Model.Module.Id },new{@class = "btn btn-info"})
     @if (User.IsInRole("teacher"))
     {
-        <span>|</span>
-        @Html.ActionLink("Edit", "Edit", new {id = Model.Id})
+        <span> </span>
+        @Html.ActionLink("Edit", "Edit", new {id = Model.Id},new{@class = " btn btn-warning"})
     }
 </p>
