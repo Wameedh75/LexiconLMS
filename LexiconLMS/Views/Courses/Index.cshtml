@@ -31,129 +31,13 @@
     if (item.EndDate >= DateTime.Today)
     {
         <div>
-            <button class="accordion">
-
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-9">@Html.DisplayFor(modelItem => item.Name)</div>
-                        @if (User.IsInRole("teacher"))
-                        {
-
-                            <div class=" col-md-3">
-
-                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-warning" })
-                                @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-info" })
-                                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
-
-                            </div>
-
-                        }
-                        else if (Request.IsAuthenticated)
-                        {
-                            <div class="col-md-2"></div>
-                            <div class="col-md-1">
-                                @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-info" })
-                            </div>
-                        }
-                    </div>
-                </div>
-
-
-            </button>
-            <div class="panel">
-                <div class="container">
-                    <table class="table">
-                        <tr class="d-flex">
-                            <th class="col-md-2">
-                                @Html.DisplayNameFor(model => model.StartDate)
-                            </th>
-                            <th class="col-md-2">
-                                @Html.DisplayNameFor(model => model.EndDate)
-                            </th>
-                            <th class="col-md-8">
-                                @Html.DisplayNameFor(model => model.Description)
-                            </th>
-                            <th></th>
-                        </tr>
-                        <tr class="d-flex">
-                            <td class="col-md-2">
-                                @Html.DisplayFor(modelItem => item.StartDate)
-                            </td>
-                            <td class="col-md-2">
-                                @Html.DisplayFor(modelItem => item.EndDate)
-                            </td>
-                            <td class="col-md-8 breakWord hideOverflow">
-                                @Html.DisplayFor(modelItem => item.Description)
-                            </td>
-                        </tr>
-                        <tr style="font-size: 18px; border: 0"></tr>
-                    </table>
-                </div>
-            </div>
+            @Html.Partial("_CourseListView",item)
         </div>
     }
     else
     {
         <div id="unactive" style="display: none">
-            <button class="accordion">
-
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-9">@Html.DisplayFor(modelItem => item.Name)</div>
-                        @if (User.IsInRole("teacher"))
-                        {
-
-                            <div class=" col-md-3">
-
-                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-warning" })
-                                @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-info" })
-                                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
-
-                            </div>
-
-                        }
-                        else if (Request.IsAuthenticated)
-                        {
-                            <div class="col-md-2"></div>
-                            <div class="col-md-1">
-                                @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-info" })
-                            </div>
-                        }
-                    </div>
-                </div>
-
-
-            </button>
-            <div class="panel">
-                <div class="container">
-                    <table class="table">
-                        <tr class="d-flex">
-                            <th class="col-md-2">
-                                @Html.DisplayNameFor(model => model.StartDate)
-                            </th>
-                            <th class="col-md-2">
-                                @Html.DisplayNameFor(model => model.EndDate)
-                            </th>
-                            <th class="col-md-8">
-                                @Html.DisplayNameFor(model => model.Description)
-                            </th>
-                            <th></th>
-                        </tr>
-                        <tr class="d-flex">
-                            <td class="col-md-2">
-                                @Html.DisplayFor(modelItem => item.StartDate)
-                            </td>
-                            <td class="col-md-2">
-                                @Html.DisplayFor(modelItem => item.EndDate)
-                            </td>
-                            <td class="col-md-8 breakWord hideOverflow">
-                                @Html.DisplayFor(modelItem => item.Description)
-                            </td>
-                        </tr>
-                        <tr style="font-size: 18px; border: 0"></tr>
-                    </table>
-                </div>
-            </div>
+            @Html.Partial("_CourseListView",item)
         </div>
     }
 
