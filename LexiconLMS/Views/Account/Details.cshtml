@@ -1,25 +1,17 @@
-﻿@model LexiconLMS.Models.ApplicationUser
+﻿@using Antlr.Runtime.Tree
+@model LexiconLMS.Models.ApplicationUser
 
 @{
     ViewBag.Title = "Edit user";
 }
 
-<h2>Edit User</h2>
+<div class="p-3 mb-2 bg-info text-white">
+    
+    <h2>User: <strong><span style="color: black">@Model.FirstName @Model.LastName</span></strong> details.</h2>
+</div>
 <div>
     <h4>Course</h4>
-    @if (User.IsInRole("teacher"))
-
-    {
-
-        @Html.ActionLink("Add new user", "Register","Account")
-    }
-
-    @*<span>
-        |
-    </span>
-    <span>
-        @Html.ActionLink("Modles List", "Index", "Modules", new { courseId = Model.Id }, null)
-    </span>*@
+   
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -71,6 +63,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Course Details", "Details","Courses",new{id = Model.CourseId},null)
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id },new{@class = "btn btn-warning"}) <span></span>
+    @Html.ActionLink("Home", "Index","Courses",null ,new{@class="btn btn-info"})
 </p>

@@ -6,7 +6,10 @@
                 ViewBag.Title = "EditView";
 }
 
-<h2>EditView</h2>
+<div class="p-3 mb-2 bg-warning text-dark">
+    <h1>Edit User</h1>
+    <h2>Are you sure you want to change <strong> <span id="userRole"> </span> <span style="color: red">@Model.FirstName @Model.LastName</span></strong> info.?</h2>
+</div>
 
 
 @using (Html.BeginForm())
@@ -14,7 +17,6 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>EditViewModel</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
@@ -59,14 +61,14 @@
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(x => Model.SelectedRole, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2" for="#Role"> Select Role</label>
             <div class="col-md-5">
                 @Html.DropDownListFor(x => Model.SelectedRole, new SelectList(Model.Roles, "Value", "Text"), htmlAttributes: new { @class = "form-control", id = "Role" })
                 @Html.ValidationMessageFor(x => x.SelectedRole, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(x => Model.SelectedCourse, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2" for="#course"> Select course</label>
             <div class="col-md-5">
                 @Html.DropDownListFor(x => Model.SelectedCourse, new SelectList(Model.Courses, "Value", "Text"), htmlAttributes: new { @class = "form-control", id = "course" })
                 @Html.ValidationMessageFor(x => x.SelectedCourse, "", new { @class = "text-danger" })
@@ -91,6 +93,7 @@
                     var str = "";
                     $("#Role option:selected").each(function () {
                         str += $(this).text();
+                        $("#userRole").html(str+":");
                     });
                     if (str == "student") {
                         $("#course").prop("disabled", false);
