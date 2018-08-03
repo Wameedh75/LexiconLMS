@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LexiconLMS.Models;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
 using System.Web.Mvc;
@@ -18,5 +19,9 @@ namespace LexiconLMS.ViewModels
 
         public string Description { get; set; }
         public DateTime? Deadline { get; set; }
+
+        public Course Course { get; set; }
+        public Module Module { get; set; }
+        public Activity Activity { get; set; }
     }
 }

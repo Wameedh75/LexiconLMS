@@ -178,7 +178,7 @@ namespace LexiconLMS.Controllers
             if (course == null) {
                 return RedirectToAction("Index", "Courses");
             }
-            ViewBag.Title = "Add Document for course " + course.Name;
+            ViewBag.CourseName = course.Name;
             ViewBag.CourseId = id;
             var model = new DocumentViewModel { Types = DocumentTypeList.AsSelectList() };
             return View(model);
@@ -186,7 +186,7 @@ namespace LexiconLMS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddDocument([Bind(Include = "Type,File,Description,Deadline")] DocumentViewModel model, int id) {
+        public ActionResult AddDocument([Bind(Include = "SelectedTypeId,File,Description,Deadline")] DocumentViewModel model, int id) {
             if (ModelState.IsValid) {
                 string path = Path.Combine(Server.MapPath("~/Documents"), Path.GetFileName(model.File.FileName));
                 model.File.SaveAs(path);
@@ -198,6 +198,7 @@ namespace LexiconLMS.Controllers
                     Deadline = model.Deadline,
                     FileName = model.File.FileName,
                     MimeType = model.File.ContentType,
+                    FullPath = path,
                 };
                 db.Documents.Add(document);
                 db.SaveChanges();

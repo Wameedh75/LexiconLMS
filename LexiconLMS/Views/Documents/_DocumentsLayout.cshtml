@@ -1,0 +1,18 @@
+﻿@model LexiconLMS.ViewModels.DocumentViewModel
+
+<h4>
+    @{
+        if (Model.Course != null) {
+            @Html.ActionLink(Model.Course.Name, "Details", "Courses", new { id = Model.Course.Id })
+            <span> &gt; </span>
+        }
+        if (Model.Module != null) {
+            @Html.ActionLink(Model.Module.Name, "Details", "Modules", new { id = Model.Module.Id })
+            <span> &gt; </span>
+        }
+        if (Model.Activity != null) {
+            @Html.ActionLink(Model.Activity.Name, "Details", "Activities", new { id = Model.Activity.Id })
+            <span> &gt; </span>
+        }
+    }
+</h4>

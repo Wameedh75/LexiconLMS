@@ -1,0 +1,10 @@
+﻿@model LexiconLMS.ViewModels.DocumentViewModel
+
+<h4>Add Document for Course @Model.Course.Name</h4>
+@Html.Partial("_Create", Model)
+
+<div>
+    <hr />
+    @Html.ActionLink("Back to Course", "Details", "Courses", new { id = Model.Course.Id }, null)
+</div>
+
