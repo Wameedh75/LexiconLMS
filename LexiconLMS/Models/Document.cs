@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
 
 namespace LexiconLMS.Models
 {
@@ -29,6 +30,9 @@ namespace LexiconLMS.Models
         [Required]
         [Display(Name = "File name")]
         public string FileName { get; set; }
+
+        public string Url => Path.Combine("/Documents/", FileName);
+        public string FullPath { get; set; }
 
         [Required]
         [Display(Name = "MIME type")]

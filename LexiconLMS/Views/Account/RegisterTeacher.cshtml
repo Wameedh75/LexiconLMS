@@ -4,7 +4,11 @@
     ViewBag.Title = "Register Teacher";
 }
 
-<h2>RegisterTeacher</h2>
+<div class="p-3 mb-2 bg-success text-white">
+
+    <h1>Register Teacher</h1>
+</div>
+
 
 @using (Html.BeginForm())
 {
@@ -47,17 +51,17 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-success" />
+                
+                @using (Html.BeginForm("Teachers", "Account"))
+                {
+                    <button type="submit" class="btn btn-primary" color="white">Back to teachers list</button>
+                }
             </div>
         </div>
     </div>
 }
-<div>
-    @using (Html.BeginForm("Teachers", "Account"))
-    {
-        <button type="submit" class="btn btn-primary" color="white">Back to teachers list</button>
-    }
-</div>
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

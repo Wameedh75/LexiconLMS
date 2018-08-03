@@ -5,7 +5,6 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -200,14 +199,22 @@ namespace LexiconLMS.Controllers
 
         // GET: /Account/RegisterStudent
         [Authorize(Roles = "teacher")]
-        public ActionResult RegisterStudent()
+        public ActionResult RegisterStudent(int? corseId)
         {
             //create instance of the database &role store & role manager
             //so we can show the roles in the dropdown list t create the user
             var userdb = ApplicationDbContext.Create();
-
+            IQueryable<Course> courseList = null;
+            if (corseId != null)
+            {
+                courseList = userdb.Courses.Where(sa => sa.Id == corseId);
+            }
+            else
+            {
+                courseList = userdb.Courses.Where(sa => sa.EndDate > DateTime.Today);
+            }
             //Show courses list
-            var courseList = userdb.Courses.Select(c => new { c.Name, c.Id, c.EndDate }).Where(sa => sa.EndDate > DateTime.Today);
+             
             List<SelectListItem> courseListWithDefault = courseList.Select(course => new SelectListItem { Text = course.Name, Value = course.Id.ToString() }).ToList();
             var courseTip = new SelectListItem
             {

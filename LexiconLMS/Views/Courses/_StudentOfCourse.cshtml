@@ -1,25 +1,25 @@
-﻿@model IEnumerable<LexiconLMS.Models.ApplicationUser>
+﻿@model LexiconLMS.Models.Course
 
 
-@if (User.IsInRole("teacher"))
+@if (User.IsInRole("teacher") && Model.EndDate>=DateTime.Today)
 {
     <p>
-        @Html.ActionLink("Add a Student", "Register", "Account")
+        @Html.ActionLink("Add a Student", "RegisterStudent", "Account",new{corseId = Model.Id},new{@class = "btn btn-info"})
     </p>
 }
     <table class="table">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                @Html.DisplayNameFor(model => model.CourseStudents.FirstOrDefault().FirstName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                @Html.DisplayNameFor(model => model.CourseStudents.FirstOrDefault().LastName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                @Html.DisplayNameFor(model => model.CourseStudents.FirstOrDefault().Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PhoneNumber)
+                @Html.DisplayNameFor(model => model.CourseStudents.FirstOrDefault().PhoneNumber)
             </th>
             @*<th>
                 @Html.DisplayNameFor(model => model.UserName)
@@ -27,7 +27,7 @@
             <th></th>
         </tr>
 
-        @foreach (var item in Model)
+        @foreach (var item in Model.CourseStudents)
         {
             <tr style="border-bottom: none">
                 <td>

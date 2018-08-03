@@ -99,8 +99,9 @@ textarea {
     overflow: hidden
 }
 
-
-
+.inactive {
+    display: none
+}
 
 footer {
     clear: both;

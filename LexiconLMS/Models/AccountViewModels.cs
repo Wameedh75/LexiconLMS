@@ -66,8 +66,10 @@ namespace LexiconLMS.Models
     public class RegisterStudentViewModel
     {
         [Required]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
         [Required]
+        [Display(Name = "First Name")]
         public string LastName { get; set; }
 
         [Required]
@@ -106,8 +108,11 @@ namespace LexiconLMS.Models
     public class RegisterTeacherViewModel
     {
         [Required]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
+
         [Required]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
         [Required]
@@ -157,8 +162,10 @@ namespace LexiconLMS.Models
         [Required]
         public string Id { get; set; }
         [Required]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
         [Required]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
         [Required]

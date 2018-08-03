@@ -92,7 +92,7 @@
                         <div class="card-body" style="color: black; font-size: 14px">
                             @if (Model.CourseModules.Count > 0)
                             {
-                                @Html.Partial("_StudentOfCourse", Model.CourseStudents)
+                                @Html.Partial("_StudentOfCourse", Model)
                             }
                            
                         </div>
@@ -102,22 +102,21 @@
                     <div class="card-header" id="headingThree">
                         <h5 class="mb-0">
                             <button class="btn btn-block collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                Collapsible Group Item
+                                @Html.DisplayFor(model => model.Name) Documents
                             </button>
                         </h5>
                     </div>
                     <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
                         <div class="card-body" style="color: black; font-size: 14px">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                            <p>@Html.ActionLink("Add a Document", "Create", "Documents", new { CourseId = Model.Id }, null)</p>
+                            @if (Model.Documents.Count > 0)
+                            {
+                                @Html.Partial("_DocumentList", Model.Documents)
+                            }
                         </div>
                     </div>
                 </div>
             </div>
-        <br/>
-        <div class="col-md-12">
-
-            @Html.Partial("_DocumentList", Model.Documents)
-        </div>
     </div>
 </div>
 

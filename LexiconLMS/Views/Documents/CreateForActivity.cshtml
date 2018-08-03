@@ -1,0 +1,10 @@
+﻿@model LexiconLMS.ViewModels.DocumentViewModel
+
+<h4>Add Document for Course @ViewBag.CourseName, Module @ViewBag.ModuleName, Activity @ViewBag.ActivityName</h4>
+@Html.Partial("_Create", Model)
+
+<div>
+    <hr />
+    @Html.ActionLink("Back to Course", "Details", "Courses", new { id = ViewBag.CourseId }, null)
+</div>
+
