@@ -36,7 +36,7 @@
     }
     else
     {
-        <div id="unactive" style="display: none">
+        <div id="inactive" style="display: none">
             @Html.Partial("_CourseListView",item)
         </div>
     }
@@ -69,13 +69,13 @@
         // Get the checkbox
         var checkBox = document.getElementById("customControlInline");
         // Get the output text
-        var unactive = document.getElementById("unactive");
+        var inactive = document.getElementById("inactive");
 
         // If the checkbox is checked, display the output text
         if (checkBox.checked === true) {
-            unactive.style.display = "block";
+            inactive.style.display = "block";
         } else {
-            unactive.style.display = "none";
+            inactive.style.display = "none";
         }
     }
 
