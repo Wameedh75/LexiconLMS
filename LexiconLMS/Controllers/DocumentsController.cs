@@ -1,6 +1,5 @@
 ﻿using LexiconLMS.Models;
 using LexiconLMS.ViewModels;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -11,6 +10,8 @@ namespace LexiconLMS.Controllers
     public class DocumentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+
+        private SelectList DocumentTypeSelectList() => new SelectList(db.DocumentTypes.ToList(), dataValueField: "Id", dataTextField: "Name");
 
         // GET: Documents
         public ActionResult Index() {
@@ -29,23 +30,55 @@ namespace LexiconLMS.Controllers
             return View(document);
         }
 
-        // GET: Documents/Create
-        public ActionResult Create() {
-            var model = new DocumentViewModel { Types = DocumentTypeList.AsSelectList() };
+        public ActionResult Create(int? CourseId, int? ModuleId, int? ActivityId) {
+            Activity activity = null;
+            Module module = null;
+            Course course = null;
+            if (ActivityId != null) {
+                activity = db.Activities.Find(ActivityId);
+                module = activity?.Module;
+                course = module?.Course;
+            } else if (ModuleId != null) {
+                module = db.Modules.Find(ModuleId);
+                course = module?.Course;
+            } else if (CourseId != null) {
+                course = db.Courses.Find(CourseId);
+            }
+            var model = new DocumentViewModel {
+                Types = DocumentTypeSelectList(),
+                Course = course,
+                Module = module,
+                Activity = activity
+            };
             return View(model);
         }
 
-        // POST: Documents/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Description,Deadline")] Document document) {
-            if (!ModelState.IsValid)
-                return View(document);
-            db.Documents.Add(document);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+        //[Authorize(Roles = "teacher")]
+        public ActionResult CreateForCourse(int? CourseId) {
+            Course course = db.Courses.Find(CourseId);
+            if (course == null) {
+                return RedirectToAction("Index", "Courses");
+            }
+            var model = new DocumentViewModel { Types = DocumentTypeList.AsSelectList(), Course = course };
+            return View(model);
+        }
+
+        public ActionResult CreateForModule(int? ModuleId) {
+            Module module = db.Modules.Find(ModuleId);
+            if (module == null) {
+                return RedirectToAction("Index", "Courses");
+            }
+            var model = new DocumentViewModel { Types = DocumentTypeList.AsSelectList(), Module = module, Course = module.Course };
+            return View(model);
+        }
+
+        public ActionResult CreateForActivity(int? ActivityId) {
+            Activity activity = db.Activities.Find(ActivityId);
+            if (activity == null) {
+                return RedirectToAction("Index", "Courses");
+            }
+            var model = new DocumentViewModel { Types = DocumentTypeList.AsSelectList(), Activity = activity, Module = activity.Module, Course = activity.Module.Course };
+            return View(model);
         }
 
         // GET: Documents/Edit/5
@@ -92,22 +125,7 @@ namespace LexiconLMS.Controllers
             Document document = db.Documents.Find(id);
             db.Documents.Remove(document);
             db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        [HttpPost]
-        public ActionResult Upload() {
-            if (Request.Files.Count > 0) {
-                var file = Request.Files[0];
-                if (file != null && file.ContentLength > 0) {
-                    var fileName = Path.GetFileName(file.FileName);
-                    if (fileName != null) {
-                        var path = Path.Combine(Server.MapPath("~/Documents/"), fileName);
-                        file.SaveAs(path);
-                    }
-                }
-            }
-
+            System.IO.File.Delete(document.FullPath);
             return RedirectToAction("Index");
         }
 

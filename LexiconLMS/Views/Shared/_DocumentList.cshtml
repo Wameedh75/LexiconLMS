@@ -1,13 +1,9 @@
 ﻿@model IEnumerable<LexiconLMS.Models.Document>
 
-<h4>Documents</h4>
 <table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.FileName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MimeType)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Description)
@@ -21,10 +17,9 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.FileName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MimeType)
+            <a href="@item.Url" target="_blank">
+                @Html.DisplayFor(modelItem => item.FileName)
+            </a>
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Description)

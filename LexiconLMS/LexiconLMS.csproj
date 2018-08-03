@@ -218,6 +218,34 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807271344438_CreateAspNetModels.cs" />
+    <Compile Include="Migrations\201807271344438_CreateAspNetModels.Designer.cs">
+      <DependentUpon>201807271344438_CreateAspNetModels.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807271352509_Courses.cs" />
+    <Compile Include="Migrations\201807271352509_Courses.Designer.cs">
+      <DependentUpon>201807271352509_Courses.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807271400213_Modules.cs" />
+    <Compile Include="Migrations\201807271400213_Modules.Designer.cs">
+      <DependentUpon>201807271400213_Modules.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807271401378_Activities.cs" />
+    <Compile Include="Migrations\201807271401378_Activities.Designer.cs">
+      <DependentUpon>201807271401378_Activities.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808011114512_Documents.cs" />
+    <Compile Include="Migrations\201808011114512_Documents.Designer.cs">
+      <DependentUpon>201808011114512_Documents.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808011341597_DocumentChanges.cs" />
+    <Compile Include="Migrations\201808011341597_DocumentChanges.Designer.cs">
+      <DependentUpon>201808011341597_DocumentChanges.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808031249004_AddedPathsToDocument.cs" />
+    <Compile Include="Migrations\201808031249004_AddedPathsToDocument.Designer.cs">
+      <DependentUpon>201808031249004_AddedPathsToDocument.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Activity.cs" />
@@ -404,7 +432,7 @@
     <Content Include="Views\Documents\Edit.cshtml" />
     <Content Include="Views\Documents\Index.cshtml" />
     <Content Include="Views\Shared\_DocumentList.cshtml" />
-    <Content Include="Views\Courses\AddDocument.cshtml" />
+    <Content Include="Views\Documents\CreateForCourse.cshtml" />
     <Content Include="Views\Account\_About.cshtml" />
     <Content Include="Views\Courses\StudendsOfCourse.cshtml" />
     <Content Include="Views\Courses\_ModileViewList.cshtml" />
@@ -413,6 +441,10 @@
     <Content Include="Views\Account\RegisterStudent.cshtml" />
     <Content Include="Views\Account\RegisterTeacher.cshtml" />
     <Content Include="Views\Courses\_CourseListView.cshtml" />
+    <Content Include="Views\Documents\_Create.cshtml" />
+    <Content Include="Views\Documents\CreateForModule.cshtml" />
+    <Content Include="Views\Documents\CreateForActivity.cshtml" />
+    <Content Include="Views\Documents\_DocumentsLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -429,6 +461,29 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201807271344438_CreateAspNetModels.resx">
+      <DependentUpon>201807271344438_CreateAspNetModels.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807271352509_Courses.resx">
+      <DependentUpon>201807271352509_Courses.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807271400213_Modules.resx">
+      <DependentUpon>201807271400213_Modules.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807271401378_Activities.resx">
+      <DependentUpon>201807271401378_Activities.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808011114512_Documents.resx">
+      <DependentUpon>201808011114512_Documents.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808011341597_DocumentChanges.resx">
+      <DependentUpon>201808011341597_DocumentChanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808031249004_AddedPathsToDocument.resx">
+      <DependentUpon>201808031249004_AddedPathsToDocument.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
