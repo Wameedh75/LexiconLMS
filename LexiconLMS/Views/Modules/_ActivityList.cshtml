@@ -1,49 +1,47 @@
 ﻿@model IEnumerable<LexiconLMS.Models.Activity>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
 <table class="table">
-    <tr>
-        <th>
+    <tr class="row">
+        <th class="col-md-2">
             @Html.DisplayNameFor(model => model.Name)
         </th>
-        <th>
+        <th class="col-md-2">
             @Html.DisplayNameFor(model => model.Starttime)
         </th>
-        <th>
+        <th class="col-md-2">
             @Html.DisplayNameFor(model => model.EndTime)
         </th>
-        <th>
+        <th class="col-md-3">
             @Html.DisplayNameFor(model => model.Description)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ModuleId)
-        </th>
-        <th></th>
+       <th class="col-md-3"></th>
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
-        <td>
+    <tr class="row">
+        <td class="col-md-2">
             @Html.DisplayFor(modelItem => item.Name)
         </td>
-        <td>
+        <td class="col-md-2">
             @Html.DisplayFor(modelItem => item.Starttime)
         </td>
-        <td>
+        <td class="col-md-2">
             @Html.DisplayFor(modelItem => item.EndTime)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
+        <td class="col-md-3 hideOverflow">
+             @Html.DisplayFor(modelItem => item.Description)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ModuleId)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        <td class="col-md-3">
+            @if (Request.IsAuthenticated)
+            {
+                @Html.ActionLink("Details", "Details","Activities", new { id=item.Id }, new { @class = "btn btn-info btn-sm" }) <span> </span>
+                if (User.IsInRole("teacher"))
+                {
+                    @Html.ActionLink("Edit", "Edit", "Activities", new {id = item.Id}, new {@class = "btn btn-warning btn-sm" }) <span> </span>
+                    @Html.ActionLink("Delete", "Delete","Activities", new {id = item.Id}, new {@class = "btn btn-danger btn-sm" })
+                }
+            }
         </td>
     </tr>
 }

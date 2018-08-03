@@ -1,11 +1,6 @@
 ﻿@model IEnumerable<LexiconLMS.Models.Module>
 
-@if (User.IsInRole("teacher"))
-{
-    <p>
-        @Html.ActionLink("Create New", "Create","Modules",new { id = Model.FirstOrDefault()?.CourseId},null)
-    </p>
-}
+
 <table class="table">
     <tr class="row">
         <th class="col-md-2">
@@ -28,7 +23,7 @@
         <td class="col-md-2">
             @Html.DisplayFor(modelItem => item.Name)
         </td>
-        <td class="col-md-3 breakWord">
+        <td class="col-md-3 breakWord hideOverflow">
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td class="col-md-2">

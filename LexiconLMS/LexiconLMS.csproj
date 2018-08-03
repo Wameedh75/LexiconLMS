@@ -420,6 +420,7 @@
     <Content Include="Views\Chat\Chat.cshtml" />
     <Content Include="Views\Account\RegisterStudent.cshtml" />
     <Content Include="Views\Account\RegisterTeacher.cshtml" />
+    <Content Include="Views\Courses\_CourseListView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -8,7 +8,7 @@
     <div class="w3-sidebar w3-bar-block w3-border-right w3-teal" style="display: none" id="mySidebar">
         <button onclick="w3_close()" class="w3-bar-item w3-large">Close &times;</button>
 
-
+        @Html.ActionLink("Create New Module", "Create","Modules",new { id = Model.Id}, new { @class = "w3-bar-item w3-button"})
         @Html.ActionLink("Edit Course", "Edit", new {id = Model.Id}, new {@class = "w3-bar-item w3-button"})
         @Html.ActionLink("Add new course", "Create", null, new {@class = "w3-bar-item w3-button"})
         @Html.ActionLink("Back to List", "Index", null, new {@class = "w3-bar-item w3-button"})

@@ -36,7 +36,8 @@ namespace LexiconLMS.Controllers
         // GET: Modules/Create
         public ActionResult Create(int id)
         {
-            return View(new Module { CourseId = id, StartDate = DateTime.Today, EndDate = DateTime.Today });
+            var course = db.Courses.Find(id);
+            return View(new Module { CourseId = id, StartDate = DateTime.Today, EndDate = DateTime.Today,Course = course});
         }
 
         // POST: Modules/Create
@@ -44,9 +45,9 @@ namespace LexiconLMS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,StartDate,EndDate,CourseId")] Module module/*, int? courseId*/)
+        public ActionResult Create([Bind(Include = "Id,Name,Description,StartDate,EndDate,CourseId")] Module module)
         {
-            //module.CourseId = (int) courseId;
+
             if (ModelState.IsValid)
             {
                 db.Modules.Add(module);

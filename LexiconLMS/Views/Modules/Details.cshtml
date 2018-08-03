@@ -5,19 +5,21 @@
 }
 @if (User.IsInRole("teacher"))
 {
-    <div class="w3-sidebar w3-bar-block w3-border-right w3-teal" style="display: none" id="mySidebar">
+    <div class="w3-sidebar w3-bar-block w3-border-right bg-info text-white" style="display: none" id="mySidebar">
         <button onclick="w3_close()" class="w3-bar-item w3-large">Close &times;</button>
+        @Html.ActionLink("Add new activity","Create","Activities",new{ id = Model.Id}, new { @class = "w3-bar-item w3-button" })
         @Html.ActionLink("Add new Module", "Create", "Modules", new { id = Model.Id }, new { @class = "w3-bar-item w3-button" })
         @Html.ActionLink("Edit Module", "Edit", "Modules", new { id = Model.Id }, new { @class = "w3-bar-item w3-button" })
         @Html.ActionLink("Back to course", "Details", "Courses", new { id = Model.CourseId }, new { @class = "w3-bar-item w3-button" })
+
     </div>
 }
 
 <div >
-    <div class="w3-teal">
+    <div class="bg-info text-white">
         @if (User.IsInRole("teacher"))
         {
-            <button class="w3-button w3-teal w3-xlarge" onclick="w3_open()">☰</button>
+            <button class="w3-button w3-xlarge bg-info text-white" onclick="w3_open()">☰</button>
         }
         <div class="w3-container">
             <h1>Course @Html.DisplayFor(model => model.Course.Name)</h1>
@@ -109,15 +111,6 @@
     </div>
 </div>
 
-<p>
-    @Html.ActionLink("Back to course", "Details", "Courses", new { id = Model.Course.Id }, null)
-    @if (User.IsInRole("teaher"))
-    {
-        <span>|</span>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
-
-    }
-</p>
 
 <script>
     function w3_open() {

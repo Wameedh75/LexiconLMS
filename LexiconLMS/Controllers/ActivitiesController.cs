@@ -1,4 +1,5 @@
 ﻿using LexiconLMS.Models;
+using System;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -33,10 +34,11 @@ namespace LexiconLMS.Controllers
         }
 
         // GET: Activities/Create
-        public ActionResult Create(int? moduleId) {
+        public ActionResult Create(int id) {
             //ViewBag.ModuleId = new SelectList(db.Modules, "Id", "Name");
             //ViewBag.ModuleId = db.Modules.Find(moduleId);
-            return View();
+            var module = db.Modules.Find(id);
+            return View(new Activity{ModuleId = id,Starttime = DateTime.Now,EndTime = DateTime.Now,Module = module});
         }
 
         // POST: Activities/Create
@@ -44,12 +46,12 @@ namespace LexiconLMS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Starttime,EndTime,Description,Type,ModuleId")] Activity activity, int? moduleId) {
-            activity.ModuleId = (int)moduleId;
+        public ActionResult Create([Bind(Include = "Id,Name,Starttime,EndTime,Description,Type,ModuleId")] Activity activity) {
+            
             if (ModelState.IsValid) {
                 db.Activities.Add(activity);
                 db.SaveChanges();
-                return RedirectToAction("Index", new { moduleId = activity.ModuleId });
+                return RedirectToAction("Details","Modules", new { id = activity.ModuleId });
             }
 
             //ViewBag.ModuleId = new SelectList(db.Modules, "Id", "Name", activity.ModuleId);
@@ -80,7 +82,7 @@ namespace LexiconLMS.Controllers
             if (ModelState.IsValid) {
                 db.Entry(activity).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index", new { moduleId = activity.ModuleId });
+                return RedirectToAction("Details","Modules", new { id = activity.ModuleId });
             }
             //ViewBag.ModuleId = new SelectList(db.Modules, "Id", "Name", activity.ModuleId);
             return View(activity);
@@ -110,7 +112,7 @@ namespace LexiconLMS.Controllers
                 db.Activities.Remove(activity);
                 db.SaveChanges();
             }
-            return RedirectToAction("Index", new { moduleId });
+            return RedirectToAction("Details","Modules", new { id = moduleId });
         }
 
         protected override void Dispose(bool disposing) {

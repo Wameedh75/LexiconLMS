@@ -1,7 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
-    /*background-image: url("https://preview.ibb.co/h4sgW8/167300_OVI57_N_347.jpg");
+  /*background-image: url("https://preview.ibb.co/h4sgW8/167300_OVI57_N_347.jpg");
     background-repeat: no-repeat;
     background-size: 100% ;*/
 }
@@ -10,6 +10,7 @@
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -89,6 +90,13 @@ textarea {
 
 .breakWord {
     overflow-wrap: break-word
+}
+
+.hideOverflow {
+    height: 3em;
+    line-height: 1.1em;
+    text-overflow: ellipsis;
+    overflow: hidden
 }
 
 
