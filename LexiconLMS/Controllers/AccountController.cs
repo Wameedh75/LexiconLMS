@@ -950,6 +950,7 @@ namespace LexiconLMS.Controllers
             return RedirectToAction("Students", "Account");
         }
 
+        [NonAction]
         public string PasswordGenerator()
         {
             var password = new List<char>(6);
