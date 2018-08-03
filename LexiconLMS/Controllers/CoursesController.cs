@@ -180,7 +180,8 @@ namespace LexiconLMS.Controllers
             }
             ViewBag.Title = "Add Document for course " + course.Name;
             ViewBag.CourseId = id;
-            return View();
+            var model = new DocumentViewModel { Types = DocumentTypeList.AsSelectList() };
+            return View(model);
         }
 
         [HttpPost]
@@ -190,7 +191,7 @@ namespace LexiconLMS.Controllers
                 string path = Path.Combine(Server.MapPath("~/Documents"), Path.GetFileName(model.File.FileName));
                 model.File.SaveAs(path);
                 var document = new Document {
-                    Type = model.Type,
+                    TypeId = model.SelectedTypeId,
                     UserId = User.Identity.GetUserId(),
                     CourseId = id,
                     Description = model.Description,

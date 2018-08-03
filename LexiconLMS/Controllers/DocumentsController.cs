@@ -1,4 +1,5 @@
 ﻿using LexiconLMS.Models;
+using LexiconLMS.ViewModels;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -30,7 +31,8 @@ namespace LexiconLMS.Controllers
 
         // GET: Documents/Create
         public ActionResult Create() {
-            return View();
+            var model = new DocumentViewModel { Types = DocumentTypeList.AsSelectList() };
+            return View(model);
         }
 
         // POST: Documents/Create
