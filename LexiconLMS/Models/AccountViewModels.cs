@@ -63,7 +63,7 @@ namespace LexiconLMS.Models
         public bool RememberMe { get; set; }
     }
 
-    public class RegisterViewModel
+    public class RegisterStudentViewModel
     {
         [Required]
         public string FirstName { get; set; }
@@ -93,12 +93,33 @@ namespace LexiconLMS.Models
         //[System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         //public string ConfirmPassword { get; set; }
 
-        [Required]
-        public string SelectedRole { get; set; }
-        public IEnumerable<SelectListItem> Roles { get; set; }
+        //[Required]
+        //public string SelectedRole { get; set; }
+        //public IEnumerable<SelectListItem> Roles { get; set; }
 
+        [Required]
         public string SelectedCourse { get; set; }
         public IEnumerable<SelectListItem> Courses { get; set; }
+
+    }
+
+    public class RegisterTeacherViewModel
+    {
+        [Required]
+        public string FirstName { get; set; }
+        [Required]
+        public string LastName { get; set; }
+
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Display(Name = "contact number :")]
+        [Required(ErrorMessage = "A phone number is required.")]
+        [DataType(DataType.PhoneNumber, ErrorMessage = "Invalid Phone Number")]
+        [RegularExpression(@"^([0-9]{10})$", ErrorMessage = "Invalid Phone Number.")]
+        public string PhoneNumber { get; set; }
 
     }
 

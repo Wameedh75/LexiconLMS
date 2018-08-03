@@ -10,8 +10,9 @@
 @if (Request.IsAuthenticated && User.IsInRole("teacher"))
 {
     <p>
-        @Html.ActionLink("Add Teacher", "Register", "Account", new { rolestring = "teacher" }, null)
+        <input type="button" class="btn btn-primary" value="Add Teacher" onclick="location.href='@Url.Action("RegisterTeacher", "Account")'" />
     </p>
+
 }
 
 <table class="table">
