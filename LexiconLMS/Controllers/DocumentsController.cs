@@ -1,9 +1,10 @@
 ﻿using LexiconLMS.Models;
 using LexiconLMS.ViewModels;
+using Microsoft.AspNet.Identity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
-using EntityState = System.Data.Entity.EntityState;
 
 namespace LexiconLMS.Controllers
 {
@@ -13,21 +14,31 @@ namespace LexiconLMS.Controllers
 
         private SelectList DocumentTypeSelectList() => new SelectList(db.DocumentTypes.ToList(), dataValueField: "Id", dataTextField: "Name");
 
-        // GET: Documents
-        public ActionResult Index() {
-            return View(db.Documents.ToList());
+        private ActionResult RedirectToParent(Document document) {
+            if (document.Activity != null) {
+                return RedirectToAction("Details", "Activities", new { id = document.Activity.Id });
+            } else if (document.Module != null) {
+                return RedirectToAction("Details", "Modules", new { id = document.Module.Id });
+            } else if (document.Course != null) {
+                return RedirectToAction("Details", "Courses", new { id = document.Course.Id });
+            } else {
+                return RedirectToAction("Index", "Courses");
+            }
         }
 
-        // GET: Documents/Details/5
-        public ActionResult Details(int? id) {
-            if (id == null) {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Document document = db.Documents.Find(id);
-            if (document == null) {
-                return HttpNotFound();
-            }
-            return View(document);
+        private DocumentViewModel PopulateFromDocument(Document document) {
+            return new DocumentViewModel {
+                Document = document,
+                SelectedTypeId = document.TypeId,
+                FileName = document.FileName,
+                CreatedBy = document?.User.FullName,
+                Description = document.Description,
+                Deadline = document.Deadline,
+                CourseId = document.CourseId,
+                ModuleId = document.ModuleId,
+                ActivityId = document.ActivityId,
+                Types = DocumentTypeSelectList(),
+            };
         }
 
         public ActionResult Create(int? CourseId, int? ModuleId, int? ActivityId) {
@@ -48,36 +59,33 @@ namespace LexiconLMS.Controllers
                 Types = DocumentTypeSelectList(),
                 Course = course,
                 Module = module,
-                Activity = activity
+                Activity = activity,
             };
             return View(model);
         }
 
-        //[Authorize(Roles = "teacher")]
-        public ActionResult CreateForCourse(int? CourseId) {
-            Course course = db.Courses.Find(CourseId);
-            if (course == null) {
-                return RedirectToAction("Index", "Courses");
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "SelectedTypeId,File,Description,Deadline,Course.Id,Module.Id,Activity.Id")] DocumentViewModel model) {
+            if (ModelState.IsValid) {
+                string path = Path.Combine(Server.MapPath("~/Documents"), Path.GetFileName(model.File.FileName));
+                model.File.SaveAs(path);
+                var document = new Document {
+                    TypeId = model.SelectedTypeId,
+                    UserId = User.Identity.GetUserId(),
+                    Description = model.Description,
+                    Deadline = model.Deadline,
+                    FileName = model.File.FileName,
+                    MimeType = model.File.ContentType,
+                    FullPath = path,
+                    CourseId = model.CourseId,
+                    ModuleId = model.ModuleId,
+                    ActivityId = model.ActivityId,
+                };
+                db.Documents.Add(document);
+                db.SaveChanges();
+                return RedirectToParent(document);
             }
-            var model = new DocumentViewModel { Types = DocumentTypeList.AsSelectList(), Course = course };
-            return View(model);
-        }
-
-        public ActionResult CreateForModule(int? ModuleId) {
-            Module module = db.Modules.Find(ModuleId);
-            if (module == null) {
-                return RedirectToAction("Index", "Courses");
-            }
-            var model = new DocumentViewModel { Types = DocumentTypeList.AsSelectList(), Module = module, Course = module.Course };
-            return View(model);
-        }
-
-        public ActionResult CreateForActivity(int? ActivityId) {
-            Activity activity = db.Activities.Find(ActivityId);
-            if (activity == null) {
-                return RedirectToAction("Index", "Courses");
-            }
-            var model = new DocumentViewModel { Types = DocumentTypeList.AsSelectList(), Activity = activity, Module = activity.Module, Course = activity.Module.Course };
             return View(model);
         }
 
@@ -90,7 +98,9 @@ namespace LexiconLMS.Controllers
             if (document == null) {
                 return HttpNotFound();
             }
-            return View(document);
+
+            DocumentViewModel model = PopulateFromDocument(document);
+            return View(model);
         }
 
         // POST: Documents/Edit/5
@@ -98,12 +108,15 @@ namespace LexiconLMS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Description,Deadline")] Document document) {
+        public ActionResult Edit([Bind(Include = "SelectedTypeId,Description,Deadline")] DocumentViewModel model) {
             if (!ModelState.IsValid)
-                return View(document);
-            db.Entry(document).State = EntityState.Modified;
+                return View(model);
+            Document document = model.Document;
+            document.TypeId = model.SelectedTypeId;
+            document.Description = model.Description;
+            document.Deadline = model.Deadline;
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToParent(document);
         }
 
         // GET: Documents/Delete/5
@@ -115,7 +128,8 @@ namespace LexiconLMS.Controllers
             if (document == null) {
                 return HttpNotFound();
             }
-            return View(document);
+            DocumentViewModel model = PopulateFromDocument(document);
+            return View(model);
         }
 
         // POST: Documents/Delete/5
@@ -126,7 +140,7 @@ namespace LexiconLMS.Controllers
             db.Documents.Remove(document);
             db.SaveChanges();
             System.IO.File.Delete(document.FullPath);
-            return RedirectToAction("Index");
+            return RedirectToParent(document);
         }
 
         protected override void Dispose(bool disposing) {

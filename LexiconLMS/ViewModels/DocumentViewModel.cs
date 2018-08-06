@@ -17,11 +17,23 @@ namespace LexiconLMS.ViewModels
         [Required]
         public HttpPostedFileBase File { get; set; }
 
+        [Display(Name = "Filename")]
+        public string FileName { get; set; }
+
+        [Display(Name = "Created by")]
+        public string CreatedBy { get; set; }
+
         public string Description { get; set; }
+
         public DateTime? Deadline { get; set; }
 
-        public Course Course { get; set; }
-        public Module Module { get; set; }
-        public Activity Activity { get; set; }
+        public Document Document { get; set; }
+
+        public int? CourseId { get; set; }
+        public int? ModuleId { get; set; }
+        public int? ActivityId { get; set; }
+        public virtual Course Course { get; set; }
+        public virtual Module Module { get; set; }
+        public virtual Activity Activity { get; set; }
     }
 }

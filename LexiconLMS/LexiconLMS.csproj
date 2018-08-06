@@ -428,11 +428,8 @@
     <Content Include="Views\Account\Delete.cshtml" />
     <Content Include="Views\Documents\Create.cshtml" />
     <Content Include="Views\Documents\Delete.cshtml" />
-    <Content Include="Views\Documents\Details.cshtml" />
     <Content Include="Views\Documents\Edit.cshtml" />
-    <Content Include="Views\Documents\Index.cshtml" />
     <Content Include="Views\Shared\_DocumentList.cshtml" />
-    <Content Include="Views\Documents\CreateForCourse.cshtml" />
     <Content Include="Views\Account\_About.cshtml" />
     <Content Include="Views\Courses\StudendsOfCourse.cshtml" />
     <Content Include="Views\Courses\_ModileViewList.cshtml" />
@@ -441,9 +438,6 @@
     <Content Include="Views\Account\RegisterStudent.cshtml" />
     <Content Include="Views\Account\RegisterTeacher.cshtml" />
     <Content Include="Views\Courses\_CourseListView.cshtml" />
-    <Content Include="Views\Documents\_Create.cshtml" />
-    <Content Include="Views\Documents\CreateForModule.cshtml" />
-    <Content Include="Views\Documents\CreateForActivity.cshtml" />
     <Content Include="Views\Documents\_DocumentsLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>

@@ -1,18 +1,27 @@
 ﻿@model LexiconLMS.ViewModels.DocumentViewModel
+@{ Layout = "~/Views/Shared/_Layout.cshtml"; }
 
 <h4>
     @{
         if (Model.Course != null) {
-            @Html.ActionLink(Model.Course.Name, "Details", "Courses", new { id = Model.Course.Id })
+            @Html.ActionLink(Model.Course.Name, "Details", "Courses", new { id = Model.Course.Id }, null)
             <span> &gt; </span>
         }
         if (Model.Module != null) {
-            @Html.ActionLink(Model.Module.Name, "Details", "Modules", new { id = Model.Module.Id })
+            @Html.ActionLink(Model.Module.Name, "Details", "Modules", new { id = Model.Module.Id }, null)
             <span> &gt; </span>
         }
         if (Model.Activity != null) {
-            @Html.ActionLink(Model.Activity.Name, "Details", "Activities", new { id = Model.Activity.Id })
+            @Html.ActionLink(Model.Activity.Name, "Details", "Activities", new { id = Model.Activity.Id }, null)
             <span> &gt; </span>
+        }
+        if (Model.FileName != null) {
+            <span>@Model.FileName</span>
+        } else {
+            <span>New file</span>
         }
     }
 </h4>
+
+@RenderBody()
+

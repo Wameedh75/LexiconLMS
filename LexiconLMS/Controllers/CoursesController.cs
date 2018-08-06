@@ -1,7 +1,5 @@
 ﻿using LexiconLMS.Models;
 using LexiconLMS.ViewModels;
-using Microsoft.AspNet.Identity;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -170,41 +168,6 @@ namespace LexiconLMS.Controllers
             }
             return View(module);
             //return RedirectToAction("Details", new { id = courseId });
-        }
-
-        [Authorize(Roles = "teacher")]
-        public ActionResult AddDocument(int? id) {
-            Course course = db.Courses.Find(id);
-            if (course == null) {
-                return RedirectToAction("Index", "Courses");
-            }
-            ViewBag.CourseName = course.Name;
-            ViewBag.CourseId = id;
-            var model = new DocumentViewModel { Types = DocumentTypeList.AsSelectList() };
-            return View(model);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AddDocument([Bind(Include = "SelectedTypeId,File,Description,Deadline")] DocumentViewModel model, int id) {
-            if (ModelState.IsValid) {
-                string path = Path.Combine(Server.MapPath("~/Documents"), Path.GetFileName(model.File.FileName));
-                model.File.SaveAs(path);
-                var document = new Document {
-                    TypeId = model.SelectedTypeId,
-                    UserId = User.Identity.GetUserId(),
-                    CourseId = id,
-                    Description = model.Description,
-                    Deadline = model.Deadline,
-                    FileName = model.File.FileName,
-                    MimeType = model.File.ContentType,
-                    FullPath = path,
-                };
-                db.Documents.Add(document);
-                db.SaveChanges();
-            }
-
-            return RedirectToAction("Details", "Courses", new { id });
         }
 
         protected override void Dispose(bool disposing) {
