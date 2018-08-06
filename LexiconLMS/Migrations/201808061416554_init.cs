@@ -3,7 +3,7 @@ namespace LexiconLMS.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class _new : DbMigration
+    public partial class init : DbMigration
     {
         public override void Up()
         {
@@ -31,6 +31,7 @@ namespace LexiconLMS.Migrations
                         TypeId = c.Int(nullable: false),
                         UserId = c.String(nullable: false, maxLength: 128),
                         FileName = c.String(nullable: false),
+                        FullPath = c.String(),
                         MimeType = c.String(nullable: false),
                         Description = c.String(),
                         Deadline = c.DateTime(),
@@ -103,6 +104,44 @@ namespace LexiconLMS.Migrations
                 .Index(t => t.UserName, unique: true, name: "UserNameIndex");
             
             CreateTable(
+                "dbo.Chats",
+                c => new
+                    {
+                        ChatId = c.String(nullable: false, maxLength: 128),
+                        Date = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => t.ChatId);
+            
+            CreateTable(
+                "dbo.Messages",
+                c => new
+                    {
+                        Id = c.String(nullable: false, maxLength: 128),
+                        Date = c.DateTime(nullable: false),
+                        UserId = c.String(nullable: false, maxLength: 128),
+                        ChatId = c.String(nullable: false, maxLength: 128),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .ForeignKey("dbo.Chats", t => t.ChatId, cascadeDelete: true)
+                .Index(t => t.UserId)
+                .Index(t => t.ChatId);
+            
+            CreateTable(
+                "dbo.Attachments",
+                c => new
+                    {
+                        MessageId = c.String(nullable: false, maxLength: 128),
+                        FileName = c.String(maxLength: 255),
+                        ContentType = c.String(maxLength: 100),
+                        FileType = c.Int(nullable: false),
+                        Content = c.Binary(),
+                    })
+                .PrimaryKey(t => t.MessageId)
+                .ForeignKey("dbo.Messages", t => t.MessageId)
+                .Index(t => t.MessageId);
+            
+            CreateTable(
                 "dbo.AspNetUserClaims",
                 c => new
                     {
@@ -160,6 +199,19 @@ namespace LexiconLMS.Migrations
                 .Index(t => t.Name, unique: true, name: "RoleNameIndex");
             
             CreateTable(
+                "dbo.ChatApplicationUsers",
+                c => new
+                    {
+                        Chat_ChatId = c.String(nullable: false, maxLength: 128),
+                        ApplicationUser_Id = c.String(nullable: false, maxLength: 128),
+                    })
+                .PrimaryKey(t => new { t.Chat_ChatId, t.ApplicationUser_Id })
+                .ForeignKey("dbo.Chats", t => t.Chat_ChatId, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetUsers", t => t.ApplicationUser_Id, cascadeDelete: true)
+                .Index(t => t.Chat_ChatId)
+                .Index(t => t.ApplicationUser_Id);
+            
+            CreateTable(
                 "dbo.DocumentTypeCanCreate",
                 c => new
                     {
@@ -201,6 +253,11 @@ namespace LexiconLMS.Migrations
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUsers", "CourseId", "dbo.Courses");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.ChatApplicationUsers", "ApplicationUser_Id", "dbo.AspNetUsers");
+            DropForeignKey("dbo.ChatApplicationUsers", "Chat_ChatId", "dbo.Chats");
+            DropForeignKey("dbo.Messages", "ChatId", "dbo.Chats");
+            DropForeignKey("dbo.Messages", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Attachments", "MessageId", "dbo.Messages");
             DropForeignKey("dbo.Documents", "ModuleId", "dbo.Modules");
             DropForeignKey("dbo.Activities", "ModuleId", "dbo.Modules");
             DropForeignKey("dbo.Modules", "CourseId", "dbo.Courses");
@@ -209,11 +266,16 @@ namespace LexiconLMS.Migrations
             DropIndex("dbo.DocumentTypeCanView", new[] { "DocumentTypeId" });
             DropIndex("dbo.DocumentTypeCanCreate", new[] { "IdentityRoleId" });
             DropIndex("dbo.DocumentTypeCanCreate", new[] { "DocumentTypeId" });
+            DropIndex("dbo.ChatApplicationUsers", new[] { "ApplicationUser_Id" });
+            DropIndex("dbo.ChatApplicationUsers", new[] { "Chat_ChatId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
+            DropIndex("dbo.Attachments", new[] { "MessageId" });
+            DropIndex("dbo.Messages", new[] { "ChatId" });
+            DropIndex("dbo.Messages", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.AspNetUsers", new[] { "CourseId" });
             DropIndex("dbo.Modules", new[] { "CourseId" });
@@ -225,11 +287,15 @@ namespace LexiconLMS.Migrations
             DropIndex("dbo.Activities", new[] { "ModuleId" });
             DropTable("dbo.DocumentTypeCanView");
             DropTable("dbo.DocumentTypeCanCreate");
+            DropTable("dbo.ChatApplicationUsers");
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.DocumentTypes");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
+            DropTable("dbo.Attachments");
+            DropTable("dbo.Messages");
+            DropTable("dbo.Chats");
             DropTable("dbo.AspNetUsers");
             DropTable("dbo.Modules");
             DropTable("dbo.Courses");
