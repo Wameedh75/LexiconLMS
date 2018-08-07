@@ -245,6 +245,7 @@
     <Compile Include="ViewModels\ChatsListViewModel.cs" />
     <Compile Include="ViewModels\CourseVeiwModel.cs" />
     <Compile Include="ViewModels\DocumentViewModel.cs" />
+    <Compile Include="ViewModels\LandingPageViewModel.cs" />
     <Compile Include="ViewModels\MessagesListViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -423,8 +424,10 @@
     <Content Include="Views\Account\RegisterTeacher.cshtml" />
     <Content Include="Views\Courses\_CourseListView.cshtml" />
     <Content Include="Views\Documents\_DocumentsLayout.cshtml" />
-    <Content Include="Views\Chat\MessagesList.cshtml" />
-    <Content Include="Views\Chat\ChatsList.cshtml" />
+    <Content Include="Views\Chat\_ChatsList.cshtml" />
+    <Content Include="Views\Chat\_MessagesList.cshtml" />
+    <Content Include="Views\Chat\SendMessage.cshtml" />
+    <Content Include="Views\Shared\_ChatLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
