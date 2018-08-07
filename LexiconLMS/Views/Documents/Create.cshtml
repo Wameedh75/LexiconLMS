@@ -7,9 +7,9 @@
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" })) {
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(model => model.Course.Id)
-    @Html.HiddenFor(model => model.Module.Id)
-    @Html.HiddenFor(model => model.Activity.Id)
+    @Html.HiddenFor(model => model.CourseId)
+    @Html.HiddenFor(model => model.ModuleId)
+    @Html.HiddenFor(model => model.ActivityId)
 
     <div class="p-3 mb-2">
         <div class="form-horizontal">

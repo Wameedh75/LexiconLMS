@@ -66,7 +66,7 @@ namespace LexiconLMS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "SelectedTypeId,File,Description,Deadline,Course.Id,Module.Id,Activity.Id")] DocumentViewModel model) {
+        public ActionResult Create([Bind(Include = "SelectedTypeId,File,Description,Deadline,CourseId,ModuleId,ActivityId")] DocumentViewModel model) {
             if (ModelState.IsValid) {
                 string path = Path.Combine(Server.MapPath("~/Documents"), Path.GetFileName(model.File.FileName));
                 model.File.SaveAs(path);
