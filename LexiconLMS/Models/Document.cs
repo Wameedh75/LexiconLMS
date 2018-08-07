@@ -10,6 +10,7 @@ namespace LexiconLMS.Models
     {
         public Document() {
             Timestamp = DateTime.Now;
+            RelativePath = "";
         }
 
         public int Id { get; set; }
@@ -32,8 +33,9 @@ namespace LexiconLMS.Models
         [Display(Name = "File name")]
         public string FileName { get; set; }
 
-        public string Url => Path.Combine("/Documents/", FileName);
+        public string Url => Path.Combine("/Documents/", RelativePath, FileName);
         public string FullPath { get; set; }
+        public string RelativePath { get; set; }
 
         [Required]
         [Display(Name = "MIME type")]

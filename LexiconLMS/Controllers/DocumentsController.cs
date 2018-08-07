@@ -59,6 +59,9 @@ namespace LexiconLMS.Controllers
         }
 
         public ActionResult Create(int? CourseId, int? ModuleId, int? ActivityId) {
+            if (CourseId == null && ModuleId == null && ActivityId == null) {
+                return RedirectToAction("Index", "Courses");
+            }
             var model = new DocumentInsertViewModel {
                 Types = DocumentTypeSelectList(),
             };
@@ -66,11 +69,13 @@ namespace LexiconLMS.Controllers
                 Activity activity = db.Activities.Find(ActivityId);
                 model.ActivityId = activity?.Id;
                 model.ActivityName = activity?.Name;
-            } else if (ModuleId != null) {
+            }
+            if (ModuleId != null) {
                 Module module = db.Modules.Find(ModuleId);
                 model.ModuleId = module?.Id;
                 model.ModuleName = module?.Name;
-            } else if (CourseId != null) {
+            }
+            if (CourseId != null) {
                 Course course = db.Courses.Find(CourseId);
                 model.CourseId = course?.Id;
                 model.CourseName = course?.Name;
@@ -83,29 +88,34 @@ namespace LexiconLMS.Controllers
         public ActionResult Create([Bind(Include = "SelectedTypeId,File,Description,Deadline,CourseId,ModuleId,ActivityId")] DocumentInsertViewModel model) {
             if (ModelState.IsValid) {
                 string path = Server.MapPath("~/Documents");
+                string relativePath = "";
+                string filename = Path.GetFileName(model.File.FileName);
                 if (model.CourseId != null) {
-                    path += "/course/" + model.CourseId;
+                    relativePath = Path.Combine("course", model.CourseId.ToString());
                 } else if (model.ModuleId != null) {
-                    path += "/module/" + model.ModuleId;
+                    relativePath = Path.Combine("module", model.ModuleId.ToString());
                 } else if (model.ActivityId != null) {
-                    path += "/activity/" + model.ActivityId;
+                    relativePath = Path.Combine("activity", model.ActivityId.ToString());
                 }
-                path = Path.Combine(path, Path.GetFileName(model.File.FileName));
+                path = Path.Combine(path, relativePath);
+                Directory.CreateDirectory(path);
+                string fullPath = Path.Combine(path, filename);
                 int nr = 1;
-                while (System.IO.File.Exists(path)) {
-                    path = Path.GetFileNameWithoutExtension(path) + "_" + nr + "." +
-                               Path.GetExtension(path);
+                while (System.IO.File.Exists(fullPath)) {
+                    filename = Path.GetFileNameWithoutExtension(filename) + "_" + nr + Path.GetExtension(filename);
+                    fullPath = Path.Combine(path, filename);
                     nr++;
                 }
-                model.File.SaveAs(path);
+                model.File.SaveAs(fullPath);
                 var document = new Document {
                     TypeId = model.SelectedTypeId,
                     UserId = User.Identity.GetUserId(),
                     Description = model.Description,
                     Deadline = model.Deadline,
-                    FileName = model.File.FileName,
+                    RelativePath = relativePath,
+                    FileName = filename,
                     MimeType = model.File.ContentType,
-                    FullPath = path,
+                    FullPath = fullPath,
                     CourseId = model.CourseId,
                     ModuleId = model.ModuleId,
                     ActivityId = model.ActivityId
