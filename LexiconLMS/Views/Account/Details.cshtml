@@ -63,5 +63,12 @@
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id },new{@class = "btn btn-warning"}) <span></span>
-    @Html.ActionLink("Home", "Index","Courses",null ,new{@class="btn btn-info"})
+    @if (Model.CourseId == null)
+    {
+        @Html.ActionLink("Go to teachers", "Teachers", "Account",null, new{@class = "btn btn-info"})
+    }
+    @if (Model.CourseId != null)
+    {
+        @Html.ActionLink("Go to students", "Students", "Account",null, new{@class = "btn btn-info"})
+    }
 </p>

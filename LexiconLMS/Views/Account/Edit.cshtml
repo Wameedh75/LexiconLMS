@@ -78,7 +78,14 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-success" />
-                <a class="btn btn-info" href="javascript:void(0);" onclick="history.go(-1);">Back</a>
+                @if (Model.SelectedCourse == null)
+                {
+                    @Html.ActionLink("Go to teachers", "Teachers", "Account",null, new{@class = "btn btn-info"})
+                }
+                @if (Model.SelectedCourse != null)
+                {
+                    @Html.ActionLink("Go to students", "Students", "Account",null, new{@class = "btn btn-info"})
+                }
                </div>
         </div>
     </div>

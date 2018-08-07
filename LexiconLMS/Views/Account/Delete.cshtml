@@ -49,9 +49,17 @@
     {
         @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-danger" />
-            <a class="btn btn-info" href="javascript:void(0);" onclick="history.go(-1);">Back</a>
-        </div>
+    <div class="form-actions no-color">
+        <input type="submit" value="Delete" class="btn btn-danger" />
+        @if (Model.CourseId == null)
+        {
+            @Html.ActionLink("Go to teachers", "Teachers", "Account",null, new{@class = "btn btn-info"})
+        }
+        @if (Model.CourseId != null)
+        {
+            @Html.ActionLink("Go to students", "Students", "Account",null, new{@class = "btn btn-info"})
+        }
+
+     </div>
     }
 </div>

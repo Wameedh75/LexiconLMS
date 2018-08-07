@@ -9,6 +9,7 @@
     <h1>Students</h1>
 </div>
 
+
 @if (Request.IsAuthenticated && User.IsInRole("teacher"))
 {
     <p>
@@ -17,6 +18,13 @@
 
     </p>
 }
+
+    <div class="dl-horizontal">
+        <form class="form-inline md-form mr-auto mb-4">
+            <input class="form-control" type="text" placeholder="contains" aria-label="Filter" name="filterString">
+            <button class="btn btn-outline btn-rounded btn-primary my-0" type="submit">Filter</button>
+        </form>
+    </div>
 <table class="table">
     <tr>
         <th>
@@ -53,7 +61,7 @@
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id },new{@class = "btn btn-warning"}) <span> </span>
                 @Html.ActionLink("Details", "Details", new { id = item.Id },new{@class = "btn btn-info"}) <span> </span>
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id}, new { @class = "btn btn-danger" })
             </td>
         </tr>
     }
