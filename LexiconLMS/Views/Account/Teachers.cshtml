@@ -9,14 +9,20 @@
     <h1>Teachers</h1>
 </div>
 
-
 @if (Request.IsAuthenticated && User.IsInRole("teacher"))
 {
     <p>
-        <input type="button" class="btn btn-primary" value="Add Teacher" onclick="location.href='@Url.Action("RegisterTeacher", "Account")'" />
+        <input type="button" class="btn btn-success" value="Add Teacher" onclick="location.href='@Url.Action("RegisterTeacher", "Account")'" />
     </p>
 
 }
+
+    <div class="dl-horizontal">
+        <form class="form-inline md-form mr-auto mb-4">
+            <input class="form-control" type="text" placeholder="contains" aria-label="Filter" name="filterString">
+            <button class="btn btn-outline btn-rounded btn-primary my-0" type="submit">Filter</button>
+        </form>
+    </div>
 
 <table class="table">
     <tr>
@@ -46,9 +52,9 @@
                 @Html.DisplayFor(modelItem => item.FullName)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id },new{@class = "btn btn-warning"}) <span> </span>
-                @Html.ActionLink("Details", "Details", new { id = item.Id },new{@class = "btn btn-info"}) <span> </span>
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id },new{@class = "btn btn-sm btn-warning"}) <span> </span>
+                @Html.ActionLink("Details", "Details", new { id = item.Id },new{@class = "btn btn-sm btn-info" }) <span> </span>
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id}, new { @class = "btn btn-sm btn-danger" })
                 
             </td>
         </tr>

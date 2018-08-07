@@ -1,4 +1,5 @@
-﻿@model LexiconLMS.Models.Course
+﻿@using Antlr.Runtime.Tree
+@model LexiconLMS.Models.Course
 
 @{
     ViewBag.Title = "Details";
@@ -108,7 +109,7 @@
                     </div>
                     <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
                         <div class="card-body" style="color: black; font-size: 14px">
-                            <p>@Html.ActionLink("Add a Document", "Create", "Documents", new { CourseId = Model.Id }, null)</p>
+                            @Html.ActionLink("Add a Document", "Create", "Documents", new { CourseId = Model.Id }, new{@class ="btn btn-sm btn-success"})
                             @if (Model.Documents.Count > 0)
                             {
                                 @Html.Partial("_DocumentList", Model.Documents)

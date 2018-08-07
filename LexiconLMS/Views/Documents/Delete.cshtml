@@ -1,5 +1,5 @@
-﻿@model LexiconLMS.ViewModels.DocumentViewModel
-@*@{ Layout = "~/Views/Documents/_DocumentsLayout.cshtml"; }*@
+﻿@model LexiconLMS.ViewModels.DocumentUpdateViewModel
+@{ Layout = "~/Views/Documents/_DocumentsLayout.cshtml"; }
 
 <div class="p-3 mb-2 bg-danger text-white">
     <h1>Delete</h1>
@@ -28,19 +28,7 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-danger" />
-            @if (Model.ActivityId != null)
-            {
-                @Html.ActionLink("Back","Details","Activities", new{ id = Model.ActivityId}, new{@class = "btn btn-info"})
-            }
-            @if (Model.ModuleId != null && Model.ActivityId == null)
-            {
-                @Html.ActionLink("Back","Details","Modules", new{ id = Model.ModuleId}, new{@class = "btn btn-info"})
-            }
-            @if (Model.CourseId != null && Model.ModuleId == null && Model.ActivityId == null)
-            {
-                @Html.ActionLink("Back","Details","Courses", new{ id = Model.CourseId}, new{@class = "btn btn-info"})
-            }
+            <input type="submit" value="Delete" class="btn btn-default" />
         </div>
     }
 </div>

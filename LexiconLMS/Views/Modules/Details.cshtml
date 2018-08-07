@@ -14,8 +14,7 @@
 
     </div>
 }
-
-<div >
+<div>
     <div class="bg-info text-white">
         @if (User.IsInRole("teacher"))
         {
@@ -27,8 +26,6 @@
             <h2>Module:<strong style="color: black"> @Html.DisplayFor(model => model.Name)</strong></h2>
         </div>
     </div>
-
-
 
     <div class="w3-container ">
         <div>
@@ -79,14 +76,12 @@
                         </button>
                     </h5>
                 </div>
-
                 <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                     <div class="card-body" style="color: black; font-size: 14px">
                         @if (Model.CourseActivities.Count > 0)
                         {
                             @Html.Partial("_ActivityList", Model.CourseActivities)
                         }
-
                     </div>
                 </div>
             </div>
@@ -94,17 +89,17 @@
                 <div class="card-header" id="headingTwo">
                     <h5 class="mb-0">
                         <button class="btn btn-block collapsed myButton" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                            @Html.DisplayFor(model => model.Name) Documents
+                           @Html.DisplayFor(model => model.Name) Documents
                         </button>
                     </h5>
                 </div>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                     <div class="card-body" style="color: black; font-size: 14px">
-                        @if (Model.CourseActivities.Count > 0)
+                        @Html.ActionLink("Add a Document", "Create", "Documents", new { ModuleId = Model.Id }, new { @class = "btn btn-sm btn-success" })
+                        @if (Model.Documents.Count > 0)
                         {
-                            @Html.Partial("_DocumentList", Model.Documents)
+                        @Html.Partial("_DocumentList", Model.Documents)
                         }
-
                     </div>
                 </div>
             </div>
