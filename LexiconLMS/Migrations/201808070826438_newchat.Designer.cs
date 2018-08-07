@@ -7,13 +7,13 @@ namespace LexiconLMS.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class AddedPathsToDocument : IMigrationMetadata
+    public sealed partial class newchat : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddedPathsToDocument));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(newchat));
         
         string IMigrationMetadata.Id
         {
-            get { return "201808031249004_AddedPathsToDocument"; }
+            get { return "201808070826438_newchat"; }
         }
         
         string IMigrationMetadata.Source

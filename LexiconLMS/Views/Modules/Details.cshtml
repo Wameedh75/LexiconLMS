@@ -21,8 +21,9 @@
             <button class="w3-button w3-xlarge bg-info text-white" onclick="w3_open()">☰</button>
         }
         <div class="w3-container">
-            <h1>Course @Html.DisplayFor(model => model.Course.Name)</h1>
-            <h1>Module @Html.DisplayFor(model => model.Name) Details </h1>
+            <h1> Details</h1>
+            <h2>Course: <strong style="color: black">@Html.DisplayFor(model => model.Course.Name)</strong></h2>
+            <h2>Module:<strong style="color: black"> @Html.DisplayFor(model => model.Name)</strong></h2>
         </div>
     </div>
 
@@ -70,7 +71,7 @@
             <div class="card">
                 <div class="card-header" id="headingOne">
                     <h5 class="mb-0">
-                        <button class="btn btn-block" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="False" aria-controls="collapseOne">
+                        <button class="btn btn-block myButton" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="False" aria-controls="collapseOne">
                             @Html.DisplayFor(model => model.Name) Activities
                         </button>
                     </h5>
@@ -87,17 +88,17 @@
             <div class="card">
                 <div class="card-header" id="headingTwo">
                     <h5 class="mb-0">
-                        <button class="btn btn-block collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                            @Html.DisplayFor(model => model.Name) Documents
+                        <button class="btn btn-block collapsed myButton" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                           @Html.DisplayFor(model => model.Name) Documents
                         </button>
                     </h5>
                 </div>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                     <div class="card-body" style="color: black; font-size: 14px">
-                        <p>@Html.ActionLink("Add a Document", "Create", "Documents", routeValues: new { ModuleId = Model.Id }, htmlAttributes: new { @class = "btn btn-info"})</p>
+                        @Html.ActionLink("Add a Document", "Create", "Documents", new { ModuleId = Model.Id }, new { @class = "btn btn-sm btn-success" })
                         @if (Model.Documents.Count > 0)
                         {
-                            @Html.Partial("_DocumentList", Model.Documents)
+                        @Html.Partial("_DocumentList", Model.Documents)
                         }
                     </div>
                 </div>

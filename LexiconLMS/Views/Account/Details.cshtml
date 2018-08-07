@@ -6,11 +6,10 @@
 }
 
 <div class="p-3 mb-2 bg-info text-white">
-    
-    <h2>User: <strong><span style="color: black">@Model.FirstName @Model.LastName</span></strong> details.</h2>
+    <h1>Details</h1>
+    <h2><strong><span style="color: black">@Model.FirstName @Model.LastName</span></strong> info.</h2>
 </div>
 <div>
-    <h4>Course</h4>
    
     <hr />
     <dl class="dl-horizontal">
@@ -63,6 +62,13 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id },new{@class = "btn btn-warning"}) <span></span>
-    @Html.ActionLink("Home", "Index","Courses",null ,new{@class="btn btn-info"})
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id },new{@class = "btn btn-sm btn-warning" }) <span></span>
+    @if (Model.CourseId == null)
+    {
+        @Html.ActionLink("Go to teachers", "Teachers", "Account",null, new{@class = "btn btn-sm btn-info" })
+    }
+    @if (Model.CourseId != null)
+    {
+        @Html.ActionLink("Go to students", "Students", "Account",null, new{@class = "btn btn-sm btn-info" })
+    }
 </p>

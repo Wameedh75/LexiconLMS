@@ -1,4 +1,5 @@
-﻿@model LexiconLMS.Models.Course
+﻿@using Antlr.Runtime.Tree
+@model LexiconLMS.Models.Course
 
 @{
     ViewBag.Title = "Details";
@@ -64,7 +65,7 @@
                 <div class="card">
                     <div class="card-header" id="headingOne">
                         <h5 class="mb-0">
-                            <button class="btn btn-block" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="False" aria-controls="collapseOne">
+                            <button class="btn btn-block myButton" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="False" aria-controls="collapseOne">
                                 @Html.DisplayFor(model =>model.Name) Modules
                             </button>
                         </h5>
@@ -83,7 +84,7 @@
                 <div class="card">
                     <div class="card-header" id="headingTwo">
                         <h5 class="mb-0">
-                            <button class="btn btn-block collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            <button class="btn btn-block collapsed myButton" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                 @Html.DisplayFor(model =>model.Name) Students
                             </button>
                         </h5>
@@ -101,14 +102,14 @@
                 <div class="card">
                     <div class="card-header" id="headingThree">
                         <h5 class="mb-0">
-                            <button class="btn btn-block collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            <button class="btn btn-block collapsed myButton" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                 @Html.DisplayFor(model => model.Name) Documents
                             </button>
                         </h5>
                     </div>
                     <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
                         <div class="card-body" style="color: black; font-size: 14px">
-                            <p>@Html.ActionLink("Add a Document", "Create", "Documents", routeValues: new { CourseId = Model.Id }, htmlAttributes: new { @class = "btn btn-info"})</p>
+                            @Html.ActionLink("Add a Document", "Create", "Documents", new { CourseId = Model.Id }, new{@class ="btn btn-sm btn-success"})
                             @if (Model.Documents.Count > 0)
                             {
                                 @Html.Partial("_DocumentList", Model.Documents)

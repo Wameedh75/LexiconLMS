@@ -4,45 +4,51 @@
 @{
     ViewBag.Title = "Index";
 }
+<div class="p-3 mb-2 bg-info text-white">
+    <h1>Courses</h1></div>
 
-<h2>Courses</h2>
+<div>
+    @if (User.IsInRole("teacher"))
+    {
+
+        @Html.ActionLink("Create New", "Create", null, new {@class = "btn btn-success"})
+
+    }
+    
+</div>
+<br/>
 <div class="dl-horizontal">
-    <form class="form-inline md-form mr-auto mb-4">
+    <form class="form-inline md-form mr-auto">
         <input class="form-control" type="text" placeholder="contains" aria-label="Filter" name="filterString">
         <button class="btn btn-outline btn-rounded btn-primary my-0" type="submit">Filter</button>
     </form>
-   </div>
-
-<div class="custom-control custom-checkbox my-1 mr-sm-2">
-    <input type="checkbox" class="custom-control-input" id="customControlInline" onclick="showFunction()">
-    <label class="custom-control-label" for="customControlInline">Inactive Courses</label>
 </div>
 
-<br />
-@if (User.IsInRole("teacher"))
-{
+<div>
+    <div class="custom-control custom-checkbox my-1 mr-sm-2">
+        <input type="checkbox" class="custom-control-input" id="customControlInline" onclick="showFunction()">
+        <label class="custom-control-label" for="customControlInline">Inactive Courses</label>
+    </div>
 
-    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
 
-}
-
-@foreach (var item in Model)
-{
-    if (item.EndDate >= DateTime.Today)
+    @foreach (var item in Model)
     {
-        <div>
-            @Html.Partial("_CourseListView",item)
-        </div>
-    }
-    else
-    {
-        <div class="inactive" style="display: none">
-           @Html.Partial("_CourseListView",item)
-        </div>
-    }
+        if (item.EndDate >= DateTime.Today)
+        {
+            <div>
+                @Html.Partial("_CourseListView", item)
+            </div>
+        }
+        else
+        {
+            <div class="inactive" style="display: none">
+                @Html.Partial("_CourseListView", item)
+            </div>
+        }
 
 
-}
+    }
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

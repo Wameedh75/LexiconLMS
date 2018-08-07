@@ -62,6 +62,32 @@
         </dd>
 
     </dl>
+    
+    <div class="accordion" id="accordionExample">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                    <button class="btn btn-block myButton" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="False" aria-controls="collapseOne">
+                        @Html.DisplayFor(model => model.Name) Documents
+                    </button>
+                </h5>
+            </div>
+
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card-body" style="color: black; font-size: 14px">
+                    @Html.ActionLink("Add a Document", "Create", "Documents", new { ActivityId = Model.Id }, new { @class = "btn btn-sm btn-success" })
+                    @if (Model.Documents.Count > 0)
+                    {
+                        @Html.Partial("_DocumentList", Model.Documents)
+                    }
+
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+    <div>
 
     @Html.ActionLink("Back to module", "Details", "Modules", new { id = Model.Module.Id }, new { @class = "btn btn-info" })
     @if (User.IsInRole("teacher"))
@@ -70,6 +96,4 @@
         @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = " btn btn-warning" })
     }
 </div>
-<p>
 
-</p>

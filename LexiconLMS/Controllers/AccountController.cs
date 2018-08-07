@@ -73,28 +73,47 @@ namespace LexiconLMS.Controllers
         //
 
         [Authorize(Roles = "teacher")]
-        public ActionResult Teachers()
+        public ActionResult Teachers(string filterString = null)
         {
             var userdb = ApplicationDbContext.Create();
 
             var roleId = userdb.Roles.FirstOrDefault(r => r.Name == "teacher")?.Id;
-            var teachers = userdb.Users.Where(u => u.Roles.Select(y => y.RoleId).Contains(roleId)).ToList();
+            var teachers = userdb.Users.Where(u => u.Roles.Select(y => y.RoleId).Contains(roleId));
 
             //var x2 = userdb.Roles.Where(r => r.Name == "teacher").FirstOrDefault().Id;
             //var x3 = userdb.Users.Where(r => r.Roles.Select(jr => jr.RoleId).FirstOrDefault()==x2).ToList();
 
-            return View(teachers);
+            if (string.IsNullOrEmpty(filterString)) return View(teachers.ToList());
+            var filteredTeachers = from user in teachers
+                where user.FirstName.Contains(filterString)
+                      || user.LastName.Contains(filterString)
+                      || user.PhoneNumber.Contains(filterString)
+                      || user.Email.Contains(filterString)
+                      || user.UserName.Contains(filterString)
+                select user;
+            return View(filteredTeachers.ToList());
         }
 
         [Authorize(Roles = "teacher")]
-        public ActionResult Students()
+        public ActionResult Students(string filterString = null)
         {
             var userdb = ApplicationDbContext.Create();
 
             var roleId = userdb.Roles.FirstOrDefault(r => r.Name == "student")?.Id;
-            var students = userdb.Users.Where(u => u.Roles.Select(y => y.RoleId).Contains(roleId)).ToList();
+            var students = userdb.Users.Where(u => u.Roles.Select(y => y.RoleId).Contains(roleId));
 
-            return View(students);
+            if (string.IsNullOrEmpty(filterString)) return View(students.ToList());
+            var filteredStudent = from user in students
+                where user.FirstName.Contains(filterString)
+                      || user.LastName.Contains(filterString)
+                      || user.PhoneNumber.Contains(filterString)
+                      || user.Email.Contains(filterString)
+                      || user.Course.Name.Contains(filterString)
+                      || user.UserName.Contains(filterString)
+                select user;
+            return View(filteredStudent.ToList());
+
+
         }
         //
         // GET: /Account/Login
@@ -576,6 +595,7 @@ namespace LexiconLMS.Controllers
             }
             var result = await UserManager.ConfirmEmailAsync(userId, code);
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
+            
         }
 
         //

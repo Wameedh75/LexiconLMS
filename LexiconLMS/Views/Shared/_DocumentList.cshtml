@@ -1,33 +1,33 @@
 ﻿@model IEnumerable<LexiconLMS.Models.Document>
 
 <table class="table">
-    <tr>
-        <th>
+    <tr class="d-flex">
+        <th class="col-md-2">
             @Html.DisplayNameFor(model => model.FileName)
         </th>
-        <th>
+        <th class="col-md-5">
             @Html.DisplayNameFor(model => model.Description)
         </th>
-        <th>
+        <th class="col-md-2">
             @Html.DisplayNameFor(model => model.Deadline)
         </th>
-        <th></th>
+        <th class="col-md-3"></th>
     </tr>
 
 @foreach (var item in Model.Where(i => i.CanView(User))) {
-    <tr>
-        <td>
+    <tr class="d-flex">
+        <td class="col-md-2 hideOverflow">
             <a href="@item.Url" target="_blank">
                 @Html.DisplayFor(modelItem => item.FileName)
             </a>
         </td>
-        <td>
+        <td class="col-md-5 hideOverflow">
             @Html.DisplayFor(modelItem => item.Description)
         </td>
-        <td>
+        <td class="col-md-2">
             @Html.DisplayFor(modelItem => item.Deadline)
         </td>
-        <td>
+        <td class="col-md-3">
             @if (item.CanEdit(User)) { 
                 @Html.ActionLink("Edit", "Edit", "Documents", new {id = item.Id}, null)
                 <span> | </span>

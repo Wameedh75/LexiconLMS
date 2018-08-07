@@ -51,12 +51,13 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-success" />
-                
-                @using (Html.BeginForm("Teachers", "Account"))
-                {
-                    <button type="submit" class="btn btn-primary" color="white">Back to teachers list</button>
-                }
+                <input type="submit" value="Create" class="btn btn-sm btn-success" />
+
+                @*@using (Html.BeginForm("Teachers", "Account"))
+        {
+            <button type="submit" class="btn btn-primary" color="white">Back to teachers list</button>
+        }*@
+                @Html.ActionLink("Back to teachers list", "Teachers", "Account", null, new { @class = "btn btn-sm btn-info" })
             </div>
         </div>
     </div>

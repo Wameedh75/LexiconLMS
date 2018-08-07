@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -19,6 +20,8 @@ namespace LexiconLMS.Models
 
         public int? CourseId { get; set; }
         public virtual Course Course { get; set; }
+        public virtual ICollection<Chat> Chats { get; set; }
+        public virtual ICollection<Message> Messages { get; set; }
 
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager) {
