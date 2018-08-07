@@ -218,41 +218,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201807271344438_CreateAspNetModels.cs" />
-    <Compile Include="Migrations\201807271344438_CreateAspNetModels.Designer.cs">
-      <DependentUpon>201807271344438_CreateAspNetModels.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807271352509_Courses.cs" />
-    <Compile Include="Migrations\201807271352509_Courses.Designer.cs">
-      <DependentUpon>201807271352509_Courses.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807271400213_Modules.cs" />
-    <Compile Include="Migrations\201807271400213_Modules.Designer.cs">
-      <DependentUpon>201807271400213_Modules.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807271401378_Activities.cs" />
-    <Compile Include="Migrations\201807271401378_Activities.Designer.cs">
-      <DependentUpon>201807271401378_Activities.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201808011114512_Documents.cs" />
-    <Compile Include="Migrations\201808011114512_Documents.Designer.cs">
-      <DependentUpon>201808011114512_Documents.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201808011341597_DocumentChanges.cs" />
-    <Compile Include="Migrations\201808011341597_DocumentChanges.Designer.cs">
-      <DependentUpon>201808011341597_DocumentChanges.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201808031249004_AddedPathsToDocument.cs" />
-    <Compile Include="Migrations\201808031249004_AddedPathsToDocument.Designer.cs">
-      <DependentUpon>201808031249004_AddedPathsToDocument.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201808070826438_newchat.cs" />
-    <Compile Include="Migrations\201808070826438_newchat.Designer.cs">
-      <DependentUpon>201808070826438_newchat.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201808071451479_AddedDocumentRelativePath.cs" />
-    <Compile Include="Migrations\201808071451479_AddedDocumentRelativePath.Designer.cs">
-      <DependentUpon>201808071451479_AddedDocumentRelativePath.cs</DependentUpon>
+    <Compile Include="Migrations\201808071902517_init.cs" />
+    <Compile Include="Migrations\201808071902517_init.Designer.cs">
+      <DependentUpon>201808071902517_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -475,32 +443,8 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201807271344438_CreateAspNetModels.resx">
-      <DependentUpon>201807271344438_CreateAspNetModels.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807271352509_Courses.resx">
-      <DependentUpon>201807271352509_Courses.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807271400213_Modules.resx">
-      <DependentUpon>201807271400213_Modules.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807271401378_Activities.resx">
-      <DependentUpon>201807271401378_Activities.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808011114512_Documents.resx">
-      <DependentUpon>201808011114512_Documents.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808011341597_DocumentChanges.resx">
-      <DependentUpon>201808011341597_DocumentChanges.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808031249004_AddedPathsToDocument.resx">
-      <DependentUpon>201808031249004_AddedPathsToDocument.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808070826438_newchat.resx">
-      <DependentUpon>201808070826438_newchat.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808071451479_AddedDocumentRelativePath.resx">
-      <DependentUpon>201808071451479_AddedDocumentRelativePath.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201808071902517_init.resx">
+      <DependentUpon>201808071902517_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

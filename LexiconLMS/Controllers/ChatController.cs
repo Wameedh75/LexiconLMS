@@ -42,8 +42,8 @@ namespace LexiconLMS.Controllers
                 using (var db = ApplicationDbContext.Create())
                 {
                     var MessageList = db.Messages.Where(m => m.ChatId == chatId).ToList();
-
-                    return PartialView("_MessagesList", MessageList);
+                    return Json(new { success = true, message = MessageList });
+                    //return PartialView("_MessagesList", MessageList);
                 }
             }
             return PartialView("_MessagesList");
