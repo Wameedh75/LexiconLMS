@@ -77,14 +77,14 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-success" />
+                <input type="submit" value="Save" class="btn btn-sm btn-success" />
                 @if (Model.SelectedCourse == null)
                 {
-                    @Html.ActionLink("Go to teachers", "Teachers", "Account",null, new{@class = "btn btn-info"})
+                    @Html.ActionLink("Go to teachers", "Teachers", "Account",null, new{@class = "btn btn-sm btn-info" })
                 }
                 @if (Model.SelectedCourse != null)
                 {
-                    @Html.ActionLink("Go to students", "Students", "Account",null, new{@class = "btn btn-info"})
+                    @Html.ActionLink("Go to students", "Students", "Account",null, new{@class = "btn btn-sm btn-info" })
                 }
                </div>
         </div>
