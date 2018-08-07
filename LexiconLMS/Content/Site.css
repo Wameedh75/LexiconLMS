@@ -90,6 +90,32 @@ textarea {
     border-bottom: none;
 }
 
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.my-btn {
+    border: 2px solid white;
+    color: white;
+    background-color: #ff8c00;
+    padding: 8px 20px;
+    -ms-border-radius: 8px;
+    border-radius: 8px;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.upload-btn-wrapper input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+
+}
+
 footer {
     clear: both;
 }
