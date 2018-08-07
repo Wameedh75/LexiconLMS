@@ -94,12 +94,13 @@
                 <div class="card-header" id="headingTwo">
                     <h5 class="mb-0">
                         <button class="btn btn-block collapsed myButton" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                            @Html.DisplayFor(model => model.Name) Documents
+                           @Html.DisplayFor(model => model.Name) Documents
                         </button>
                     </h5>
                 </div>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                     <div class="card-body" style="color: black; font-size: 14px">
+                        @Html.ActionLink("Add a Document", "Create", "Documents", new { ModuleId = Model.Id }, new { @class = "btn btn-sm btn-success" })
                         @if (Model.CourseActivities.Count > 0)
                         {
                             @Html.Partial("_DocumentList", Model.Documents)
