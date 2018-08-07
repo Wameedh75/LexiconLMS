@@ -576,6 +576,7 @@ namespace LexiconLMS.Controllers
             }
             var result = await UserManager.ConfirmEmailAsync(userId, code);
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
+            
         }
 
         //
