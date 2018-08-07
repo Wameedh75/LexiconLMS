@@ -60,6 +60,8 @@ namespace LexiconLMS.Models
             modelBuilder.Entity<Message>()
                 .HasRequired(m => m.Chat)
                 .WithMany(c => c.Messages);
+            modelBuilder.Entity<Message>()
+                .HasKey(m => m.Id);
             modelBuilder.Entity<Attachment>()
                 .HasKey(a => a.MessageId);
             modelBuilder.Entity<Chat>()
@@ -68,6 +70,8 @@ namespace LexiconLMS.Models
             modelBuilder.Entity<Chat>()
                 .HasMany(c => c.Users)
                 .WithMany(u => u.Chats);
+            modelBuilder.Entity<Chat>()
+                .HasRequired(c => c.Course);
             //    /*
             //    modelBuilder.Entity<Document>()
             //        .HasOptional(d => d.Module)

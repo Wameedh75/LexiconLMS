@@ -9,9 +9,10 @@ namespace LexiconLMS.Models
 {
     public class Message
     {
-        [Key]
         public string Id { get; set; }
         public DateTime Date { get; set; }
+        [Required]
+        public string Content { get; set; }
 
         public string UserId { get; set; }
         public string ChatId { get; set; }
