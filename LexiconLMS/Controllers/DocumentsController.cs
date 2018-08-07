@@ -137,10 +137,32 @@ namespace LexiconLMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id) {
             Document document = db.Documents.Find(id);
-            db.Documents.Remove(document);
-            db.SaveChanges();
-            System.IO.File.Delete(document.FullPath);
-            return RedirectToParent(document);
+            var course = db.Courses.Find(document?.CourseId);
+            var module = db.Modules.Find(document?.ModuleId);
+            var actvity = db.Activities.Find(document?.ActivityId);
+            if (document != null)
+            {
+                db.Documents.Remove(document);
+                db.SaveChanges();
+                System.IO.File.Delete(document.FullPath);
+            }
+
+            if (actvity != null)
+            {
+                return RedirectToAction("Details", "Activities", new {id = actvity.Id});
+            }
+            if (module != null)
+            {
+                return RedirectToAction("Details", "Modules", new {id = module.Id});
+            }
+
+            if (course != null)
+            {
+                return RedirectToAction("Details", "Courses", new {id = course.Id});
+            }
+
+            DocumentViewModel model = PopulateFromDocument(document);
+            return View(model);
         }
 
         protected override void Dispose(bool disposing) {

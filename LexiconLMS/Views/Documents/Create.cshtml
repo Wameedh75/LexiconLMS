@@ -1,6 +1,9 @@
 ﻿@model LexiconLMS.ViewModels.DocumentViewModel
 @{ Layout = "~/Views/Documents/_DocumentsLayout.cshtml"; }
 
+<div class="p-3 mb-2 bg-success text-white">
+    <h1>A new Document!</h1>
+</div>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" })) {
     @Html.AntiForgeryToken()
@@ -8,44 +11,46 @@
     @Html.HiddenFor(model => model.Module.Id)
     @Html.HiddenFor(model => model.Activity.Id)
 
-    <div class="form-horizontal">
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.File, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.File, new { type = "file" })
-                @Html.ValidationMessageFor(model => model.File, "", new { @class = "text-danger" })
+    <div class="p-3 mb-2">
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+            <div class="form-group upload-btn-wrapper">
+                @*@Html.LabelFor(model => model.File, htmlAttributes: new {@class = "control-label col-md-2"})*@
+                <div class="col-md-10">
+                    <button class="btn my-btn">Upload a file</button>
+                    @Html.TextBoxFor(model => model.File, new {type = "file"})
+                    @Html.ValidationMessageFor(model => model.File, "", new {@class = "text-danger"})
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.SelectedTypeId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.SelectedTypeId, Model.Types, htmlAttributes: new { @class = "form-control", id = "type" })
-                @Html.ValidationMessageFor(model => model.SelectedTypeId, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.SelectedTypeId, htmlAttributes: new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.SelectedTypeId, Model.Types, htmlAttributes: new {@class = "form-control", id = "type"})
+                    @Html.ValidationMessageFor(model => model.SelectedTypeId, "", new {@class = "text-danger"})
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description, htmlAttributes: new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Description, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(model => model.Description, "", new {@class = "text-danger"})
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Deadline, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Deadline, new { htmlAttributes = new { @class = "form-control", @type = "datetime" } })
-                @Html.ValidationMessageFor(model => model.Deadline, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Deadline, htmlAttributes: new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Deadline, new {htmlAttributes = new {@class = "form-control", @type = "datetime"}})
+                    @Html.ValidationMessageFor(model => model.Deadline, "", new {@class = "text-danger"})
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-success"/>
+                </div>
             </div>
-        </div>
-    </div>
+        </div></div>
 }
