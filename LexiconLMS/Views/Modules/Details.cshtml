@@ -14,8 +14,7 @@
 
     </div>
 }
-
-<div >
+<div>
     <div class="bg-info text-white">
         @if (User.IsInRole("teacher"))
         {
@@ -26,8 +25,6 @@
             <h1>Module @Html.DisplayFor(model => model.Name) Details </h1>
         </div>
     </div>
-
-
 
     <div class="w3-container ">
         <div>
@@ -78,14 +75,12 @@
                         </button>
                     </h5>
                 </div>
-
                 <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                     <div class="card-body" style="color: black; font-size: 14px">
                         @if (Model.CourseActivities.Count > 0)
                         {
                             @Html.Partial("_ActivityList", Model.CourseActivities)
                         }
-
                     </div>
                 </div>
             </div>
@@ -99,11 +94,11 @@
                 </div>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                     <div class="card-body" style="color: black; font-size: 14px">
-                        @if (Model.CourseActivities.Count > 0)
+                        <p>@Html.ActionLink("Add a Document", "Create", "Documents", routeValues: new { ModuleId = Model.Id }, htmlAttributes: new { @class = "btn btn-info"})</p>
+                        @if (Model.Documents.Count > 0)
                         {
-                            @Html.Partial("_ActivityList", Model.CourseActivities)
+                            @Html.Partial("_DocumentList", Model.Documents)
                         }
-
                     </div>
                 </div>
             </div>

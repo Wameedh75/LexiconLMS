@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
+using System.Security.Principal;
 
 namespace LexiconLMS.Models
 {
@@ -57,5 +58,8 @@ namespace LexiconLMS.Models
         public int? ActivityId { get; set; }
         [ForeignKey("ActivityId")]
         public virtual Activity Activity { get; set; }
+
+        public bool CanEdit(IPrincipal user) => Type.CanCreateByUser(user);
+        public bool CanView(IPrincipal user) => Type.CanViewByUser(user);
     }
 }

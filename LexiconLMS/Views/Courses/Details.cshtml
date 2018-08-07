@@ -108,7 +108,7 @@
                     </div>
                     <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
                         <div class="card-body" style="color: black; font-size: 14px">
-                            <p>@Html.ActionLink("Add a Document", "Create", "Documents", new { CourseId = Model.Id }, null)</p>
+                            <p>@Html.ActionLink("Add a Document", "Create", "Documents", routeValues: new { CourseId = Model.Id }, htmlAttributes: new { @class = "btn btn-info"})</p>
                             @if (Model.Documents.Count > 0)
                             {
                                 @Html.Partial("_DocumentList", Model.Documents)
