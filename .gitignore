@@ -261,10 +261,4 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
-/LexiconLMS/Models/_DocumentTypeRole.cs
-/LexiconLMS/Documents/radiokalas_1208351721_663072.jpg
-/LexiconLMS/Documents/course/16/Kursschema .NET ND18_1_2_3.pdf
-/LexiconLMS/Documents/course/16/Kursschema .NET ND18_1_2.pdf
-/LexiconLMS/Documents/course/16/Kursschema .NET ND18_1.pdf
-/LexiconLMS/Documents/course/16/Kursschema .NET ND18.pdf
-/LexiconLMS/Documents/course/16/16_1
+/LexiconLMS/Documents/*
