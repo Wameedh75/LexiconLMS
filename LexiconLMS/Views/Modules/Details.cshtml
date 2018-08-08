@@ -7,7 +7,7 @@
 {
     <div class="w3-sidebar w3-bar-block w3-border-right bg-info text-white" style="display: none" id="mySidebar">
         <button onclick="w3_close()" class="w3-bar-item w3-large">Close &times;</button>
-        @Html.ActionLink("Add new activity","Create","Activities",new{ id = Model.Id}, new { @class = "w3-bar-item w3-button" })
+        @Html.ActionLink("Add new activity","Create","Activities",new{ ModuleId = Model.Id}, new { @class = "w3-bar-item w3-button" })
         @Html.ActionLink("Add new Module", "Create", "Modules", new { id = Model.Id }, new { @class = "w3-bar-item w3-button" })
         @Html.ActionLink("Edit Module", "Edit", "Modules", new { id = Model.Id }, new { @class = "w3-bar-item w3-button" })
         @Html.ActionLink("Back to course", "Details", "Courses", new { id = Model.CourseId }, new { @class = "w3-bar-item w3-button" })
@@ -78,8 +78,8 @@
                 </div>
                 <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                     <div class="card-body" style="color: black; font-size: 14px">
-                        @if (Model.CourseActivities.Count > 0)
-                        {
+                        @Html.ActionLink("Add an Activity", "Create", "Activities", new { ModuleId = Model.Id }, new { @class = "btn btn-sm btn-success" })
+                        @if (Model.CourseActivities.Count > 0) {
                             @Html.Partial("_ActivityList", Model.CourseActivities)
                         }
                     </div>
