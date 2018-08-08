@@ -10,12 +10,7 @@ namespace LexiconLMS.Controllers
 {
     public class ChatController : Controller
     {
-        // GET: Chat
-        public ActionResult Index()
-        {
-            return View("Chat");
-        }
-        public ActionResult LandingPage()
+        public ActionResult Chat()
         {
             return View("SendMessage");
         }
@@ -39,7 +34,7 @@ namespace LexiconLMS.Controllers
         {
             var fakechat = new ChatsListViewModel()
             {
-                Chats = new List<Chat>() { new Chat() { ChatName = "First Chat", ChatId = "xxx" } }
+                //Chats = new List<Chat>() { new Chat() { ChatName = "First Chat", ChatId = "xxx" } }
             };
             return PartialView("_ChatsList", fakechat);
         }
@@ -54,8 +49,8 @@ namespace LexiconLMS.Controllers
             {
                 Messages = new List<Message>()
                 {
-                    new Message() { Content = "lets test",User=new ApplicationUser() { FirstName="john" , LastName= "Smith"} }
-                ,   new Message() { Content = "second messagw test",User=new ApplicationUser() { FirstName="Dimitris" , LastName= "Bjorlingh"} }
+                    //new Message() { Content = "lets test",User=new ApplicationUser() { FirstName="john" , LastName= "Smith"} }
+                //,   //new Message() { Content = "second messagw test",User=new ApplicationUser() { FirstName="Dimitris" , LastName= "Bjorlingh"} }
 
                 }
             };

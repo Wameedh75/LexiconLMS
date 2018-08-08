@@ -1,9 +1,13 @@
 ﻿@model LexiconLMS.ViewModels.ChatsListViewModel
-@foreach (var item in Model.Chats)
+@if (Model.Chats != null)
 {
-    <input type="button" value="@item.ChatName" onclick="showMessages('@item.ChatId');" class="chatlinks" />
+    foreach (var item in Model.Chats)
+    {
+        <input type="button" value="@item.ChatName" onclick="showMessages('@item.ChatId');" class="chatlinks" />
+    }
 }
-    <script>
+
+<script>
     var showMessages = function (chatId) {
         $.ajax({
             type: 'POST',
@@ -15,5 +19,5 @@
             }
         });
     };
-    </script>
+</script>
 
