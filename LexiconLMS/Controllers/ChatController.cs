@@ -17,21 +17,7 @@ namespace LexiconLMS.Controllers
         }
         public ActionResult LandingPage()
         {
-            var fakechat = new ChatsListViewModel()
-            {
-                Chats = new List<Chat>() { new Chat() { ChatName = "First Chat", ChatId = "xxx" } }
-            };
-            var fakemessages = new MessagesListViewModel()
-            {
-                Messages = new List<Message>()
-                {
-                    new Message() { Content = "lets test",User=new ApplicationUser() { FirstName="john" , LastName= "Smith"} }
-                ,   new Message() { Content = "second messagw test",User=new ApplicationUser() { FirstName="Dimitris" , LastName= "Bjorlingh"} }
-
-                }
-            };
-            var lpobj = new LandingPageViewModel() { ChatsList = fakechat, MessagesList = fakemessages };
-            return View("SendMessage", lpobj);
+            return View("SendMessage");
         }
 
         public ActionResult Messages(string chatId)
@@ -47,6 +33,33 @@ namespace LexiconLMS.Controllers
                 }
             }
             return PartialView("_MessagesList");
+        }
+
+        public ActionResult ChatsList()
+        {
+            var fakechat = new ChatsListViewModel()
+            {
+                Chats = new List<Chat>() { new Chat() { ChatName = "First Chat", ChatId = "xxx" } }
+            };
+            return PartialView("_ChatsList", fakechat);
+        }
+        public ActionResult MessagesList(string chatId)
+        {
+            if (chatId != null)
+            {
+                //TODO return real chat list
+                return PartialView("_MessagesList");
+            }
+            var fakemessages = new MessagesListViewModel()
+            {
+                Messages = new List<Message>()
+                {
+                    new Message() { Content = "lets test",User=new ApplicationUser() { FirstName="john" , LastName= "Smith"} }
+                ,   new Message() { Content = "second messagw test",User=new ApplicationUser() { FirstName="Dimitris" , LastName= "Bjorlingh"} }
+
+                }
+            };
+            return PartialView("_MessagesList", fakemessages);
         }
     }
 }

@@ -3,7 +3,7 @@
 
 @if (Model != null)
 {
-    @foreach (var item in Model.Messages)
+    foreach (var item in Model.Messages)
     {
         <div class="container">
             <p>
@@ -16,6 +16,7 @@
         </div>
     }
 }
+
 <style>
     /* Chat containers */
     .container {
