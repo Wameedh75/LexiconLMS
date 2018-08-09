@@ -34,7 +34,7 @@ namespace LexiconLMS.Controllers
         {
             var fakechat = new ChatsListViewModel()
             {
-                //Chats = new List<Chat>() { new Chat() { ChatName = "First Chat", ChatId = "xxx" } }
+                Chats = new List<Chat>() { new Chat() { ChatName = "First Chat", ChatId = "xxx" } }
             };
             return PartialView("_ChatsList", fakechat);
         }
