@@ -6,7 +6,7 @@
 }
 @if (User.IsInRole("teacher"))
 {
-    <div class="w3-sidebar w3-bar-block w3-border-right w3-teal" style="display: none" id="mySidebar">
+    <div onmouseleave="w3_close()" class="w3-sidebar w3-bar-block w3-border-right w3-teal" style="display: none" id="mySidebar">
         <button onclick="w3_close()" class="w3-bar-item w3-large">Close &times;</button>
 
         @Html.ActionLink("Create New Module", "Create","Modules",new { id = Model.Id}, new { @class = "w3-bar-item w3-button"})
@@ -19,7 +19,7 @@
     <div class="w3-teal">
        @if (User.IsInRole("teacher"))
        {
-           <button class="w3-button w3-teal w3-xlarge" onclick="w3_open()">☰</button>
+           <button class="w3-button w3-teal w3-xlarge" onmouseenter="w3_open()">☰</button>
        }
         <div class="w3-container">
             <h1>@Html.DisplayFor(model => model.Name) Details</h1>
