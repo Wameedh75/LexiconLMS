@@ -1,0 +1,18 @@
+﻿@model LexiconLMS.ViewModels.MessagesListViewModel
+
+
+@if (Model != null)
+{
+    foreach (var item in Model.Messages)
+    {
+        <div class="container justify-content-center">
+            <p>
+                @item.User.FullName
+            </p>
+            <p>
+                @item.Content
+            </p>
+            <span class="time-right">@item.Date.ToShortTimeString()</span>
+        </div>
+    }
+}

@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
+using System.Security.Principal;
 
 namespace LexiconLMS.Models
 {
@@ -9,6 +10,7 @@ namespace LexiconLMS.Models
     {
         public Document() {
             Timestamp = DateTime.Now;
+            RelativePath = "";
         }
 
         public int Id { get; set; }
@@ -31,8 +33,9 @@ namespace LexiconLMS.Models
         [Display(Name = "File name")]
         public string FileName { get; set; }
 
-        public string Url => Path.Combine("/Documents/", FileName);
+        public string Url => Path.Combine("/Documents/", RelativePath, FileName);
         public string FullPath { get; set; }
+        public string RelativePath { get; set; }
 
         [Required]
         [Display(Name = "MIME type")]
@@ -57,5 +60,8 @@ namespace LexiconLMS.Models
         public int? ActivityId { get; set; }
         [ForeignKey("ActivityId")]
         public virtual Activity Activity { get; set; }
+
+        public bool CanEdit(IPrincipal user) => Type.CanCreateByUser(user);
+        public bool CanView(IPrincipal user) => Type.CanViewByUser(user);
     }
 }

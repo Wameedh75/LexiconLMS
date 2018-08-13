@@ -261,5 +261,4 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
-/LexiconLMS/Models/_DocumentTypeRole.cs
-/LexiconLMS/Documents/radiokalas_1208351721_663072.jpg
+/LexiconLMS/Documents/*

@@ -1,0 +1,23 @@
+﻿@model LexiconLMS.ViewModels.ChatsListViewModel
+@if (Model.Chats != null)
+{
+    foreach (var item in Model.Chats)
+    {
+        <input type="button" value="@item.ChatName" onclick="showMessages('@item.ChatId');" class="chatlinks" />
+    }
+}
+
+<script>
+    var showMessages = function (chatId) {
+        $.ajax({
+            type: 'POST',
+            url:'@Url.Action("Messages","Chat")',
+            data: { chatId: chatId },
+            dataType: 'json',
+            success: function (data) {
+                $('.main').append(data);
+            }
+        });
+    };
+</script>
+

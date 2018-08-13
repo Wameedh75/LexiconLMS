@@ -66,10 +66,10 @@ namespace LexiconLMS.Models
     public class RegisterStudentViewModel
     {
         [Required]
-        [Display(Name = "First Name")]
+        [Display(Name = "First name")]
         public string FirstName { get; set; }
         [Required]
-        [Display(Name = "First Name")]
+        [Display(Name = "Last name")]
         public string LastName { get; set; }
 
         [Required]

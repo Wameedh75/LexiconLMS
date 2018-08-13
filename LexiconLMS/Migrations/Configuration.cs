@@ -136,7 +136,7 @@ namespace LexiconLMS.Migrations
                 },
             };
             context.Documents.AddOrUpdate(
-                d => d.FileName,
+                d => new { d.FileName, d.CourseId, d.ActivityId, d.ModuleId },
                 documents
             );
         }

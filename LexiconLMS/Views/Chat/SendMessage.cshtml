@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "SendMessage";
+    Layout = "~/Views/Shared/_ChatLayout.cshtml";
+}
+<div class="container">
+    <div class="row">
+        <div class="sidenav col-md-1">
+            @Html.Action("ChatsList", "Chat")
+
+        </div>
+        <div class="main col-md-9">
+            @Html.Action("MessagesList", "Chat")
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2"></div>
+        <input type="text" placeholder="write your message" id="message" class="" />
+        <input type="button" value="send" class="btn btn-success " id="sendmessage" />
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.3.0.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <!--SignalR script to update the chat page and send messages.-->
+    <script src="~/Scripts/chat.js"></script>
+}
